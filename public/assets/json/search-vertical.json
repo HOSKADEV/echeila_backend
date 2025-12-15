@@ -1,0 +1,129 @@
+{
+  "pages": [
+    {
+      "name": "Dashboard",
+      "icon": "bx-home-circle",
+      "url": "admin"
+    },
+    {
+      "name": "Roles",
+      "icon": "bx-user-check",
+      "url": "admin/roles"
+    },
+    {
+      "name": "Permissions",
+      "icon": "bx-check-shield",
+      "url": "admin/permissions"
+    },
+    {
+      "name": "Settings",
+      "icon": "bx-cog",
+      "url": "admin/settings"
+    },
+    {
+      "name": "Documentations",
+      "icon": "bx-book",
+      "url": "admin/documentations"
+    },
+    {
+      "name": "Notifications",
+      "icon": "bx-bell",
+      "url": "admin/send-notification"
+    },
+    {
+      "name": "Admins",
+      "icon": "bx-user",
+      "url": "admin/admins"
+    },
+    {
+      "name": "Admin Actions",
+      "icon": "bx-list-ul",
+      "url": "admin/admin-actions"
+    },
+    {
+      "name": "Passengers",
+      "icon": "bx-user",
+      "url": "admin/passengers"
+    },
+    {
+      "name": "Drivers",
+      "icon": "bx-user",
+      "url": "admin/drivers"
+    },
+    {
+      "name": "Federations",
+      "icon": "bx-user",
+      "url": "admin/federations"
+    },
+    {
+      "name": "Wilayas",
+      "icon": "bx-map",
+      "url": "admin/wilayas"
+    },
+    {
+      "name": "Seat Prices",
+      "icon": "bx-map",
+      "url": "admin/seat-prices"
+    },
+    {
+      "name": "Brands",
+      "icon": "bx-car",
+      "url": "admin/brands"
+    },
+    {
+      "name": "Vehicle Models",
+      "icon": "bx-car",
+      "url": "admin/vehicle-models"
+    },
+    {
+      "name": "Colors",
+      "icon": "bx-car",
+      "url": "admin/colors"
+    },
+    {
+      "name": "All Trips",
+      "icon": "bx-trip",
+      "url": "admin/trips/all"
+    },
+    {
+      "name": "Taxi Rides",
+      "icon": "bx-trip",
+      "url": "admin/trips/taxi_ride"
+    },
+    {
+      "name": "Car Rescues",
+      "icon": "bx-trip",
+      "url": "admin/trips/car_rescue"
+    },
+    {
+      "name": "Cargo Transports",
+      "icon": "bx-trip",
+      "url": "admin/trips/cargo_transport"
+    },
+    {
+      "name": "Water Transports",
+      "icon": "bx-trip",
+      "url": "admin/trips/water_transport"
+    },
+    {
+      "name": "Paid Drivings",
+      "icon": "bx-trip",
+      "url": "admin/trips/paid_driving"
+    },
+    {
+      "name": "MRT Trips",
+      "icon": "bx-trip",
+      "url": "admin/trips/mrt_trip"
+    },
+    {
+      "name": "ESP Trips",
+      "icon": "bx-trip",
+      "url": "admin/trips/esp_trip"
+    },
+    {
+      "name": "Lost and Found",
+      "icon": "bx-search",
+      "url": "admin/lost-and-founds"
+    }
+  ]
+}
