@@ -134,7 +134,7 @@ class DriverController extends Controller
     public function update(UpdateDriverRequest $request): JsonResponse
     {
 
-        $this->validateRequest($request);
+        $validated = $this->validateRequest($request);
 
         try {
 
@@ -145,7 +145,7 @@ class DriverController extends Controller
                 throw new Exception('Driver profile not found', 404);
             }
 
-            $driver->update($request->validated());
+            $driver->update($validated);
 
             // Handle image upload
             if ($request->hasFile('image')) {
