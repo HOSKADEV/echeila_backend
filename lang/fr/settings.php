@@ -37,6 +37,11 @@ return [
     'maximum_withdraw_amount' => 'Montant Maximum de Retrait',
     'da' => 'DA',
 
+    // Paramètres opérationnels
+    'operational_settings' => 'Paramètres Opérationnels',
+    'driver_location_update_duration' => 'Durée de Mise à Jour de la Localisation du Conducteur (secondes)',
+    'trip_auto_cancel_duration' => 'Durée d\'Annulation Automatique de Voyage (secondes)',
+
     // Actions
     'send' => 'Envoyer',
 ];

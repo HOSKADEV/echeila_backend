@@ -177,6 +177,28 @@
                 </div>
             </div>
         </div>
+
+        <!-- Operational Settings -->
+        <h4 class="fw-bold py-3 mb-3">
+            <span class="text-muted fw-light"></span> {{ __('settings.operational_settings') }}
+        </h4>
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label" for="driver_location_update_duration">{{ __('settings.driver_location_update_duration') }}</label>
+                        <input type="number" step="1" class="form-control" id="driver_location_update_duration" name="driver_location_update_duration"
+                            value="{{ $settings['driver_location_update_duration'] ?? '' }}" min="1">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="trip_auto_cancel_duration">{{ __('settings.trip_auto_cancel_duration') }}</label>
+                        <input type="number" step="1" class="form-control" id="trip_auto_cancel_duration" name="trip_auto_cancel_duration"
+                            value="{{ $settings['trip_auto_cancel_duration'] ?? '' }}" min="1">
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="mb-3" style="text-align: center">
             <button type="submit" class="btn btn-primary">{{ __('Send') }}</button>
         </div>

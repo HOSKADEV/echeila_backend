@@ -37,6 +37,11 @@ return [
     'maximum_withdraw_amount' => 'الحد الأقصى لمبلغ السحب',
     'da' => 'دج',
 
+    // الإعدادات التشغيلية
+    'operational_settings' => 'الإعدادات التشغيلية',
+    'driver_location_update_duration' => 'مدة تحديث موقع السائق (ثانية)',
+    'trip_auto_cancel_duration' => 'مدة الإلغاء التلقائي للرحلة (ثانية)',
+
     // الإجراءات
     'send' => 'إرسال',
 ];

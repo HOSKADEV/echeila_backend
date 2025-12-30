@@ -37,6 +37,11 @@ return [
     'maximum_withdraw_amount' => 'Maximum Withdraw Amount',
     'da' => 'DA',
 
+    // Operational settings
+    'operational_settings' => 'Operational Settings',
+    'driver_location_update_duration' => 'Driver Location Update Duration (seconds)',
+    'trip_auto_cancel_duration' => 'Trip Auto Cancel Duration (seconds)',
+
     // Actions
     'send' => 'Send',
 ];

@@ -40,6 +40,8 @@ class SettingController extends Controller
                 'cargo_price_per_kg',
                 'min_charge_amount',
                 'max_withdraw_amount',
+                'driver_location_update_duration',
+                'trip_auto_cancel_duration',
             ])->pluck('value', 'key')->toArray();
 
             return $this->successResponse($settings);
