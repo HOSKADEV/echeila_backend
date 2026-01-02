@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Notifications\Channels\FcmChannel;
+use Illuminate\Notifications\ChannelManager;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
    */
   public function boot(): void
   {
-    //
+    $this->app->make(ChannelManager::class)->extend('fcm', function ($app) {
+      return $app->make(FcmChannel::class);
+    });
   }
 }
