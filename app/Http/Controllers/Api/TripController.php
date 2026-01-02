@@ -10,6 +10,7 @@ use App\Constants\TripStatus;
 use App\Services\TripService;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TripResource;
 use App\Constants\NotificationMessages;
@@ -172,10 +173,16 @@ class TripController extends Controller
 
             // Send notification to driver for non-international trips
             if(!in_array($type, [TripType::MRT_TRIP, TripType::ESP_TRIP])) {
-                $trip->driver->user->notify(new NewMessageNotification(
-                    NotificationMessages::TRIP_PENDING,
-                    ['trip_id' => $trip->id, 'trip_type' => $type]
-                ));
+                try {
+                    $trip->load('driver.user');
+                    $trip->driver->user->notify(new NewMessageNotification(
+                        NotificationMessages::TRIP_PENDING,
+                        ['trip_id' => $trip->id, 'trip_type' => $type]
+                    ));
+                } catch (Exception $notificationException) {
+                    // Log the error but don't fail the trip creation
+                    Log::warning('Failed to send notification: ' . $notificationException->getMessage());
+                }
             }
 
             return $this->successResponse(
@@ -232,14 +239,19 @@ class TripController extends Controller
 
             // Notify passenger of status change for non-international trips
             if ($updatedTrip->wasChanged('status') && !in_array($tripType, [TripType::MRT_TRIP, TripType::ESP_TRIP])) {
-                $updatedTrip->client?->client?->user?->notify(new \App\Notifications\NewMessageNotification(
-                    match($updatedTrip->status) {
-                        TripStatus::CANCELED => NotificationMessages::TRIP_CANCELLED,
-                        TripStatus::ONGOING => NotificationMessages::TRIP_ONGOING,
-                        TripStatus::COMPLETED => NotificationMessages::TRIP_COMPLETED,
-                    },
-                    ['trip_id' => $updatedTrip->id, 'new_status' => $updatedTrip->status]
-                ));
+                try {
+                    $updatedTrip->client?->client?->user?->notify(new NewMessageNotification(
+                        match($updatedTrip->status) {
+                            TripStatus::CANCELED => NotificationMessages::TRIP_CANCELLED,
+                            TripStatus::ONGOING => NotificationMessages::TRIP_ONGOING,
+                            TripStatus::COMPLETED => NotificationMessages::TRIP_COMPLETED,
+                        },
+                        ['trip_id' => $updatedTrip->id, 'new_status' => $updatedTrip->status]
+                    ));
+                } catch (Exception $notificationException) {
+                    // Log the error but don't fail the trip update
+                    Log::warning('Failed to send notification: ' . $notificationException->getMessage());
+                }
             }
 
             return $this->successResponse(
