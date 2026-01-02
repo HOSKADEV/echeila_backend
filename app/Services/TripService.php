@@ -63,14 +63,6 @@ class TripService
             // Handle cargo creation and relationship for cargo transport trips
             $this->handleCargo($trip, $tripType, $data, $user);
 
-            if(!in_array($tripType, [TripType::MRT_TRIP, TripType::ESP_TRIP])) {
-                // Send notification
-                $driver->user->notify(new NewMessageNotification(
-                    NotificationMessages::TRIP_PENDING,
-                    ['trip_id' => $trip->id, 'trip_type' => $tripType]
-                ));
-            }
-
             // Load relevant relationships based on trip type
             switch ($tripType) {
                 case TripType::TAXI_RIDE:
@@ -870,18 +862,6 @@ class TripService
             $tripData = array_intersect_key($data, array_flip(['status', 'note']));
             if (!empty($tripData)) {
                 $trip->update($tripData);
-
-                if ($trip->wasChanged('status') && !in_array($tripType, [TripType::MRT_TRIP, TripType::ESP_TRIP])) {
-                    // Notify driver of status change
-                    $trip->passenger?->user->notify(new NewMessageNotification(
-                        match($trip->status) {
-                            TripStatus::CANCELED => NotificationMessages::TRIP_CANCELLED,
-                            TripStatus::ONGOING => NotificationMessages::TRIP_ONGOING,
-                            TripStatus::COMPLETED => NotificationMessages::TRIP_COMPLETED,
-                        },
-                        ['trip_id' => $trip->id, 'new_status' => $trip->status]
-                    ));
-                }
             }
 
             // Update trip details for international trips if provided

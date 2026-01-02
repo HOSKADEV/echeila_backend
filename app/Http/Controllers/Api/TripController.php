@@ -5,13 +5,15 @@ namespace App\Http\Controllers\Api;
 use Exception;
 use App\Models\Trip;
 use App\Constants\TripType;
+use Illuminate\Http\Request;
 use App\Constants\TripStatus;
 use App\Services\TripService;
 use App\Traits\ApiResponseTrait;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TripResource;
+use App\Constants\NotificationMessages;
+use App\Notifications\NewMessageNotification;
 use App\Http\Requests\Api\Trip\CreateTripRequest;
 use App\Http\Requests\Api\Trip\UpdateTripRequest;
 use App\Http\Requests\Api\Trip\AvailableTripsRequest;
@@ -168,6 +170,14 @@ class TripController extends Controller
 
             $trip = $this->tripService->createTrip($type, $validated, auth()->user());
 
+            // Send notification to driver for non-international trips
+            if(!in_array($type, [TripType::MRT_TRIP, TripType::ESP_TRIP])) {
+                $trip->driver->user->notify(new NewMessageNotification(
+                    NotificationMessages::TRIP_PENDING,
+                    ['trip_id' => $trip->id, 'trip_type' => $type]
+                ));
+            }
+
             return $this->successResponse(
                 new TripResource($trip)
             );
@@ -219,6 +229,18 @@ class TripController extends Controller
             }
 
             $updatedTrip = $this->tripService->updateTrip($trip, $validated, $tripType);
+
+            // Notify passenger of status change for non-international trips
+            if ($updatedTrip->wasChanged('status') && !in_array($tripType, [TripType::MRT_TRIP, TripType::ESP_TRIP])) {
+                $updatedTrip->client?->client?->user?->notify(new \App\Notifications\NewMessageNotification(
+                    match($updatedTrip->status) {
+                        TripStatus::CANCELED => NotificationMessages::TRIP_CANCELLED,
+                        TripStatus::ONGOING => NotificationMessages::TRIP_ONGOING,
+                        TripStatus::COMPLETED => NotificationMessages::TRIP_COMPLETED,
+                    },
+                    ['trip_id' => $updatedTrip->id, 'new_status' => $updatedTrip->status]
+                ));
+            }
 
             return $this->successResponse(
                 new TripResource($updatedTrip)
