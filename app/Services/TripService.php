@@ -59,7 +59,7 @@ class TripService
 
             // Add current user as client for non-international trips
             $this->handleClient($trip, $tripType, $data, $user);
-            
+
             // Handle cargo creation and relationship for cargo transport trips
             $this->handleCargo($trip, $tripType, $data, $user);
 
@@ -181,7 +181,7 @@ class TripService
                 'note' => $data['client_note'] ?? null,
             ]);
         }
-        
+
     }
 
    /**
@@ -429,8 +429,7 @@ class TripService
         $query = Trip::where('driver_id', $driverId)
             ->where('type', TripType::TAXI_RIDE)
             ->with([
-                'driver',
-                'clients.client.user',
+                'client.client.user',
                 'detailable.startingPoint',
                 'detailable.arrivalPoint'
             ]);
@@ -453,8 +452,7 @@ class TripService
         $query = Trip::where('driver_id', $driverId)
             ->where('type', TripType::CAR_RESCUE)
             ->with([
-                'driver',
-                'clients.client.user',
+                'client.client.user',
                 'detailable.breakdownPoint'
             ]);
 
@@ -476,8 +474,7 @@ class TripService
         $query = Trip::where('driver_id', $driverId)
             ->where('type', TripType::CARGO_TRANSPORT)
             ->with([
-                'driver',
-                'clients.client.user',
+                'client.client.user',
                 'cargos.cargo',
                 'detailable.deliveryPoint'
             ]);
@@ -493,8 +490,7 @@ class TripService
         $query = Trip::where('driver_id', $driverId)
             ->where('type', TripType::WATER_TRANSPORT)
             ->with([
-                'driver',
-                'clients.client.user',
+                'client.client.user',
                 'detailable.deliveryPoint'
             ]);
 
@@ -516,8 +512,7 @@ class TripService
         $query = Trip::where('driver_id', $driverId)
             ->where('type', TripType::PAID_DRIVING)
             ->with([
-                'driver',
-                'clients.client.user',
+                'client.client.user',
                 'detailable.startingPoint',
                 'detailable.arrivalPoint'
             ]);
@@ -608,7 +603,7 @@ class TripService
             })
             ->with([
                 'driver',
-                'clients.client.user',
+                'client.client.user',
                 'detailable.startingPoint',
                 'detailable.arrivalPoint'
             ]);
@@ -635,7 +630,7 @@ class TripService
             })
             ->with([
                 'driver',
-                'clients.client.user',
+                'client.client.user',
                 'detailable.breakdownPoint'
             ]);
 
@@ -661,7 +656,7 @@ class TripService
             })
             ->with([
                 'driver',
-                'clients.client.user',
+                'client.client.user',
                 'cargos.cargo',
                 'detailable.deliveryPoint'
             ]);
@@ -681,7 +676,7 @@ class TripService
             })
             ->with([
                 'driver',
-                'clients.client.user',
+                'client.client.user',
                 'detailable.deliveryPoint'
             ]);
 
@@ -707,7 +702,7 @@ class TripService
             })
             ->with([
                 'driver',
-                'clients.client.user',
+                'client.client.user',
                 'detailable.startingPoint',
                 'detailable.arrivalPoint'
             ]);
@@ -999,11 +994,11 @@ class TripService
                     $totalSeats = $trip->detailable->total_seats;
                     $bookedSeats = $trip->clients->sum('number_of_seats');
                     $availableSeats = $totalSeats - $bookedSeats;
-                    
+
                     // Add available_seats to the trip object for response
                     $trip->available_seats = $availableSeats;
                 }
-                
+
                 return $trip;
             })
             ->filter(function ($trip) use ($startingTime, $requiredSeats) {
@@ -1011,18 +1006,18 @@ class TripService
                 if (!$trip->detailable) {
                     return false;
                 }
-                
+
                 // Check datetime conditions
                 $tripStartingTime = $trip->detailable->starting_time;
                 if ($tripStartingTime <= now() || $tripStartingTime < $startingTime) {
                     return false;
                 }
-                
+
                 // Check if enough seats are available (only if requiredSeats is provided)
                 if ($requiredSeats !== null) {
                     return $trip->available_seats >= $requiredSeats;
                 }
-                
+
                 return true;
             });
     }
