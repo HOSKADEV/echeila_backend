@@ -68,7 +68,8 @@ class TripService
             switch ($tripType) {
                 case TripType::TAXI_RIDE:
                     $trip->load([
-                        'driver',
+                        'driver.vehicle.model.brand',
+                        'driver.vehicle.color',
                         'client.client.user',
                         'detailable.startingPoint',
                         'detailable.arrivalPoint'
@@ -77,7 +78,8 @@ class TripService
 
                 case TripType::CAR_RESCUE:
                     $trip->load([
-                        'driver',
+                        'driver.vehicle.model.brand',
+                        'driver.vehicle.color',
                         'client.client.user',
                         'detailable.breakdownPoint'
                     ]);
@@ -85,7 +87,8 @@ class TripService
 
                 case TripType::CARGO_TRANSPORT:
                     $trip->load([
-                        'driver',
+                        'driver.vehicle.model.brand',
+                        'driver.vehicle.color',
                         'client.client.user',
                         'cargo.cargo',
                         'detailable.deliveryPoint'
@@ -94,7 +97,8 @@ class TripService
 
                 case TripType::WATER_TRANSPORT:
                     $trip->load([
-                        'driver',
+                        'driver.vehicle.model.brand',
+                        'driver.vehicle.color',
                         'client.client.user',
                         'detailable.deliveryPoint'
                     ]);
@@ -102,7 +106,8 @@ class TripService
 
                 case TripType::PAID_DRIVING:
                     $trip->load([
-                        'driver',
+                        'driver.vehicle.model.brand',
+                        'driver.vehicle.color',
                         'client.client.user',
                         'detailable.startingPoint',
                         'detailable.arrivalPoint'
@@ -112,12 +117,17 @@ class TripService
                 case TripType::MRT_TRIP:
                 case TripType::ESP_TRIP:
                     $trip->load([
-                        'driver',
+                        'driver.vehicle.model.brand',
+                        'driver.vehicle.color',
                     ]);
                     break;
 
                 default:
-                    $trip->load(['driver', 'detailable']);
+                    $trip->load([
+                        'driver.vehicle.model.brand',
+                        'driver.vehicle.color',
+                        'detailable'
+                    ]);
                     break;
             }
 
@@ -429,6 +439,8 @@ class TripService
         $query = Trip::where('driver_id', $driverId)
             ->where('type', TripType::TAXI_RIDE)
             ->with([
+                'driver.vehicle.model.brand',
+                'driver.vehicle.color',
                 'client.client.user',
                 'detailable.startingPoint',
                 'detailable.arrivalPoint'
@@ -452,6 +464,8 @@ class TripService
         $query = Trip::where('driver_id', $driverId)
             ->where('type', TripType::CAR_RESCUE)
             ->with([
+                'driver.vehicle.model.brand',
+                'driver.vehicle.color',
                 'client.client.user',
                 'detailable.breakdownPoint'
             ]);
@@ -474,6 +488,8 @@ class TripService
         $query = Trip::where('driver_id', $driverId)
             ->where('type', TripType::CARGO_TRANSPORT)
             ->with([
+                'driver.vehicle.model.brand',
+                'driver.vehicle.color',
                 'client.client.user',
                 'cargos.cargo',
                 'detailable.deliveryPoint'
@@ -490,6 +506,8 @@ class TripService
         $query = Trip::where('driver_id', $driverId)
             ->where('type', TripType::WATER_TRANSPORT)
             ->with([
+                'driver.vehicle.model.brand',
+                'driver.vehicle.color',
                 'client.client.user',
                 'detailable.deliveryPoint'
             ]);
@@ -512,6 +530,8 @@ class TripService
         $query = Trip::where('driver_id', $driverId)
             ->where('type', TripType::PAID_DRIVING)
             ->with([
+                'driver.vehicle.model.brand',
+                'driver.vehicle.color',
                 'client.client.user',
                 'detailable.startingPoint',
                 'detailable.arrivalPoint'
@@ -535,7 +555,8 @@ class TripService
         $query = Trip::where('driver_id', $driverId)
             ->where('type', TripType::MRT_TRIP)
             ->with([
-                'driver',
+                'driver.vehicle.model.brand',
+                'driver.vehicle.color',
             ]);
 
         // Apply common filters
@@ -567,7 +588,8 @@ class TripService
         $query = Trip::where('driver_id', $driverId)
             ->where('type', TripType::ESP_TRIP)
             ->with([
-                'driver',
+                'driver.vehicle.model.brand',
+                'driver.vehicle.color',
             ]);
 
         // Apply common filters
@@ -602,7 +624,8 @@ class TripService
                   ->where('client_type', Passenger::class);
             })
             ->with([
-                'driver',
+                'driver.vehicle.model.brand',
+                'driver.vehicle.color',
                 'client.client.user',
                 'detailable.startingPoint',
                 'detailable.arrivalPoint'
@@ -629,7 +652,8 @@ class TripService
                   ->where('client_type', Passenger::class);
             })
             ->with([
-                'driver',
+                'driver.vehicle.model.brand',
+                'driver.vehicle.color',
                 'client.client.user',
                 'detailable.breakdownPoint'
             ]);
@@ -655,7 +679,8 @@ class TripService
                   ->where('client_type', Passenger::class);
             })
             ->with([
-                'driver',
+                'driver.vehicle.model.brand',
+                'driver.vehicle.color',
                 'client.client.user',
                 'cargos.cargo',
                 'detailable.deliveryPoint'
@@ -675,7 +700,8 @@ class TripService
                   ->where('client_type', Passenger::class);
             })
             ->with([
-                'driver',
+                'driver.vehicle.model.brand',
+                'driver.vehicle.color',
                 'client.client.user',
                 'detailable.deliveryPoint'
             ]);
@@ -701,7 +727,8 @@ class TripService
                   ->where('client_type', Passenger::class);
             })
             ->with([
-                'driver',
+                'driver.vehicle.model.brand',
+                'driver.vehicle.color',
                 'client.client.user',
                 'detailable.startingPoint',
                 'detailable.arrivalPoint'
@@ -751,7 +778,8 @@ class TripService
         }
 
         $query->with([
-            'driver',
+            'driver.vehicle.model.brand',
+            'driver.vehicle.color',
             'client' => function ($q) use ($passengerId) {
                 $q->where('client_id', $passengerId)
                   ->where('client_type', Passenger::class)
@@ -811,7 +839,8 @@ class TripService
         }
 
         $query->with([
-            'driver',
+            'driver.vehicle.model.brand',
+            'driver.vehicle.color',
             'client' => function ($q) use ($passengerId) {
                 $q->where('client_id', $passengerId)
                   ->where('client_type', Passenger::class)
@@ -971,7 +1000,8 @@ class TripService
         return Trip::where('type', $tripType)
             ->where('status', TripStatus::PENDING)
             ->with([
-                'driver',
+                'driver.vehicle.model.brand',
+                'driver.vehicle.color',
                 'clients',
                 'detailable'
             ])
