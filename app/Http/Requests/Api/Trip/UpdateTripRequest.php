@@ -24,6 +24,7 @@ class UpdateTripRequest extends FormRequest
         return [
             'status' => ['nullable', 'string', Rule::in(TripStatus::all())],
             'note' => 'nullable|string|max:1000',
+            'metadata' => 'nullable|array',
             'direction' => ['nullable', 'string', Rule::in(Direction::all())],
             'starting_place' => 'nullable|string|max:255',
             'starting_time' => 'nullable|date|after:now',
@@ -41,7 +42,7 @@ class UpdateTripRequest extends FormRequest
     protected function getInternationalTripUpdateRules(): array
     {
         return [
-            
+
         ];
     }
 }

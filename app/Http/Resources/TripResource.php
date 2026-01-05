@@ -22,12 +22,13 @@ class TripResource extends JsonResource
             //'type_name' => TripType::get_name($this->type),
             'status' => $this->status,
             'note' => $this->note,
+            'metadata' => $this->metadata,
             //'created_at' => $this->created_at,
             //'updated_at' => $this->updated_at,
-            
+
             // Include available seats if calculated (for available trips API)
             'available_seats' => $this->when(isset($this->available_seats), $this->available_seats),
-            
+
             // Include details using polymorphic relationship with dedicated resources
             'details' => $this->when($this->detailable, function () {
                 return $this->formatTripDetails();
@@ -41,7 +42,7 @@ class TripResource extends JsonResource
                 $this->relationLoaded('client'),
                 new TripClientResource($this->client)
             ),
-            
+
             // Include cargo when relation is loaded
             'cargo' => $this->when(
                 $this->relationLoaded('cargo'),

@@ -23,8 +23,13 @@ class Trip extends Model
         'type',
         'status',
         'note',
+        'metadata',
         'detailable_id',
         'detailable_type',
+    ];
+
+    protected $casts = [
+        'metadata' => 'array',
     ];
 
     // Relationships

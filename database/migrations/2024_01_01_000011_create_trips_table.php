@@ -16,10 +16,11 @@ return new class extends Migration {
             $table->enum('type', TripType::all());
             $table->enum('status', TripStatus::all())->default(TripStatus::PENDING);
             $table->text('note')->nullable();
+            $table->json('metadata')->nullable();
             $table->unsignedBigInteger('detailable_id')->nullable();
             $table->string('detailable_type')->nullable();
             $table->timestamps();
-            
+
             $table->index(['detailable_id', 'detailable_type']);
         });
     }

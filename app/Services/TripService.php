@@ -53,6 +53,7 @@ class TripService
                 'type' => $tripType,
                 'status' => TripStatus::PENDING,
                 'note' => $data['note'] ?? null,
+                'metadata' => $data['metadata'] ?? null,
                 'detailable_id' => $detailsModel->id,
                 'detailable_type' => get_class($detailsModel),
             ]);

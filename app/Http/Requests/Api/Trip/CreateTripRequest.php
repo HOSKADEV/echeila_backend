@@ -24,6 +24,7 @@ class CreateTripRequest extends FormRequest
 
         $baseRules = [
             'note' => 'nullable|string|max:1000',
+            'metadata' => 'nullable|array',
         ];
 
         return array_merge($baseRules, $this->getTripTypeSpecificRules($tripType));
