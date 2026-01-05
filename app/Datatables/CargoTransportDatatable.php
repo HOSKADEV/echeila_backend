@@ -21,6 +21,7 @@ class CargoTransportDatatable
             'identifier',
             'driver',
             'cargo_info',
+            'pickup_point',
             'delivery_point',
            // 'delivery_time',
             'status',
@@ -53,8 +54,15 @@ class CargoTransportDatatable
                 ->addColumn('cargo_info', function ($model) {
                     $cargo = $model->cargo->cargo;
                     if ($cargo) {
-                        return '<small><strong>' . ($cargo->description ?? '-') . '</strong><br>' . 
+                        return '<small><strong>' . ($cargo->description ?? '-') . '</strong><br>' .
                                '<i class="bx bx-box"></i> ' . ($cargo->weight ?? '-') . ' kg</small>';
+                    }
+                    return '-';
+                })
+                ->addColumn('pickup_point', function ($model) {
+                    $details = $model->detailable;
+                    if ($details && $details->pickupPoint) {
+                        return '<small>' . $this->link($details->pickupPoint->url, $details->pickupPoint->name) . '</small>';
                     }
                     return '-';
                 })

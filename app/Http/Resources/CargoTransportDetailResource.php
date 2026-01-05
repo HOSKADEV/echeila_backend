@@ -16,12 +16,14 @@ class CargoTransportDetailResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            //'pickup_point_id' => $this->pickup_point_id,
             //'delivery_point_id' => $this->delivery_point_id,
             'delivery_time' => $this->delivery_time,
             //'created_at' => $this->created_at,
             //'updated_at' => $this->updated_at,
-            
-            // Include location relationship
+
+            // Include location relationships
+            'pickup_point' => new LocationResource($this->whenLoaded('pickupPoint')),
             'delivery_point' => new LocationResource($this->whenLoaded('deliveryPoint')),
         ];
     }

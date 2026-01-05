@@ -99,6 +99,9 @@ class CreateTripRequest extends FormRequest
         return [
             // Trip details
             'driver_id' => 'required|exists:drivers,id',
+            'pickup_point.longitude' => 'required|numeric|between:-180,180',
+            'pickup_point.latitude' => 'required|numeric|between:-90,90',
+            'pickup_point.name' => 'required|string|max:255',
             'delivery_point.longitude' => 'required|numeric|between:-180,180',
             'delivery_point.latitude' => 'required|numeric|between:-90,90',
             'delivery_point.name' => 'required|string|max:255',

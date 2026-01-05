@@ -42,7 +42,7 @@ return [
     'booked' => 'Booked',
     'available' => 'Available',
     'hours' => 'hours',
-    
+
     // Trip Details
     'trip_information' => 'Trip Information',
     'trip_details' => 'Trip Details',
@@ -50,10 +50,12 @@ return [
     'view_profile' => 'View Profile',
     'reviews' => 'Reviews',
     'transactions' => 'Transactions',
-    
+
     // Location fields
     'breakdown_location' => 'Breakdown Location',
     'breakdown_point' => 'Breakdown Point',
+    'pickup_location' => 'Pickup Location',
+    'pickup_point' => 'Pickup Point',
     'delivery_location' => 'Delivery Location',
     'delivery_point' => 'Delivery Point',
     'delivery_time' => 'Delivery Time',
@@ -67,7 +69,7 @@ return [
     'esp_to' => 'From Camp to Spain',
     'mrt_from' => 'From Mauritania to Camp',
     'mrt_to' => 'From Camp to Mauritania',
-    
+
     // Stats and counts
     'total_passengers' => 'Total Passengers',
     'total_cargos' => 'Total Cargos',
@@ -76,13 +78,13 @@ return [
     'booked_seats' => 'Booked Seats',
     'seat_price' => 'Seat Price',
     'seats_info' => 'Seats Information',
-    
+
     // Statistics
     'total_trips' => 'Total Trips',
     'completed_trips' => 'Completed Trips',
     'ongoing_trips' => 'Ongoing Trips',
     'canceled_trips' => 'Canceled Trips',
-    
+
     // Filters
     'filter_by_status' => 'Filter by Status',
     'filter_by_type' => 'Filter by Type',

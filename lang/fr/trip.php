@@ -54,6 +54,8 @@ return [
     // Location fields
     'breakdown_location' => 'Lieu de panne',
     'breakdown_point' => 'Point de panne',
+    'pickup_location' => 'Lieu de ramassage',
+    'pickup_point' => 'Point de ramassage',
     'delivery_location' => 'Lieu de livraison',
     'delivery_point' => 'Point de livraison',
     'delivery_time' => 'Heure de livraison',

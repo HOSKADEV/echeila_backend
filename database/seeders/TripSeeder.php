@@ -383,14 +383,22 @@ class TripSeeder extends Seeder
 
         // Trip 7: Multiple passengers and cargo
         if ($driver2) {
+            $multiPickup = Location::create([
+                'name' => 'Port of Algiers',
+                'address' => 'Algiers Port, Algiers',
+                'latitude' => 36.766667,
+                'longitude' => 3.050000,
+            ]);
+
             $multiDelivery = Location::create([
                 'name' => 'Zone Industrielle Rouiba',
                 'address' => 'Rouiba, Algiers',
-                'latitude' => 36.738889,
+                'latitude' => 36.733333,
                 'longitude' => 3.283333,
             ]);
 
             $cargoDetail2 = CargoTransportDetail::create([
+                'pickup_point_id' => $multiPickup->id,
                 'delivery_point_id' => $multiDelivery->id,
                 'delivery_time' => now()->subDays(1),
             ]);

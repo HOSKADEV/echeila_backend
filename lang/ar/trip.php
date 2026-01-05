@@ -42,7 +42,7 @@ return [
     'booked' => 'محجوز',
     'available' => 'متاح',
     'hours' => 'ساعات',
-    
+
     // Trip Details
     'trip_information' => 'معلومات الرحلة',
     'trip_details' => 'تفاصيل الرحلة',
@@ -50,10 +50,12 @@ return [
     'view_profile' => 'عرض الملف الشخصي',
     'reviews' => 'التقييمات',
     'transactions' => 'المعاملات',
-    
+
     // Location fields
     'breakdown_location' => 'موقع العطل',
     'breakdown_point' => 'نقطة العطل',
+    'pickup_location' => 'موقع الاستلام',
+    'pickup_point' => 'نقطة الاستلام',
     'delivery_location' => 'موقع التسليم',
     'delivery_point' => 'نقطة التسليم',
     'delivery_time' => 'وقت التسليم',
@@ -67,7 +69,7 @@ return [
     'esp_to' => 'من المخيم إلى إسبانيا',
     'mrt_from' => 'من موريتانيا إلى المخيم',
     'mrt_to' => 'من المخيم إلى موريتانيا',
-    
+
     // Stats and counts
     'total_passengers' => 'إجمالي الركاب',
     'total_cargos' => 'إجمالي الشحنات',
@@ -76,13 +78,13 @@ return [
     'booked_seats' => 'المقاعد المحجوزة',
     'seat_price' => 'سعر المقعد',
     'seats_info' => 'معلومات المقاعد',
-    
+
     // Statistics
     'total_trips' => 'إجمالي الرحلات',
     'completed_trips' => 'الرحلات المكتملة',
     'ongoing_trips' => 'الرحلات الجارية',
     'canceled_trips' => 'الرحلات الملغاة',
-    
+
     // Filters
     'filter_by_status' => 'تصفية حسب الحالة',
     'filter_by_type' => 'تصفية حسب النوع',

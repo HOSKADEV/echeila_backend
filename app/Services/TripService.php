@@ -273,8 +273,14 @@ class TripService
      */
     protected function createCargoTransportDetail(array $data): CargoTransportDetail
     {
+        // Create pickup location from coordinate data
+        $pickupLocation = Location::create([
+            'name' => $data['pickup_point']['name'],
+            'latitude' => $data['pickup_point']['latitude'],
+            'longitude' => $data['pickup_point']['longitude'],
+        ]);
 
-        // Create Location record from coordinate data
+        // Create delivery location from coordinate data
         $deliveryLocation = Location::create([
             'name' => $data['delivery_point']['name'],
             'latitude' => $data['delivery_point']['latitude'],
@@ -283,6 +289,7 @@ class TripService
 
         // Create the cargo transport detail
         $cargoTransportDetail = CargoTransportDetail::create([
+            'pickup_point_id' => $pickupLocation->id,
             'delivery_point_id' => $deliveryLocation->id,
             'delivery_time' => $data['delivery_time'],
         ]);

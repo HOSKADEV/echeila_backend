@@ -22,7 +22,7 @@ class TripController extends Controller
     {
         // Check permissions based on trip type
         $this->checkTripPermission($type);
-        
+
         if ($request->wantsJson()) {
             return $this->getDatatable($request, $type);
         }
@@ -36,7 +36,7 @@ class TripController extends Controller
 
     public function show($id)
     {
-        
+
         $trip = Trip::with([
             'driver',
             'client.client',
@@ -61,6 +61,7 @@ class TripController extends Controller
             case TripType::CARGO_TRANSPORT:
                 $trip->load([
                     'cargos.cargo',
+                    'detailable.pickupPoint',
                     'detailable.deliveryPoint'
                 ]);
                 break;

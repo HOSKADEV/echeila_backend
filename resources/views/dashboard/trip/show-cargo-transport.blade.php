@@ -51,9 +51,26 @@
               </h6>
               <ul class="list-unstyled mb-0">
                 <li class="mb-3 d-flex align-items-start">
-                  <i class="bx bx-map-pin text-muted me-2 mt-1"></i>
+                  <i class="bx bx-map-pin text-success me-2 mt-1"></i>
                   <div class="flex-grow-1">
-                    <small class="text-muted d-block">{{ __('trip.delivery_location') }}</small>
+                    <small class="text-muted d-block">{{ __('trip.pickup_point') }}</small>
+                    <span class="fw-medium">
+                      @if($trip->detailable->pickupPoint)
+                        {{ $trip->detailable->pickupPoint->name ?? 'N/A' }}
+                        <br>
+                        <a href="{{ $trip->detailable->pickupPoint->url }}" target="_blank" class="text-primary small">
+                          <i class="bx bx-map-pin"></i> {{ __('app.view_on_map') }}
+                        </a>
+                      @else
+                        N/A
+                      @endif
+                    </span>
+                  </div>
+                </li>
+                <li class="mb-3 d-flex align-items-start">
+                  <i class="bx bx-map text-primary me-2 mt-1"></i>
+                  <div class="flex-grow-1">
+                    <small class="text-muted d-block">{{ __('trip.delivery_point') }}</small>
                     <span class="fw-medium">
                       @if($trip->detailable->deliveryPoint)
                         {{ $trip->detailable->deliveryPoint->name ?? 'N/A' }}
@@ -121,10 +138,10 @@
                 </div>
                 @if($trip->driver)
                   <div class="d-flex align-items-center">
-                    <img class="img-fluid rounded-circle me-3" 
-                         src="{{ $trip->driver->avatar_url }}" 
-                         height="60" 
-                         width="60" 
+                    <img class="img-fluid rounded-circle me-3"
+                         src="{{ $trip->driver->avatar_url }}"
+                         height="60"
+                         width="60"
                          alt="Driver avatar"
                          style="object-fit: cover;" />
                     <div>
@@ -159,10 +176,10 @@
                 </div>
                 @if($trip->client && $trip->client->client)
                   <div class="d-flex align-items-center">
-                    <img class="img-fluid rounded-circle me-3" 
-                         src="{{ $trip->client->client->avatar_url }}" 
-                         height="60" 
-                         width="60" 
+                    <img class="img-fluid rounded-circle me-3"
+                         src="{{ $trip->client->client->avatar_url }}"
+                         height="60"
+                         width="60"
                          alt="Passenger avatar"
                          style="object-fit: cover;" />
                     <div>
@@ -228,7 +245,7 @@
                       <small class="text-muted d-block">{{ __('vehicle.color') }}</small>
                       <div class="d-flex align-items-center gap-2">
                         @if($trip->driver->vehicle->color)
-                          <span class="d-inline-block rounded" 
+                          <span class="d-inline-block rounded"
                                 style="width: 24px; height: 24px; background-color: {{ $trip->driver->vehicle->color->code }}; border: 2px solid #ddd;"
                                 title="{{ $trip->driver->vehicle->color->code }}"></span>
                         @endif
@@ -447,7 +464,7 @@
 @section('page-script')
   <!-- ViewerJS -->
   <script src="https://cdn.jsdelivr.net/npm/viewerjs@1.11.6/dist/viewer.min.js"></script>
-  
+
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       // Initialize Vehicle Images Gallery
