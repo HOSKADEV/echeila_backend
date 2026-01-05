@@ -285,22 +285,22 @@ class TripController extends Controller
             $tripType = $trip->type;
 
             // Only allow deletion of international trips
-            /* if (!in_array($tripType, [TripType::MRT_TRIP, TripType::ESP_TRIP])) {
+            if (!in_array($tripType, [TripType::MRT_TRIP, TripType::ESP_TRIP])) {
                 throw new Exception('Only international trips can be deleted');
-            } */
+            }
 
             // Check if starting time has passed
-            /* if ($trip->detailable && $trip->detailable->starting_time <= now()) {
+            if ($trip->detailable && $trip->detailable->starting_time <= now()) {
                 throw new Exception('Cannot delete international trip after starting time');
-            } */
+            }
 
             // Check if trip has clients or cargos
-            /* $hasClients = $trip->clients()->exists();
+            $hasClients = $trip->clients()->exists();
             $hasCargos = $trip->cargos()->exists();
 
             if ($hasClients || $hasCargos) {
                 throw new Exception('Cannot delete trip with existing clients or cargos');
-            } */
+            }
 
             $this->tripService->deleteTrip($trip);
 
