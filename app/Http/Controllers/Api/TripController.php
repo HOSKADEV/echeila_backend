@@ -295,12 +295,12 @@ class TripController extends Controller
             } */
 
             // Check if trip has clients or cargos
-            $hasClients = $trip->clients()->exists();
+            /* $hasClients = $trip->clients()->exists();
             $hasCargos = $trip->cargos()->exists();
 
             if ($hasClients || $hasCargos) {
                 throw new Exception('Cannot delete trip with existing clients or cargos');
-            }
+            } */
 
             $this->tripService->deleteTrip($trip);
 
