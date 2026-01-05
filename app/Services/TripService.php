@@ -91,6 +91,7 @@ class TripService
                         'driver.vehicle.color',
                         'client.client.user',
                         'cargo.cargo',
+                        'detailable.pickupPoint',
                         'detailable.deliveryPoint'
                     ]);
                     break;
@@ -448,7 +449,7 @@ class TripService
 
         // Apply taxi ride specific filters
         if (isset($filters['type']) && in_array($filters['type'], ['shared', 'private'])) {
-            $query->whereHas('detailable', function ($q) use ($filters) {
+            $query->whereHasMorph('detailable', [TaxiRideDetail::class], function ($q) use ($filters) {
                 $q->where('ride_type', $filters['type']);
             });
         }
@@ -472,7 +473,7 @@ class TripService
 
         // Apply car rescue specific filters
         if (isset($filters['malfunction_type']) && in_array($filters['malfunction_type'], ['tire', 'fuel', 'battery', 'other'])) {
-            $query->whereHas('detailable', function ($q) use ($filters) {
+            $query->whereHasMorph('detailable', [CarRescueDetail::class], function ($q) use ($filters) {
                 $q->where('malfunction_type', $filters['malfunction_type']);
             });
         }
@@ -492,6 +493,7 @@ class TripService
                 'driver.vehicle.color',
                 'client.client.user',
                 'cargos.cargo',
+                'detailable.pickupPoint',
                 'detailable.deliveryPoint'
             ]);
 
@@ -514,7 +516,7 @@ class TripService
 
         // Apply water transport specific filters
         if (isset($filters['water_type']) && in_array($filters['water_type'], ['drink', 'tea'])) {
-            $query->whereHas('detailable', function ($q) use ($filters) {
+            $query->whereHasMorph('detailable', [WaterTransportDetail::class], function ($q) use ($filters) {
                 $q->where('water_type', $filters['water_type']);
             });
         }
@@ -539,7 +541,7 @@ class TripService
 
         // Apply paid driving specific filters
         if (isset($filters['vehicle_type']) && in_array($filters['vehicle_type'], ['car', 'truck'])) {
-            $query->whereHas('detailable', function ($q) use ($filters) {
+            $query->whereHasMorph('detailable', [PaidDrivingDetail::class], function ($q) use ($filters) {
                 $q->where('vehicle_type', $filters['vehicle_type']);
             });
         }
@@ -564,7 +566,7 @@ class TripService
 
         // Apply international-specific filters
         if (isset($filters['direction'])) {
-            $query->whereHas('detailable', function ($q) use ($filters) {
+            $query->whereHasMorph('detailable', [InternationalTripDetail::class], function ($q) use ($filters) {
                 $q->where('direction', $filters['direction']);
             });
         }
@@ -597,7 +599,7 @@ class TripService
 
         // Apply international-specific filters
         if (isset($filters['direction'])) {
-            $query->whereHas('detailable', function ($q) use ($filters) {
+            $query->whereHasMorph('detailable', [InternationalTripDetail::class], function ($q) use ($filters) {
                 $q->where('direction', $filters['direction']);
             });
         }
@@ -633,7 +635,7 @@ class TripService
 
         // Apply taxi ride specific filters
         if (isset($filters['type']) && in_array($filters['type'], ['shared', 'private'])) {
-            $query->whereHas('detailable', function ($q) use ($filters) {
+            $query->whereHasMorph('detailable', [TaxiRideDetail::class], function ($q) use ($filters) {
                 $q->where('ride_type', $filters['type']);
             });
         }
@@ -660,7 +662,7 @@ class TripService
 
         // Apply car rescue specific filters
         if (isset($filters['malfunction_type']) && in_array($filters['malfunction_type'], ['tire', 'fuel', 'battery', 'other'])) {
-            $query->whereHas('detailable', function ($q) use ($filters) {
+            $query->whereHasMorph('detailable', [CarRescueDetail::class], function ($q) use ($filters) {
                 $q->where('malfunction_type', $filters['malfunction_type']);
             });
         }
@@ -683,6 +685,7 @@ class TripService
                 'driver.vehicle.color',
                 'client.client.user',
                 'cargos.cargo',
+                'detailable.pickupPoint',
                 'detailable.deliveryPoint'
             ]);
 
@@ -708,7 +711,7 @@ class TripService
 
         // Apply water transport specific filters
         if (isset($filters['water_type']) && in_array($filters['water_type'], ['drink', 'tea'])) {
-            $query->whereHas('detailable', function ($q) use ($filters) {
+            $query->whereHasMorph('detailable', [WaterTransportDetail::class], function ($q) use ($filters) {
                 $q->where('water_type', $filters['water_type']);
             });
         }
@@ -736,7 +739,7 @@ class TripService
 
         // Apply paid driving specific filters
         if (isset($filters['vehicle_type']) && in_array($filters['vehicle_type'], ['car', 'truck'])) {
-            $query->whereHas('detailable', function ($q) use ($filters) {
+            $query->whereHasMorph('detailable', [PaidDrivingDetail::class], function ($q) use ($filters) {
                 $q->where('vehicle_type', $filters['vehicle_type']);
             });
         }
@@ -797,7 +800,7 @@ class TripService
 
         // Apply international-specific filters
         if (isset($filters['direction'])) {
-            $query->whereHas('detailable', function ($q) use ($filters) {
+            $query->whereHasMorph('detailable', [InternationalTripDetail::class], function ($q) use ($filters) {
                 $q->where('direction', $filters['direction']);
             });
         }
@@ -858,7 +861,7 @@ class TripService
 
         // Apply international-specific filters
         if (isset($filters['direction'])) {
-            $query->whereHas('detailable', function ($q) use ($filters) {
+            $query->whereHasMorph('detailable', [InternationalTripDetail::class], function ($q) use ($filters) {
                 $q->where('direction', $filters['direction']);
             });
         }
@@ -936,6 +939,7 @@ class TripService
                         'driver',
                         'client.client.user',
                         'cargos.cargo',
+                        'detailable.pickupPoint',
                         'detailable.deliveryPoint'
                     ]);
                     break;
