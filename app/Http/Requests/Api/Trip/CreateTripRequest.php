@@ -91,6 +91,7 @@ class CreateTripRequest extends FormRequest
             'breakdown_point.name' => 'required|string|max:255',
             'delivery_time' => 'required|date|after:now',
             'malfunction_type' => ['required', 'string', Rule::in(MalfunctionType::all())],
+            'total_fees' => 'required|numeric|min:0',
         ];
     }
 
@@ -127,6 +128,7 @@ class CreateTripRequest extends FormRequest
             'delivery_time' => 'required|date|after:now',
             'water_type' => ['required', 'string', Rule::in(WaterType::all())],
             'quantity' => 'required|numeric|min:0.1',
+            'total_fees' => 'required|numeric|min:0',
         ];
     }
 
@@ -145,6 +147,7 @@ class CreateTripRequest extends FormRequest
             'arrival_point.longitude' => 'required|numeric|between:-180,180',
             'arrival_point.latitude' => 'required|numeric|between:-90,90',
             'arrival_point.name' => 'required|string|max:255',
+            'total_fees' => 'required|numeric|min:0',
         ];
     }
 
