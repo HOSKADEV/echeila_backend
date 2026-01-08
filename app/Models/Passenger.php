@@ -51,6 +51,11 @@ class Passenger extends Model implements HasMedia
         return $this->morphMany(TripReview::class, 'reviewee');
     }
 
+    public function getReviewAverageAttribute()
+    {
+        return $this->reviewsReceived()->avg('rating') ?? 0;
+    }
+
     public function trips()
     {
         // Get trips where passenger is a trip client

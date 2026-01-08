@@ -24,6 +24,7 @@ class PassengerResource extends JsonResource
             'phone' => $this->user->number,
             //'created_at' => $this->created_at,
             //'updated_at' => $this->updated_at,
+            'review_average' => $this->review_average,
         ];
     }
 }

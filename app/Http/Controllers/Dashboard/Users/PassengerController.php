@@ -47,7 +47,7 @@ class PassengerController extends Controller
 $stats = [
     'trips_count' => $passenger->tripClients()->count(),
     'reviews_count' => $passenger->reviewsReceived()->count(),
-    'avg_rating' => $passenger->reviewsReceived()->avg('rating') ?? 0,
+    'avg_rating' => $passenger->review_average,
     'cargos_count' => $passenger->cargos()->count(),
     'lost_and_founds_count' => $passenger->lostAndFounds()->count(),
     'total_spent' => $passenger->tripClients()->sum('total_fees'),
