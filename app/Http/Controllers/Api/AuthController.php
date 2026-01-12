@@ -2,22 +2,24 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\PhoneVerification;
+use Exception;
+use App\Models\User;
+use App\Traits\RandomTrait;
+use App\Traits\TwilioTrait;
+use Illuminate\Http\Request;
+use App\Traits\FirebaseTrait;
+use App\Traits\ApiResponseTrait;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Api\Auth\LoginRequest;
 use App\Http\Requests\Api\Auth\RegisterRequest;
-use App\Http\Resources\UserResource;
-use App\Models\User;
-use App\Traits\ApiResponseTrait;
-use App\Traits\FirebaseTrait;
-use App\Traits\RandomTrait;
-use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Kreait\Firebase\Exception\FirebaseException;
 
 class AuthController extends Controller
 {
-    use ApiResponseTrait, FirebaseTrait, RandomTrait;
+    use ApiResponseTrait, RandomTrait, TwilioTrait;
 
     public function register(RegisterRequest $request)
     {
@@ -25,14 +27,8 @@ class AuthController extends Controller
 
         try {
 
-            $firebase_user = $this->getFirebaseUser($request->id_token);
-
-            if ($firebase_user instanceof FirebaseException) {
-                throw new Exception($firebase_user->getMessage(), 422);
-            }
-
-            if ($firebase_user?->phoneNumber != $request->phone) {
-                throw new Exception('Phone number does not match with Firebase user', 409);
+            if(!PhoneVerification::isVerified($request->phone)) {
+                throw new Exception('Phone number is not verified', 407);
             }
 
             do {
@@ -52,8 +48,6 @@ class AuthController extends Controller
 
             $token = $user->createToken($this->random(8))->plainTextToken;
 
-            $uid = $firebase_user->uid;
-
             $user->refresh()->load(
                 'wallet',
                 'passenger',
@@ -68,7 +62,6 @@ class AuthController extends Controller
 
             return $this->successResponse([
                 'token' => $token,
-                'uid' => $uid,
                 'user' => new UserResource($user),
             ]);
 
@@ -93,8 +86,6 @@ class AuthController extends Controller
                 $user->update(['device_token' => $request->device_token]);
             }
 
-            $uid = $this->getFirebaseUserByPhone($request->phone)?->uid;
-
             $token = $user->createToken($this->random(8))->plainTextToken;
 
             $user->load(
@@ -111,7 +102,6 @@ class AuthController extends Controller
 
             return $this->successResponse([
                 'token' => $token,
-                'uid' => $uid,
                 'user' => new UserResource($user),
             ]);
 
@@ -156,24 +146,6 @@ class AuthController extends Controller
             );
 
             return $this->successResponse(new UserResource($user));
-
-        } catch (Exception $e) {
-            return $this->errorResponse($e->getMessage(), $e->getCode());
-        }
-    }
-
-    public function checkPhone(Request $request)
-    {
-        $validated = $this->validateRequest($request, [
-            'phone' => 'required|string',
-        ]);
-
-        try {
-
-            return $this->successResponse([
-                'exists' => User::where('phone', $request->phone)->exists(),
-                'phone' => $request->phone,
-            ]);
 
         } catch (Exception $e) {
             return $this->errorResponse($e->getMessage(), $e->getCode());

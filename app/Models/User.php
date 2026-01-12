@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Constants\UserType;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -23,7 +24,7 @@ class User extends Authenticatable
     'phone',
     'password',
     'status',
-    'device_token'
+    'device_token',
   ];
 
   /**
@@ -101,6 +102,11 @@ class User extends Authenticatable
   public function scopeFederations($query)
   {
     return $query->type(UserType::FEDERATION);
+  }
+
+  public function phoneVerifications()
+  {
+    return $this->hasMany(PhoneVerification::class, 'phone_number', 'phone');
   }
 
 }

@@ -24,7 +24,6 @@ class RegisterRequest extends FormRequest
         return [
             'phone' => 'required|string|regex:/^\+\d{1,3}\d{9}$/|unique:users,phone',
             'password' => 'required|string|min:8|confirmed',
-            'id_token' => 'required|string',
             'device_token' => 'nullable|string',
         ];
     }
