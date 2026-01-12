@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('phone_verifications', function (Blueprint $table) {
             $table->id();
-            $table->string('phone_number')->unique();
+            $table->string('phone_number');
             $table->timestamp('verified_at')->nullable();
             $table->timestamp('expires_at')->nullable();
             $table->timestamps();

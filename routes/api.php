@@ -104,9 +104,9 @@ Route::prefix('v1')->group(function () {
 
   // Phone verification routes
   Route::prefix('phone')->group(function () {
-    Route::post('/check', [PhoneVerificationController::class, 'checkPhone']);
-    Route::post('/send-otp', [PhoneVerificationController::class, 'sendOTP']);
-    Route::post('/verify-otp', [PhoneVerificationController::class, 'verifyOTP']);
+    Route::post('/check', [PhoneVerificationController::class, 'check_phone']);
+    Route::post('/send-otp', [PhoneVerificationController::class, 'send_otp']);
+    Route::post('/verify-otp', [PhoneVerificationController::class, 'verify_otp']);
   });
 
   // Protected routes
