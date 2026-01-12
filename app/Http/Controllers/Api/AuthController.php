@@ -182,19 +182,17 @@ class AuthController extends Controller
     public function forgetPassword(Request $request)
     {
         $validated = $this->validateRequest($request, [
-            'id_token' => 'required|string',
+            'phone' => 'required|string|exists:users,phone',
             'new_password' => 'required|string|min:6|confirmed',
         ]);
 
         try {
 
-            $firebase_user = $this->getFirebaseUser($request->id_token);
-
-            if ($firebase_user instanceof FirebaseException) {
-                throw new Exception($firebase_user->getMessage(), 422);
+            if(!PhoneVerification::isVerified($request->phone)) {
+                throw new Exception('Phone number is not verified', 407);
             }
 
-            $user = User::where('phone', $firebase_user->phoneNumber)->first();
+            $user = User::where('phone', $request->phone)->first();
 
             if (! $user) {
                 throw new Exception('User not found', 404);
