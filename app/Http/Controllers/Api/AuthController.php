@@ -219,6 +219,7 @@ class AuthController extends Controller
 
             $user = $request->user();
             $user->tokens()->delete();
+            $user->phoneVerifications()->delete();
             $user->delete();
 
             return $this->successResponse();
