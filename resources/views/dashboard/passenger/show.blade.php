@@ -310,8 +310,14 @@
                 </table>
               </div>
               @if($transactions->hasPages())
-                <div class="card-footer">
-                  {{ $transactions->links() }}
+                <div class="card-footer bg-light">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <small class="text-muted">
+                      {{ __('app.showing') }} {{ $transactions->firstItem() }} {{ __('app.to') }} {{ $transactions->lastItem() }} 
+                      {{ __('app.of') }} {{ $transactions->total() }} {{ __('app.results') }}
+                    </small>
+                    {{ $transactions->links() }}
+                  </div>
                 </div>
               @endif
             </div>
@@ -370,7 +376,17 @@
                   </tbody>
                 </table>
               </div>
-            </div>
+              @if($recentTrips->hasPages())
+                <div class="card-footer bg-light">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <small class="text-muted">
+                      {{ __('app.showing') }} {{ $recentTrips->firstItem() }} {{ __('app.to') }} {{ $recentTrips->lastItem() }} 
+                      {{ __('app.of') }} {{ $recentTrips->total() }} {{ __('app.results') }}
+                    </small>
+                    {{ $recentTrips->links() }}
+                  </div>
+                </div>
+              @endif
           </div>
 
           <!-- Reviews Tab -->
@@ -433,8 +449,14 @@
                 @endforelse
               </div>
               @if($reviews->hasPages())
-                <div class="card-footer">
-                  {{ $reviews->links() }}
+                <div class="card-footer bg-light">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <small class="text-muted">
+                      {{ __('app.showing') }} {{ $reviews->firstItem() }} {{ __('app.to') }} {{ $reviews->lastItem() }} 
+                      {{ __('app.of') }} {{ $reviews->total() }} {{ __('app.results') }}
+                    </small>
+                    {{ $reviews->links() }}
+                  </div>
                 </div>
               @endif
             </div>

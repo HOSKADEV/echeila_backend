@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Notifications\Channels\FcmChannel;
 use Illuminate\Notifications\ChannelManager;
+use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,5 +25,9 @@ class AppServiceProvider extends ServiceProvider
     $this->app->make(ChannelManager::class)->extend('fcm', function ($app) {
       return $app->make(FcmChannel::class);
     });
+
+    // Set default pagination views
+    Paginator::defaultView('pagination::bootstrap-5');
+    Paginator::defaultSimpleView('pagination::simple-bootstrap-5');
   }
 }
