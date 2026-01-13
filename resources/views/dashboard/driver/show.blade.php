@@ -68,14 +68,14 @@
             <!-- Avatar Section -->
             <div class="mb-4">
               <div class="position-relative d-inline-block">
-                <img class="img-fluid rounded-circle shadow-sm" 
-                     src="{{ $driver->avatar_url }}" 
-                     height="120" 
-                     width="120" 
+                <img class="img-fluid rounded-circle shadow-sm"
+                     src="{{ $driver->avatar_url }}"
+                     height="120"
+                     width="120"
                      alt="User avatar"
                      style="object-fit: cover; border: 4px solid #fff;" />
                 @if($driver->user->status === \App\Constants\UserStatus::ACTIVE)
-                  <span class="badge bg-success rounded-pill position-absolute" 
+                  <span class="badge bg-success rounded-pill position-absolute"
                         style="bottom: 5px; right: 5px; width: 20px; height: 20px; padding: 0; border: 3px solid #fff;">
                   </span>
                 @endif
@@ -364,7 +364,7 @@
                       <small class="text-muted d-block">{{ __('vehicle.color') }}</small>
                       <div class="d-flex align-items-center gap-2">
                         @if($driver->vehicle->color)
-                          <span class="d-inline-block rounded" 
+                          <span class="d-inline-block rounded"
                                 style="width: 24px; height: 24px; background-color: {{ $driver->vehicle->color->code }}; border: 2px solid #ddd;"
                                 title="{{ $driver->vehicle->color->code }}"></span>
                         @endif
@@ -619,6 +619,11 @@
                   </tbody>
                 </table>
               </div>
+              @if($recentTrips->hasPages())
+                <div class="card-footer">
+                  {{ $recentTrips->links() }}
+                </div>
+              @endif
             </div>
           </div>
 
@@ -811,7 +816,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="text-center mt-3">
       <p class="text-muted small">{{ __("app.charge_wallet_info") }}</p>
     </div>
@@ -869,7 +874,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="text-center mt-3">
       <p class="text-muted small">{{ __("app.withdraw_wallet_info") }}</p>
     </div>
@@ -885,7 +890,7 @@
     method="POST"
     inputs='
     <input type="hidden" name="id" value="">
-    
+
     <!-- Subscription Period Selection -->
     <div class="mb-4">
       <label class="form-label fw-bold" for="subscription_months">
@@ -982,7 +987,7 @@
 @section('page-script')
   <!-- ViewerJS -->
   <script src="https://cdn.jsdelivr.net/npm/viewerjs@1.11.6/dist/viewer.min.js"></script>
-  
+
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       // Initialize Vehicle Images Gallery
@@ -1116,7 +1121,7 @@
       $(document).on('click', '[data-bs-target="#charge-wallet-modal"]', function() {
         const userId = $(this).data('id');
         const walletBalance = parseFloat($(this).data('wallet-balance')) || 0;
-        
+
         // Store wallet data in modal
         $('#charge-wallet-modal').data('walletBalance', walletBalance);
         $('#charge-wallet-modal').find('input[name="id"]').val(userId);
@@ -1129,7 +1134,7 @@
       $(document).on('click', '[data-bs-target="#withdraw-sum-modal"]', function() {
         const userId = $(this).data('id');
         const walletBalance = parseFloat($(this).data('wallet-balance')) || 0;
-        
+
         // Store wallet data in modal
         $('#withdraw-sum-modal').data('walletBalance', walletBalance);
         $('#withdraw-sum-modal').find('input[name="id"]').val(userId);
@@ -1143,22 +1148,22 @@
         const userId = $(this).data('id');
         const subscriptionEndDate = $(this).data('subscription-end-date') || null;
         const monthlyFee = $(this).data('monthly-fee') || 0;
-        
+
         // Initialize subscription modal
         $('#purchase-subscription-modal').find('input[name="id"]').val(userId);
         $('#subscription_months').val(1);
-        
+
         // Store data in modal for calculations
         $('#purchase-subscription-modal').data('subscriptionEndDate', subscriptionEndDate);
         $('#monthly_fee').data('monthlyFee', monthlyFee);
-        
+
         // Display current subscription end date
-        const endDateDisplay = subscriptionEndDate 
-          ? new Date(subscriptionEndDate).toLocaleDateString('{{ app()->getLocale() === "ar" ? "ar-DZ" : "en-US" }}') 
+        const endDateDisplay = subscriptionEndDate
+          ? new Date(subscriptionEndDate).toLocaleDateString('{{ app()->getLocale() === "ar" ? "ar-DZ" : "en-US" }}')
           : '-';
         $('#current_subscription_end').text(endDateDisplay);
         $('#monthly_fee').text(parseFloat(monthlyFee).toFixed(2));
-        
+
         // Update calculations
         updateSubscriptionCalculations();
       });
@@ -1187,7 +1192,7 @@
       function updateSubscriptionCalculations() {
         const months = parseInt($('#subscription_months').val()) || 1;
         const monthlyFee = parseFloat($('#monthly_fee').data('monthlyFee')) || 0;
-        
+
         // Calculate total fee
         const totalFee = months * monthlyFee;
         $('#total_subscription_fee').text(totalFee.toFixed(2));
@@ -1195,14 +1200,14 @@
         // Calculate new subscription end date
         const currentEndDateStr = $('#purchase-subscription-modal').data('subscriptionEndDate');
         let startDate = new Date();
-        
+
         if (currentEndDateStr) {
           startDate = new Date(currentEndDateStr);
         }
-        
+
         const newEndDate = new Date(startDate);
         newEndDate.setMonth(newEndDate.getMonth() + months);
-        
+
         const locale = '{{ app()->getLocale() === "ar" ? "ar-DZ" : "en-US" }}';
         const formattedDate = newEndDate.toLocaleDateString(locale);
         $('#new_subscription_end').text(formattedDate);
