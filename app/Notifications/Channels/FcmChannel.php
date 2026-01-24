@@ -22,8 +22,11 @@ class FcmChannel
    */
   public function send($notifiable, Notification $notification)
   {
-    $message = $notification->toFcm($notifiable);
-    if (!$message) return;
-    return $this->messaging->send($message);
+     try {
+        $message = $notification->toFcm($notifiable);
+        return $this->messaging->send($message);
+     }catch(FirebaseException $e){
+        return ;
+     }
   }
 }

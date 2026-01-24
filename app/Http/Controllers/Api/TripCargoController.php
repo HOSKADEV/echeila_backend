@@ -76,7 +76,7 @@ class TripCargoController extends Controller
     
             // Check wallet balance
             if($validated['total_fees'] > $user->wallet->balance) {
-                throw new Exception('Insufficient wallet balance');
+                throw new Exception('Insufficient wallet balance', 402);
             }
     
             DB::beginTransaction();
@@ -179,6 +179,11 @@ class TripCargoController extends Controller
                 $totalFees = $tripCargo->total_fees;
                 $passenger = $tripCargo->cargo->passenger;
                 $driver = $trip->driver;
+
+                // Check if driver has sufficient balance for refund
+                if ($driver->user->wallet->balance < $totalFees) {
+                    throw new Exception('Insufficient wallet balance for refund', 402);
+                }
     
                 // Refund to passenger wallet
                 $passenger->user->wallet->increment('balance', $totalFees);

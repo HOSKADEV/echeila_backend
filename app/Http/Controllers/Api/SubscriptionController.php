@@ -37,7 +37,7 @@ class SubscriptionController extends Controller
             $totalFee = $months * $monthlyFee;
 
             if ($wallet->balance < $totalFee) {
-                throw new Exception('Insufficient wallet balance');
+                throw new Exception('Insufficient wallet balance', 402);
             }
 
             $subscription = $driver->subscription;

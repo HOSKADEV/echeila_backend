@@ -105,7 +105,7 @@ class TripClientController extends Controller
                 }
 
                 if($totalFees > $user->wallet->balance) {
-                    throw new Exception('Insufficient wallet balance');
+                    throw new Exception('Insufficient wallet balance', 402);
                 }
                 // Deduct from user wallet
                 $user->wallet->decrement('balance', $totalFees);
@@ -201,7 +201,7 @@ class TripClientController extends Controller
 
             if (in_array($trip->type, [TripType::MRT_TRIP, TripType::ESP_TRIP]) && $tripClient->client_type === Passenger::class) {
                 if ($user->driver && $user->wallet->balance < $tripClient->total_fees) {
-                    throw new Exception('Insufficient wallet balance for refund');
+                    throw new Exception('Insufficient wallet balance for refund', 402);
                 }
 
                 $totalFees = $tripClient->total_fees;
