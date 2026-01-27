@@ -102,6 +102,40 @@ class CreateDriverRequest extends FormRequest
             'services.*.required' => __('validation.custom.services.*.required'),
             'services.*.string' => __('validation.custom.services.*.string'),
             'services.*.in' => __('validation.custom.services.*.in'),
+
+            'cards.national_id.number.required' => __('validation.custom.cards.national_id.number.required'),
+            'cards.national_id.number.string' => __('validation.custom.cards.national_id.number.string'),
+            'cards.national_id.number.max' => __('validation.custom.cards.national_id.number.max'),
+            'cards.national_id.number.unique' => __('validation.custom.cards.national_id.number.unique'),
+
+            'cards.national_id.expiration_date.required' => __('validation.custom.cards.national_id.expiration_date.required'),
+            'cards.national_id.expiration_date.date' => __('validation.custom.cards.national_id.expiration_date.date'),
+            'cards.national_id.expiration_date.after' => __('validation.custom.cards.national_id.expiration_date.after'),
+
+            'cards.national_id.front_image.required' => __('validation.custom.cards.national_id.front_image.required'),
+            'cards.national_id.front_image.image' => __('validation.custom.cards.national_id.front_image.image'),
+            'cards.national_id.front_image.max' => __('validation.custom.cards.national_id.front_image.max'),
+
+            'cards.national_id.back_image.required' => __('validation.custom.cards.national_id.back_image.required'),
+            'cards.national_id.back_image.image' => __('validation.custom.cards.national_id.back_image.image'),
+            'cards.national_id.back_image.max' => __('validation.custom.cards.national_id.back_image.max'),
+
+            'cards.driving_license.number.required' => __('validation.custom.cards.driving_license.number.required'),
+            'cards.driving_license.number.string' => __('validation.custom.cards.driving_license.number.string'),
+            'cards.driving_license.number.max' => __('validation.custom.cards.driving_license.number.max'),
+            'cards.driving_license.number.unique' => __('validation.custom.cards.driving_license.number.unique'),
+
+            'cards.driving_license.expiration_date.required' => __('validation.custom.cards.driving_license.expiration_date.required'),
+            'cards.driving_license.expiration_date.date' => __('validation.custom.cards.driving_license.expiration_date.date'),
+            'cards.driving_license.expiration_date.after' => __('validation.custom.cards.driving_license.expiration_date.after'),
+
+            'cards.driving_license.front_image.required' => __('validation.custom.cards.driving_license.front_image.required'),
+            'cards.driving_license.front_image.image' => __('validation.custom.cards.driving_license.front_image.image'),
+            'cards.driving_license.front_image.max' => __('validation.custom.cards.driving_license.front_image.max'),
+
+            'cards.driving_license.back_image.required' => __('validation.custom.cards.driving_license.back_image.required'),
+            'cards.driving_license.back_image.image' => __('validation.custom.cards.driving_license.back_image.image'),
+            'cards.driving_license.back_image.max' => __('validation.custom.cards.driving_license.back_image.max'),
         ];
     }
 }

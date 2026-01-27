@@ -416,5 +416,126 @@ return [
             'numeric' => 'Seat price must be a number.',
             'min' => 'Seat price cannot be negative.',
         ],
+
+        // Driver creation messages
+        'first_name' => [
+            'required' => 'First name is required.',
+            'string' => 'First name must be a text.',
+            'max' => 'First name cannot exceed 255 characters.',
+        ],
+        'last_name' => [
+            'required' => 'Last name is required.',
+            'string' => 'Last name must be a text.',
+            'max' => 'Last name cannot exceed 255 characters.',
+        ],
+        'birth_date' => [
+            'required' => 'Birth date is required.',
+            'date' => 'Birth date must be a valid date.',
+            'before' => 'Birth date must be in the past.',
+        ],
+        'email' => [
+            'email' => 'Email must be a valid email address.',
+        ],
+
+        // Vehicle messages
+        'vehicle.model_id' => [
+            'required' => 'Vehicle model is required.',
+            'exists' => 'Selected vehicle model does not exist.',
+        ],
+        'vehicle.color_id' => [
+            'required' => 'Vehicle color is required.',
+            'exists' => 'Selected vehicle color does not exist.',
+        ],
+        'vehicle.production_year' => [
+            'required' => 'Vehicle production year is required.',
+            'integer' => 'Vehicle production year must be a number.',
+            'min' => 'Vehicle production year must be at least 1900.',
+            'max' => 'Vehicle production year cannot be in the future.',
+        ],
+        'vehicle.plate_number' => [
+            'required' => 'Vehicle plate number is required.',
+            'string' => 'Vehicle plate number must be a text.',
+            'max' => 'Vehicle plate number cannot exceed 255 characters.',
+            'unique' => 'This vehicle plate number is already registered.',
+        ],
+        'vehicle.image' => [
+            'image' => 'Vehicle image must be a valid image.',
+            'max' => 'Vehicle image must not exceed 8MB.',
+        ],
+        'vehicle.permit' => [
+            'file' => 'Vehicle permit must be a file.',
+            'mimes' => 'Vehicle permit must be a PDF, JPEG, PNG, or JPG file.',
+            'max' => 'Vehicle permit must not exceed 8MB.',
+        ],
+
+        // Services messages
+        'services' => [
+            'required' => 'At least one service is required.',
+            'array' => 'Services must be a valid format.',
+            'min' => 'At least one service must be selected.',
+        ],
+        'services.*' => [
+            'required' => 'Service type is required.',
+            'string' => 'Service type must be a text.',
+            'in' => 'Please select a valid service type.',
+        ],
+
+        // Card messages
+        'cards.national_id.number' => [
+            'required' => 'National ID number is required.',
+            'string' => 'National ID number must be a text.',
+            'max' => 'National ID number cannot exceed 255 characters.',
+            'unique' => 'This national ID number is already registered.',
+        ],
+        'cards.national_id.expiration_date' => [
+            'required' => 'National ID expiration date is required.',
+            'date' => 'National ID expiration date must be a valid date.',
+            'after' => 'National ID expiration date must be in the future.',
+        ],
+        'cards.national_id.front_image' => [
+            'required' => 'National ID front image is required.',
+            'image' => 'National ID front image must be a valid image.',
+            'max' => 'National ID front image must not exceed 8MB.',
+        ],
+        'cards.national_id.back_image' => [
+            'required' => 'National ID back image is required.',
+            'image' => 'National ID back image must be a valid image.',
+            'max' => 'National ID back image must not exceed 8MB.',
+        ],
+        'cards.driving_license.number' => [
+            'required' => 'Driving license number is required.',
+            'string' => 'Driving license number must be a text.',
+            'max' => 'Driving license number cannot exceed 255 characters.',
+            'unique' => 'This driving license number is already registered.',
+        ],
+        'cards.driving_license.expiration_date' => [
+            'required' => 'Driving license expiration date is required.',
+            'date' => 'Driving license expiration date must be a valid date.',
+            'after' => 'Driving license expiration date must be in the future.',
+        ],
+        'cards.driving_license.front_image' => [
+            'required' => 'Driving license front image is required.',
+            'image' => 'Driving license front image must be a valid image.',
+            'max' => 'Driving license front image must not exceed 8MB.',
+        ],
+        'cards.driving_license.back_image' => [
+            'required' => 'Driving license back image is required.',
+            'image' => 'Driving license back image must be a valid image.',
+            'max' => 'Driving license back image must not exceed 8MB.',
+        ],
+
+        // Status messages
+        'status' => [
+            'string' => 'Status must be a text.',
+            'in' => 'Please select a valid status.',
+        ],
+
+        // Fullname messages
+        'fullname' => [
+            'required_with' => 'Full name is required when phone number is provided.',
+            'string' => 'Full name must be a text.',
+            'max' => 'Full name cannot exceed 255 characters.',
+        ],
+
     ],
 ];

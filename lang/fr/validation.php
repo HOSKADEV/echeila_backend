@@ -416,5 +416,125 @@ return [
             'numeric' => 'Le prix du siège doit être un nombre.',
             'min' => 'Le prix du siège ne peut pas être négatif.',
         ],
+
+        // Messages de création de conducteur
+        'first_name' => [
+            'required' => 'Le prénom est requis.',
+            'string' => 'Le prénom doit être du texte.',
+            'max' => 'Le prénom ne peut pas dépasser 255 caractères.',
+        ],
+        'last_name' => [
+            'required' => 'Le nom est requis.',
+            'string' => 'Le nom doit être du texte.',
+            'max' => 'Le nom ne peut pas dépasser 255 caractères.',
+        ],
+        'birth_date' => [
+            'required' => 'La date de naissance est requise.',
+            'date' => 'La date de naissance doit être une date valide.',
+            'before' => 'La date de naissance doit être dans le passé.',
+        ],
+        'email' => [
+            'email' => 'L\'email doit être une adresse email valide.',
+        ],
+
+        // Messages de véhicule
+        'vehicle.model_id' => [
+            'required' => 'Le modèle de véhicule est requis.',
+            'exists' => 'Le modèle de véhicule sélectionné n\'existe pas.',
+        ],
+        'vehicle.color_id' => [
+            'required' => 'La couleur du véhicule est requise.',
+            'exists' => 'La couleur du véhicule sélectionnée n\'existe pas.',
+        ],
+        'vehicle.production_year' => [
+            'required' => 'L\'année de production du véhicule est requise.',
+            'integer' => 'L\'année de production du véhicule doit être un nombre.',
+            'min' => 'L\'année de production du véhicule doit être au moins 1900.',
+            'max' => 'L\'année de production du véhicule ne peut pas être dans le futur.',
+        ],
+        'vehicle.plate_number' => [
+            'required' => 'Le numéro de plaque du véhicule est requis.',
+            'string' => 'Le numéro de plaque du véhicule doit être du texte.',
+            'max' => 'Le numéro de plaque du véhicule ne peut pas dépasser 255 caractères.',
+            'unique' => 'Ce numéro de plaque du véhicule est déjà enregistré.',
+        ],
+        'vehicle.image' => [
+            'image' => 'L\'image du véhicule doit être une image valide.',
+            'max' => 'L\'image du véhicule ne doit pas dépasser 8MB.',
+        ],
+        'vehicle.permit' => [
+            'file' => 'Le permis du véhicule doit être un fichier.',
+            'mimes' => 'Le permis du véhicule doit être un fichier PDF, JPEG, PNG ou JPG.',
+            'max' => 'Le permis du véhicule ne doit pas dépasser 8MB.',
+        ],
+
+        // Messages de services
+        'services' => [
+            'required' => 'Au moins un service est requis.',
+            'array' => 'Les services doivent être dans un format valide.',
+            'min' => 'Au moins un service doit être sélectionné.',
+        ],
+        'services.*' => [
+            'required' => 'Le type de service est requis.',
+            'string' => 'Le type de service doit être du texte.',
+            'in' => 'Veuillez sélectionner un type de service valide.',
+        ],
+
+        // Messages de carte
+        'cards.national_id.number' => [
+            'required' => 'Le numéro de carte d\'identité nationale est requis.',
+            'string' => 'Le numéro de carte d\'identité nationale doit être du texte.',
+            'max' => 'Le numéro de carte d\'identité nationale ne peut pas dépasser 255 caractères.',
+            'unique' => 'Ce numéro de carte d\'identité nationale est déjà enregistré.',
+        ],
+        'cards.national_id.expiration_date' => [
+            'required' => 'La date d\'expiration de la carte d\'identité nationale est requise.',
+            'date' => 'La date d\'expiration de la carte d\'identité nationale doit être une date valide.',
+            'after' => 'La date d\'expiration de la carte d\'identité nationale doit être dans le futur.',
+        ],
+        'cards.national_id.front_image' => [
+            'required' => 'L\'image avant de la carte d\'identité nationale est requise.',
+            'image' => 'L\'image avant de la carte d\'identité nationale doit être une image valide.',
+            'max' => 'L\'image avant de la carte d\'identité nationale ne doit pas dépasser 8MB.',
+        ],
+        'cards.national_id.back_image' => [
+            'required' => 'L\'image arrière de la carte d\'identité nationale est requise.',
+            'image' => 'L\'image arrière de la carte d\'identité nationale doit être une image valide.',
+            'max' => 'L\'image arrière de la carte d\'identité nationale ne doit pas dépasser 8MB.',
+        ],
+        'cards.driving_license.number' => [
+            'required' => 'Le numéro de permis de conduire est requis.',
+            'string' => 'Le numéro de permis de conduire doit être du texte.',
+            'max' => 'Le numéro de permis de conduire ne peut pas dépasser 255 caractères.',
+            'unique' => 'Ce numéro de permis de conduire est déjà enregistré.',
+        ],
+        'cards.driving_license.expiration_date' => [
+            'required' => 'La date d\'expiration du permis de conduire est requise.',
+            'date' => 'La date d\'expiration du permis de conduire doit être une date valide.',
+            'after' => 'La date d\'expiration du permis de conduire doit être dans le futur.',
+        ],
+        'cards.driving_license.front_image' => [
+            'required' => 'L\'image avant du permis de conduire est requise.',
+            'image' => 'L\'image avant du permis de conduire doit être une image valide.',
+            'max' => 'L\'image avant du permis de conduire ne doit pas dépasser 8MB.',
+        ],
+        'cards.driving_license.back_image' => [
+            'required' => 'L\'image arrière du permis de conduire est requise.',
+            'image' => 'L\'image arrière du permis de conduire doit être une image valide.',
+            'max' => 'L\'image arrière du permis de conduire ne doit pas dépasser 8MB.',
+        ],
+
+        // Messages de statut
+        'status' => [
+            'string' => 'Le statut doit être du texte.',
+            'in' => 'Veuillez sélectionner un statut valide.',
+        ],
+
+        // Messages de nom complet
+        'fullname' => [
+            'required_with' => 'Le nom complet est requis quand le numéro de téléphone est fourni.',
+            'string' => 'Le nom complet doit être du texte.',
+            'max' => 'Le nom complet ne peut pas dépasser 255 caractères.',
+        ],
     ],
 ];
