@@ -381,7 +381,7 @@ return [
         'starting_time' => [
             'required' => 'Starting time is required.',
             'date' => 'Starting time must be a valid date.',
-            'after' => 'Starting time must be in the future.',
+            'after' => 'Starting time must be a date after today.',
         ],
         'vehicle_type' => [
             'required' => 'Vehicle type is required.',
@@ -403,7 +403,7 @@ return [
         'arrival_time' => [
             'required' => 'Arrival time is required.',
             'date' => 'Arrival time must be a valid date.',
-            'after' => 'Arrival time must be after starting time.',
+            'after' => 'Arrival time must be a date after starting time.',
         ],
         'total_seats' => [
             'required' => 'Total seats is required.',
@@ -431,7 +431,7 @@ return [
         'birth_date' => [
             'required' => 'Birth date is required.',
             'date' => 'Birth date must be a valid date.',
-            'before' => 'Birth date must be in the past.',
+            'before' => 'Birth date must be a date before today.',
         ],
         'email' => [
             'email' => 'Email must be a valid email address.',
@@ -490,7 +490,7 @@ return [
         'cards.national_id.expiration_date' => [
             'required' => 'National ID expiration date is required.',
             'date' => 'National ID expiration date must be a valid date.',
-            'after' => 'National ID expiration date must be in the future.',
+            'after' => 'National ID expiration date must be a date after today.',
         ],
         'cards.national_id.front_image' => [
             'required' => 'National ID front image is required.',
@@ -511,7 +511,7 @@ return [
         'cards.driving_license.expiration_date' => [
             'required' => 'Driving license expiration date is required.',
             'date' => 'Driving license expiration date must be a valid date.',
-            'after' => 'Driving license expiration date must be in the future.',
+            'after' => 'Driving license expiration date must be a date after today.',
         ],
         'cards.driving_license.front_image' => [
             'required' => 'Driving license front image is required.',

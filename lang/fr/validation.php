@@ -381,7 +381,7 @@ return [
         'starting_time' => [
             'required' => 'L\'heure de départ est requise.',
             'date' => 'L\'heure de départ doit être une date valide.',
-            'after' => 'L\'heure de départ doit être dans le futur.',
+            'after' => 'L\'heure de départ doit être une date après aujourd\'hui.',
         ],
         'vehicle_type' => [
             'required' => 'Le type de véhicule est requis.',
@@ -403,7 +403,7 @@ return [
         'arrival_time' => [
             'required' => 'L\'heure d\'arrivée est requise.',
             'date' => 'L\'heure d\'arrivée doit être une date valide.',
-            'after' => 'L\'heure d\'arrivée doit être après l\'heure de départ.',
+            'after' => 'L\'heure d\'arrivée doit être une date après l\'heure de départ.',
         ],
         'total_seats' => [
             'required' => 'Le nombre total de sièges est requis.',
@@ -431,7 +431,7 @@ return [
         'birth_date' => [
             'required' => 'La date de naissance est requise.',
             'date' => 'La date de naissance doit être une date valide.',
-            'before' => 'La date de naissance doit être dans le passé.',
+            'before' => 'La date de naissance doit être une date avant aujourd\'hui.',
         ],
         'email' => [
             'email' => 'L\'email doit être une adresse email valide.',
@@ -490,7 +490,7 @@ return [
         'cards.national_id.expiration_date' => [
             'required' => 'La date d\'expiration de la carte d\'identité nationale est requise.',
             'date' => 'La date d\'expiration de la carte d\'identité nationale doit être une date valide.',
-            'after' => 'La date d\'expiration de la carte d\'identité nationale doit être dans le futur.',
+            'after' => 'La date d\'expiration de la carte d\'identité nationale doit être une date après aujourd\'hui.',
         ],
         'cards.national_id.front_image' => [
             'required' => 'L\'image avant de la carte d\'identité nationale est requise.',
@@ -511,7 +511,7 @@ return [
         'cards.driving_license.expiration_date' => [
             'required' => 'La date d\'expiration du permis de conduire est requise.',
             'date' => 'La date d\'expiration du permis de conduire doit être une date valide.',
-            'after' => 'La date d\'expiration du permis de conduire doit être dans le futur.',
+            'after' => 'La date d\'expiration du permis de conduire doit être une date après aujourd\'hui.',
         ],
         'cards.driving_license.front_image' => [
             'required' => 'L\'image avant du permis de conduire est requise.',
