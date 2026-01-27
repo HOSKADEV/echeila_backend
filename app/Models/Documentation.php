@@ -2,11 +2,16 @@
 
 namespace App\Models;
 
-use App\Traits\HasGoogleTranslationTrait;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
 
 class Documentation extends Model
 {
+  use HasTranslations;
+
+  public array $translatable = [
+    'value',
+  ];
 
   protected $fillable = [
     'key',

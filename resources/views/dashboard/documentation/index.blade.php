@@ -26,13 +26,26 @@
         </div>
     </div>
 
+    <div class="nav-align-top mb-4">
+        <ul class="nav nav-pills mb-3" role="tablist">
+            @foreach ($locales as $locale)
+                <li class="nav-item">
+                    <a href="{{ route('documentations.index', ['locale' => $locale]) }}"
+                        class="nav-link {{ $selectedLocale === $locale ? 'active' : '' }}">
+                        {{ strtoupper($locale) }}
+                    </a>
+                </li>
+            @endforeach
+        </ul>
+    </div>
 
     <form action="{{ route('documentations.store') }}" method="POST" id="form">
         @csrf
+        <input type="hidden" name="locale" value="{{ $selectedLocale }}">
 
         <div class="nav-align-top mb-4">
             <ul class="nav nav-pills mb-3" role="tablist">
-                @foreach ($documentations as $key => $value)
+                @foreach ($documentations as $key => $documentation)
                     <li class="nav-item">
                         <button type="button" class="nav-link {{ $loop->first ? 'active' : '' }}" role="tab"
                             data-bs-toggle="tab" data-bs-target="#tab-{{ $key }}"
@@ -43,12 +56,26 @@
                 @endforeach
             </ul>
             <div class="tab-content">
-                @foreach ($documentations as $key => $value)
+                @foreach ($documentations as $key => $documentation)
                     <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="tab-{{ $key }}"
                         role="tabpanel">
                         <div class="mb-3">
+                            @php
+                                $translations = $documentation->getTranslations('value');
+                                $value = $translations[$selectedLocale] ?? '';
+                                $rawValue = $documentation->getRawOriginal('value');
+                                if ($value === '' && is_string($rawValue) && $rawValue !== '') {
+                                    json_decode($rawValue, true);
+                                    if (json_last_error() !== JSON_ERROR_NONE) {
+                                        $defaultLocale = config('app.locale', 'en');
+                                        if ($selectedLocale === $defaultLocale) {
+                                            $value = $rawValue;
+                                        }
+                                    }
+                                }
+                            @endphp
                             <div id="editor-{{ $key }}">
-                                {!! $value ?? '' !!}
+                                {!! $value !!}
                             </div>
                             <input type="hidden" name="documentations[{{ $loop->index }}][key]"
                                 value="{{ $key }}">
@@ -67,66 +94,66 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
-            // Initialize Quill editors for each documentation type
             const editors = {};
 
-            @foreach ($documentations as $key => $value)
-                editors['{{ $key }}'] = new Quill('#editor-{{ $key }}', {
-                    theme: 'snow',
-                    modules: {
-                        toolbar: [
-                            [{
-                                font: []
-                            }, {
-                                size: []
-                            }],
-                            ['bold', 'italic', 'underline', 'strike'],
-                            [{
-                                color: []
-                            }, {
-                                background: []
-                            }],
-                            [{
-                                script: 'super'
-                            }, {
-                                script: 'sub'
-                            }],
-                            [{
-                                header: [1, 2, 3, 4, 5, 6, false]
-                            }, 'blockquote', 'code-block'],
-                            [{
-                                list: 'ordered'
-                            }, {
-                                list: 'bullet'
-                            }, {
-                                indent: '-1'
-                            }, {
-                                indent: '+1'
-                            }],
-                            [{
-                                align: []
-                            }, {
-                                direction: 'rtl'
-                            }],
-                            ['link', 'image', 'video'],
-                            ['clean']
-                        ]
-                    }
-                });
+            @foreach ($documentations as $key => $documentation)
+                {
+                    const editor = new Quill('#editor-{{ $key }}', {
+                        theme: 'snow',
+                        modules: {
+                            toolbar: [
+                                [{
+                                    font: []
+                                }, {
+                                    size: []
+                                }],
+                                ['bold', 'italic', 'underline', 'strike'],
+                                [{
+                                    color: []
+                                }, {
+                                    background: []
+                                }],
+                                [{
+                                    script: 'super'
+                                }, {
+                                    script: 'sub'
+                                }],
+                                [{
+                                    header: [1, 2, 3, 4, 5, 6, false]
+                                }, 'blockquote', 'code-block'],
+                                [{
+                                    list: 'ordered'
+                                }, {
+                                    list: 'bullet'
+                                }, {
+                                    indent: '-1'
+                                }, {
+                                    indent: '+1'
+                                }],
+                                [{
+                                    align: []
+                                }, {
+                                    direction: 'rtl'
+                                }],
+                                ['link', 'image', 'video'],
+                                ['clean']
+                            ]
+                        }
+                    });
 
-                // Set initial content
-                const $content{{ $key }} = $('#content-{{ $key }}');
-                $content{{ $key }}.val(editors['{{ $key }}'].root.innerHTML);
+                    editors['{{ $key }}'] = editor;
 
-                // Update hidden input on text change
-                editors['{{ $key }}'].on('text-change', function() {
-                    $content{{ $key }}.val(editors['{{ $key }}'].root.innerHTML);
-                });
+                    const $content = $('#content-{{ $key }}');
+                    $content.val(editor.root.innerHTML);
+
+                    editor.on('text-change', function() {
+                        $content.val(editor.root.innerHTML);
+                    });
+                }
             @endforeach
 
-            // Ensure content is updated before form submission
             $('form').on('submit', function() {
-                @foreach ($documentations as $key => $value)
+                @foreach ($documentations as $key => $documentation)
                     $('#content-{{ $key }}').val(editors['{{ $key }}'].root.innerHTML);
                 @endforeach
             });

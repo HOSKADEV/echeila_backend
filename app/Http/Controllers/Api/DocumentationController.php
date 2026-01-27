@@ -21,6 +21,22 @@ class DocumentationController extends Controller
       );
     }
 
-    return $this->successResponse($model->value ?? " ");
+    $locale = app()->getLocale();
+
+    $translations = $model->getTranslations('value');
+    $value = $translations[$locale] ?? '';
+
+    $rawValue = $model->getRawOriginal('value');
+    if ($value === '' && is_string($rawValue) && $rawValue !== '') {
+      json_decode($rawValue, true);
+      if (json_last_error() !== JSON_ERROR_NONE) {
+        $defaultLocale = config('app.locale', 'en');
+        if ($locale === $defaultLocale) {
+          $value = $rawValue;
+        }
+      }
+    }
+
+    return $this->successResponse($value);
   }
 }
