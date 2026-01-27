@@ -35,7 +35,7 @@ Route::get('/{locale}', function ($locale) {
     session()->put('locale', $locale);
 
     return redirect()->back();
-})->where('locale', 'en|fr|ar');
+})->where('locale', 'en|fr|ar|es');
 
 Route::get('/pages/misc-error', [MiscError::class, 'index'])->name('pages-misc-error');
 Route::get('/pages/misc-under-maintenance', [MiscUnderMaintenance::class, 'index'])->name('pages-misc-under-maintenance');

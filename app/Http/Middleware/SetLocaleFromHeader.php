@@ -12,7 +12,7 @@ class SetLocaleFromHeader
 {
   public function handle(Request $request, Closure $next): Response
   {
-    $locale = $request->getPreferredLanguage(['en', 'fr', 'ar']);
+    $locale = $request->getPreferredLanguage(['en', 'fr', 'ar', 'es']);
 
     if (App::getLocale() !== $locale) {
       App::setLocale($locale);

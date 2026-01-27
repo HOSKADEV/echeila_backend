@@ -93,6 +93,12 @@
                   <span class="align-middle">@lang('app.arabic')</span>
                 </a>
               </li>
+              <li>
+                <a class="dropdown-item {{ app()->getLocale() === 'es' ? 'active' : '' }}" href="{{url('es')}}"
+                  data-language="es" data-text-direction="ltr">
+                  <span class="align-middle">@lang('app.spanish')</span>
+                </a>
+              </li>
             </ul>
           </li>
           <!--/ Language -->

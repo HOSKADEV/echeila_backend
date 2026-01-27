@@ -15,6 +15,25 @@ return [
     'search' => 'Rechercher',
     'select_option' => 'Sélectionner une option',
 
+    'login' => 'Se connecter',
+    'register' => 'S\'inscrire',
+    'password' => 'Mot de passe',
+    'username' => 'Nom d\'utilisateur',
+    'enter_your_email' => 'Entrez votre email',
+    'enter_your_username' => 'Entrez votre nom d\'utilisateur',
+    'welcome_to' => 'Bienvenue à :app 👋',
+    'login_subtitle' => 'S\'il vous plaît, connectez-vous à votre compte et commencez l\'aventure',
+    'register_heading' => 'L\'aventure commence ici 🚀',
+    'register_subtitle' => 'Rendez la gestion de votre application facile et amusante !',
+    'remember_me' => 'Se souvenir de moi',
+    'sign_in' => 'Se connecter',
+    'sign_up' => 'S\'inscrire',
+    'agree_to' => 'J\'accepte',
+    'privacy_policy_terms' => 'la politique de confidentialité et les conditions',
+    'already_have_account' => 'Vous avez déjà un compte ?',
+    'sign_in_instead' => 'Se connecter',
+    'or' => 'ou',
+
     'admin' => 'Administrateur',
     'admins' => 'Administrateurs',
     'roles-permissions' => 'Rôles & Permissions',
@@ -101,6 +120,7 @@ return [
     'english' => 'Anglais',
     'arabic' => 'Arabe',
     'french' => 'Français',
+    'spanish' => 'Espagnol',
 
     'home' => 'Accueil',
     'landing' => 'Retour à la Page d\'Accueil',
@@ -231,4 +251,3 @@ return [
     // Objets Trouvés
     'mark_as_returned' => 'Marquer comme Retourné',
 ];
-

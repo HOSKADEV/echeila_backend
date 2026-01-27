@@ -43,18 +43,18 @@
         </a>
         </div>
         <!-- /Logo -->
-        <h4 class="mb-2">Bienvenue à @lang('app-name')  👋</h4>
-        <p class="mb-4">S'il vous plaît, connectez-vous à votre compte et commencez l'aventure</p>
+        <h4 class="mb-2">{{ __('app.welcome_to', ['app' => trans('app-name')]) }}</h4>
+        <p class="mb-4">{{ __('app.login_subtitle') }}</p>
 
         <form id="formAuthentication" class="mb-3" action="{{route('login')}}" method="POST">
         @csrf
         <div class="mb-3">
-          <label for="email" class="form-label">Email</label>
-          <input type="text" class="form-control" id="email" name="email" placeholder="Entrer votre email" autofocus>
+          <label for="email" class="form-label">{{ __('app.email') }}</label>
+          <input type="text" class="form-control" id="email" name="email" placeholder="{{ __('app.enter_your_email') }}" autofocus>
         </div>
         <div class="mb-3 form-password-toggle">
           <div class="d-flex justify-content-between">
-          <label class="form-label" for="password">Mot de passe</label>
+          <label class="form-label" for="password">{{ __('app.password') }}</label>
 {{--          <a href="javascript:void(0);">--}}
 {{--            <small>Forgot Password?</small>--}}
 {{--          </a>--}}
@@ -70,12 +70,12 @@
           <div class="form-check">
           <input class="form-check-input" type="checkbox" id="remember-me">
           <label class="form-check-label" for="remember-me">
-            Se souvenir de moi
+            {{ __('app.remember_me') }}
           </label>
           </div>
         </div>
         <div class="mb-3">
-          <button class="btn btn-primary d-grid w-100" type="submit">Se connecter</button>
+          <button class="btn btn-primary d-grid w-100" type="submit">{{ __('app.sign_in') }}</button>
         </div>
         </form>
 
