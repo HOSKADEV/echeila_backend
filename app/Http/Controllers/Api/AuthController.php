@@ -15,6 +15,8 @@ use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Api\Auth\LoginRequest;
 use App\Http\Requests\Api\Auth\RegisterRequest;
+use App\Http\Requests\Api\Auth\ResetPasswordRequest;
+use App\Http\Requests\Api\Auth\ForgetPasswordRequest;
 use Kreait\Firebase\Exception\FirebaseException;
 
 class AuthController extends Controller
@@ -152,12 +154,9 @@ class AuthController extends Controller
         }
     }
 
-    public function resetPassword(Request $request)
+    public function resetPassword(ResetPasswordRequest $request)
     {
-        $validated = $this->validateRequest($request, [
-            'old_password' => 'required|string',
-            'new_password' => 'required|string|min:6|confirmed',
-        ]);
+        $validated = $this->validateRequest($request);
 
         try {
             $user = $request->user();
@@ -179,12 +178,9 @@ class AuthController extends Controller
         }
     }
 
-    public function forgetPassword(Request $request)
+    public function forgetPassword(ForgetPasswordRequest $request)
     {
-        $validated = $this->validateRequest($request, [
-            'phone' => 'required|string|exists:users,phone',
-            'new_password' => 'required|string|min:6|confirmed',
-        ]);
+        $validated = $this->validateRequest($request);
 
         try {
 

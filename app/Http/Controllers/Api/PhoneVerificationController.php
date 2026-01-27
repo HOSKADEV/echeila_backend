@@ -9,16 +9,17 @@ use App\Traits\TwilioTrait;
 use Illuminate\Http\Request;
 use App\Traits\ApiResponseTrait;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\PhoneVerification\CheckPhoneRequest;
+use App\Http\Requests\Api\PhoneVerification\SendOtpRequest;
+use App\Http\Requests\Api\PhoneVerification\VerifyOtpRequest;
 
 class PhoneVerificationController extends Controller
 {
   use ApiResponseTrait, TwilioTrait;
 
-  public function check_phone(Request $request)
+  public function check_phone(CheckPhoneRequest $request)
   {
-    $validated = $this->validateRequest($request, [
-      'phone' => 'required|string',
-    ]);
+    $validated = $this->validateRequest($request);
 
     try {
       $phoneNumber = $request->phone;
@@ -34,11 +35,9 @@ class PhoneVerificationController extends Controller
     }
   }
 
-  public function send_otp(Request $request)
+  public function send_otp(SendOtpRequest $request)
   {
-    $validated = $this->validateRequest($request, [
-      'phone' => 'required|string',
-    ]);
+    $validated = $this->validateRequest($request);
 
     try {
       $phoneNumber = $request->phone;
@@ -56,12 +55,9 @@ class PhoneVerificationController extends Controller
     }
   }
 
-  public function verify_otp(Request $request)
+  public function verify_otp(VerifyOtpRequest $request)
   {
-    $validated = $this->validateRequest($request, [
-      'phone' => 'required|string',
-      'code' => 'required|string',
-    ]);
+    $validated = $this->validateRequest($request);
 
     try {
       $phoneNumber = $request->phone;

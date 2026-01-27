@@ -52,4 +52,56 @@ class CreateDriverRequest extends FormRequest
     public function validateResolved()
     {
     }
+
+    public function messages()
+    {
+        return [
+            'first_name.required' => __('validation.custom.first_name.required'),
+            'first_name.string' => __('validation.custom.first_name.string'),
+            'first_name.max' => __('validation.custom.first_name.max'),
+
+            'last_name.required' => __('validation.custom.last_name.required'),
+            'last_name.string' => __('validation.custom.last_name.string'),
+            'last_name.max' => __('validation.custom.last_name.max'),
+
+            'birth_date.required' => __('validation.custom.birth_date.required'),
+            'birth_date.date' => __('validation.custom.birth_date.date'),
+            'birth_date.before' => __('validation.custom.birth_date.before'),
+
+            'email.email' => __('validation.custom.email.email'),
+
+            'image.image' => __('validation.custom.image.image'),
+            'image.max' => __('validation.custom.image.max'),
+
+            'vehicle.model_id.required' => __('validation.custom.vehicle.model_id.required'),
+            'vehicle.model_id.exists' => __('validation.custom.vehicle.model_id.exists'),
+
+            'vehicle.color_id.required' => __('validation.custom.vehicle.color_id.required'),
+            'vehicle.color_id.exists' => __('validation.custom.vehicle.color_id.exists'),
+
+            'vehicle.production_year.required' => __('validation.custom.vehicle.production_year.required'),
+            'vehicle.production_year.integer' => __('validation.custom.vehicle.production_year.integer'),
+            'vehicle.production_year.min' => __('validation.custom.vehicle.production_year.min'),
+            'vehicle.production_year.max' => __('validation.custom.vehicle.production_year.max'),
+
+            'vehicle.plate_number.required' => __('validation.custom.vehicle.plate_number.required'),
+            'vehicle.plate_number.string' => __('validation.custom.vehicle.plate_number.string'),
+            'vehicle.plate_number.max' => __('validation.custom.vehicle.plate_number.max'),
+            'vehicle.plate_number.unique' => __('validation.custom.vehicle.plate_number.unique'),
+
+            'vehicle.image.image' => __('validation.custom.vehicle.image.image'),
+            'vehicle.image.max' => __('validation.custom.vehicle.image.max'),
+
+            'vehicle.permit.file' => __('validation.custom.vehicle.permit.file'),
+            'vehicle.permit.mimes' => __('validation.custom.vehicle.permit.mimes'),
+            'vehicle.permit.max' => __('validation.custom.vehicle.permit.max'),
+
+            'services.required' => __('validation.custom.services.required'),
+            'services.array' => __('validation.custom.services.array'),
+            'services.min' => __('validation.custom.services.min'),
+            'services.*.required' => __('validation.custom.services.*.required'),
+            'services.*.string' => __('validation.custom.services.*.string'),
+            'services.*.in' => __('validation.custom.services.*.in'),
+        ];
+    }
 }

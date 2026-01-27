@@ -20,6 +20,7 @@ use App\Constants\NotificationMessages;
 use App\Http\Resources\TripClientResource;
 use App\Notifications\NewMessageNotification;
 use App\Http\Requests\Api\TripClient\StoreTripClientRequest;
+use App\Http\Requests\Api\TripClient\TripClientIndexRequest;
 
 class TripClientController extends Controller
 {
@@ -28,11 +29,9 @@ class TripClientController extends Controller
     /**
      * Get trip clients for a specific trip
      */
-    public function index(Request $request)
+    public function index(TripClientIndexRequest $request)
     {
-        $validated = $this->validateRequest($request, [
-            'trip_id' => 'required|exists:trips,id'
-        ]);
+        $validated = $this->validateRequest($request);
 
         try {
 
@@ -126,7 +125,7 @@ class TripClientController extends Controller
                     'amount' => abs($totalFees)
                 ]);
 
-            
+
              // Send notifications
             $user->notify(new NewMessageNotification(
                 key: NotificationMessages::TRANSACTION_RESERVATION,
@@ -237,10 +236,10 @@ class TripClientController extends Controller
                 key: NotificationMessages::TRANSACTION_REFUND,
                 data: ['amount' => $driverTransaction->amount, 'balance' => $driver->user->wallet->balance]
             ));
-                
+
             }
 
-        
+
             $tripClient->delete();
 
             if ($trip->clients()->count() === 0) {

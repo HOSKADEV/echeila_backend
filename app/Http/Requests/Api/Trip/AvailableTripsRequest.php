@@ -25,4 +25,19 @@ class AvailableTripsRequest extends FormRequest
     public function validateResolved()
     {
     }
+
+    public function messages()
+    {
+        return [
+            'trip_type.required' => __('validation.custom.trip_type.required'),
+            'trip_type.string' => __('validation.custom.trip_type.string'),
+            'trip_type.in' => __('validation.custom.trip_type.in'),
+            'starting_time.required' => __('validation.custom.starting_time.required'),
+            'starting_time.date_format' => __('validation.custom.starting_time.date_format'),
+            'starting_time.after' => __('validation.custom.starting_time.after'),
+            'number_of_seats.integer' => __('validation.custom.number_of_seats.integer'),
+            'number_of_seats.min' => __('validation.custom.number_of_seats.min'),
+            'number_of_seats.max' => __('validation.custom.number_of_seats.max'),
+        ];
+    }
 }

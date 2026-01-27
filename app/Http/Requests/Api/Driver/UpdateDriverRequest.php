@@ -36,4 +36,22 @@ class UpdateDriverRequest extends FormRequest
     public function validateResolved()
     {
     }
+
+    public function messages()
+    {
+        return [
+            'federation_id.exists' => __('validation.custom.federation_id.exists'),
+            'first_name.string' => __('validation.custom.first_name.string'),
+            'first_name.max' => __('validation.custom.first_name.max'),
+            'last_name.string' => __('validation.custom.last_name.string'),
+            'last_name.max' => __('validation.custom.last_name.max'),
+            'birth_date.date' => __('validation.custom.birth_date.date'),
+            'birth_date.before' => __('validation.custom.birth_date.before'),
+            'email.email' => __('validation.custom.email.email'),
+            'status.in' => __('validation.custom.status.in'),
+            'image.image' => __('validation.custom.image.image'),
+            'image.mimes' => __('validation.custom.image.mimes'),
+            'image.max' => __('validation.custom.image.max'),
+        ];
+    }
 }

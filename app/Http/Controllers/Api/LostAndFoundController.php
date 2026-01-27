@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Traits\ApiResponseTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\LostAndFoundResource;
+use App\Http\Requests\Api\LostAndFound\StoreLostAndFoundRequest;
 
 class LostAndFoundController extends Controller
 {
@@ -24,12 +25,9 @@ class LostAndFoundController extends Controller
         }
     }
 
-    public function store(Request $request)
+    public function store(StoreLostAndFoundRequest $request)
     {
-        $validated = $this->validateRequest($request, [
-                'description' => 'required|string',
-                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:8192',
-            ]);
+        $validated = $this->validateRequest($request);
 
         try {
 
@@ -40,7 +38,7 @@ class LostAndFoundController extends Controller
             if (!$passenger) {
                 throw new Exception('Passenger profile not found', 404);
             }
-            
+
             $item = $passenger->lostAndFounds()->create([
                 'description' => $validated['description'],
             ]);

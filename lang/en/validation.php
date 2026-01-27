@@ -154,4 +154,267 @@ return [
     'url'                    => 'The :attribute field must be a valid URL.',
     'uuid'                   => 'The :attribute field must be a valid UUID.',
     'attributes'             => [],
+    'custom'                 => [
+        // Auth validation messages
+        'phone' => [
+            'required' => 'Phone number is required.',
+            'string' => 'Phone number must be a text.',
+            'exists' => 'This phone number is not registered.',
+        ],
+        'old_password' => [
+            'required' => 'Current password is required.',
+            'string' => 'Current password must be a text.',
+        ],
+        'new_password' => [
+            'required' => 'New password is required.',
+            'string' => 'New password must be a text.',
+            'min' => 'New password must be at least 6 characters.',
+            'confirmed' => 'New password confirmation does not match.',
+        ],
+        'code' => [
+            'required' => 'Verification code is required.',
+            'string' => 'Verification code must be a text.',
+        ],
+
+        // Driver validation messages
+        'period' => [
+            'required' => 'Time period is required.',
+            'in' => 'Time period must be day, week, month, or year.',
+        ],
+        'driver_id' => [
+            'required' => 'Driver is required.',
+            'exists' => 'Selected driver does not exist.',
+        ],
+
+        // Lost and Found validation messages
+        'description' => [
+            'required' => 'Description is required.',
+            'string' => 'Description must be a text.',
+        ],
+        'image' => [
+            'required' => 'Image is required.',
+            'image' => 'File must be an image.',
+            'mimes' => 'Image must be jpeg, png, jpg, gif, or svg format.',
+            'max' => 'Image size must not exceed 8MB.',
+        ],
+
+        // Trip validation messages
+        'trip_id' => [
+            'required' => 'Trip is required.',
+            'exists' => 'Selected trip does not exist.',
+        ],
+        'reviewer_type' => [
+            'required' => 'Reviewer type is required.',
+            'in' => 'Reviewer type must be driver or passenger.',
+        ],
+        'reviewee_id' => [
+            'required' => 'Person to review is required.',
+            'integer' => 'Person to review must be a valid ID.',
+        ],
+        'rating' => [
+            'required' => 'Rating is required.',
+            'integer' => 'Rating must be a number.',
+            'min' => 'Rating must be at least 1 star.',
+            'max' => 'Rating cannot exceed 5 stars.',
+        ],
+        'comment' => [
+            'string' => 'Comment must be a text.',
+        ],
+
+        // General validation messages
+        'note' => [
+            'string' => 'Note must be a text.',
+            'max' => 'Note cannot exceed 1000 characters.',
+        ],
+        'metadata' => [
+            'array' => 'Metadata must be a valid format.',
+        ],
+        'total_fees' => [
+            'required' => 'Total fees is required.',
+            'numeric' => 'Total fees must be a number.',
+            'min' => 'Total fees cannot be negative.',
+        ],
+
+        // Trip type specific messages
+        'ride_type' => [
+            'required' => 'Ride type is required.',
+            'string' => 'Ride type must be a text.',
+            'in' => 'Please select a valid ride type.',
+        ],
+        'starting_point_id' => [
+            'required' => 'Starting location is required.',
+            'exists' => 'Selected starting location does not exist.',
+        ],
+        'arrival_point_id' => [
+            'required' => 'Destination is required.',
+            'exists' => 'Selected destination does not exist.',
+        ],
+        'number_of_seats' => [
+            'required' => 'Number of seats is required.',
+            'integer' => 'Number of seats must be a whole number.',
+            'min' => 'At least 1 seat is required.',
+            'max' => 'Cannot exceed 8 seats.',
+        ],
+
+        // Location coordinate messages
+        'starting_point.longitude' => [
+            'required' => 'Starting point longitude is required.',
+            'numeric' => 'Starting point longitude must be a number.',
+            'between' => 'Starting point longitude must be valid coordinates.',
+        ],
+        'starting_point.latitude' => [
+            'required' => 'Starting point latitude is required.',
+            'numeric' => 'Starting point latitude must be a number.',
+            'between' => 'Starting point latitude must be valid coordinates.',
+        ],
+        'starting_point.name' => [
+            'required' => 'Starting point name is required.',
+            'string' => 'Starting point name must be a text.',
+            'max' => 'Starting point name cannot exceed 255 characters.',
+        ],
+        'arrival_point.longitude' => [
+            'required' => 'Destination longitude is required.',
+            'numeric' => 'Destination longitude must be a number.',
+            'between' => 'Destination longitude must be valid coordinates.',
+        ],
+        'arrival_point.latitude' => [
+            'required' => 'Destination latitude is required.',
+            'numeric' => 'Destination latitude must be a number.',
+            'between' => 'Destination latitude must be valid coordinates.',
+        ],
+        'arrival_point.name' => [
+            'required' => 'Destination name is required.',
+            'string' => 'Destination name must be a text.',
+            'max' => 'Destination name cannot exceed 255 characters.',
+        ],
+
+        // Car rescue specific messages
+        'breakdown_point.longitude' => [
+            'required' => 'Breakdown location longitude is required.',
+            'numeric' => 'Breakdown location longitude must be a number.',
+            'between' => 'Breakdown location longitude must be valid coordinates.',
+        ],
+        'breakdown_point.latitude' => [
+            'required' => 'Breakdown location latitude is required.',
+            'numeric' => 'Breakdown location latitude must be a number.',
+            'between' => 'Breakdown location latitude must be valid coordinates.',
+        ],
+        'breakdown_point.name' => [
+            'required' => 'Breakdown location name is required.',
+            'string' => 'Breakdown location name must be a text.',
+            'max' => 'Breakdown location name cannot exceed 255 characters.',
+        ],
+        'malfunction_type' => [
+            'required' => 'Problem type is required.',
+            'string' => 'Problem type must be a text.',
+            'in' => 'Please select a valid problem type.',
+        ],
+
+        // Cargo transport messages
+        'pickup_point.longitude' => [
+            'required' => 'Pickup location longitude is required.',
+            'numeric' => 'Pickup location longitude must be a number.',
+            'between' => 'Pickup location longitude must be valid coordinates.',
+        ],
+        'pickup_point.latitude' => [
+            'required' => 'Pickup location latitude is required.',
+            'numeric' => 'Pickup location latitude must be a number.',
+            'between' => 'Pickup location latitude must be valid coordinates.',
+        ],
+        'pickup_point.name' => [
+            'required' => 'Pickup location name is required.',
+            'string' => 'Pickup location name must be a text.',
+            'max' => 'Pickup location name cannot exceed 255 characters.',
+        ],
+        'delivery_point.longitude' => [
+            'required' => 'Delivery location longitude is required.',
+            'numeric' => 'Delivery location longitude must be a number.',
+            'between' => 'Delivery location longitude must be valid coordinates.',
+        ],
+        'delivery_point.latitude' => [
+            'required' => 'Delivery location latitude is required.',
+            'numeric' => 'Delivery location latitude must be a number.',
+            'between' => 'Delivery location latitude must be valid coordinates.',
+        ],
+        'delivery_point.name' => [
+            'required' => 'Delivery location name is required.',
+            'string' => 'Delivery location name must be a text.',
+            'max' => 'Delivery location name cannot exceed 255 characters.',
+        ],
+        'delivery_time' => [
+            'required' => 'Delivery time is required.',
+            'date' => 'Delivery time must be a valid date.',
+            'after' => 'Delivery time must be in the future.',
+        ],
+        'cargo.description' => [
+            'required' => 'Cargo description is required.',
+            'string' => 'Cargo description must be a text.',
+            'max' => 'Cargo description cannot exceed 1000 characters.',
+        ],
+        'cargo.weight' => [
+            'required' => 'Cargo weight is required.',
+            'numeric' => 'Cargo weight must be a number.',
+            'min' => 'Cargo weight must be at least 0.1 kg.',
+        ],
+        'cargo.images' => [
+            'array' => 'Cargo images must be a valid format.',
+        ],
+        'cargo.images.*' => [
+            'image' => 'Each cargo image must be a valid image.',
+            'mimes' => 'Cargo images must be jpeg, png, jpg, or gif format.',
+            'max' => 'Each cargo image must not exceed 8MB.',
+        ],
+
+        // Water transport messages
+        'water_type' => [
+            'required' => 'Water type is required.',
+            'string' => 'Water type must be a text.',
+            'in' => 'Please select a valid water type.',
+        ],
+        'quantity' => [
+            'required' => 'Quantity is required.',
+            'numeric' => 'Quantity must be a number.',
+            'min' => 'Quantity must be at least 0.1.',
+        ],
+
+        // Paid driving messages
+        'starting_time' => [
+            'required' => 'Starting time is required.',
+            'date' => 'Starting time must be a valid date.',
+            'after' => 'Starting time must be in the future.',
+        ],
+        'vehicle_type' => [
+            'required' => 'Vehicle type is required.',
+            'string' => 'Vehicle type must be a text.',
+            'in' => 'Please select a valid vehicle type.',
+        ],
+
+        // International trip messages
+        'direction' => [
+            'required' => 'Direction is required.',
+            'string' => 'Direction must be a text.',
+            'in' => 'Please select a valid direction.',
+        ],
+        'starting_place' => [
+            'required' => 'Starting place is required.',
+            'string' => 'Starting place must be a text.',
+            'max' => 'Starting place cannot exceed 255 characters.',
+        ],
+        'arrival_time' => [
+            'required' => 'Arrival time is required.',
+            'date' => 'Arrival time must be a valid date.',
+            'after' => 'Arrival time must be after starting time.',
+        ],
+        'total_seats' => [
+            'required' => 'Total seats is required.',
+            'integer' => 'Total seats must be a whole number.',
+            'min' => 'At least 1 seat is required.',
+            'max' => 'Cannot exceed 50 seats.',
+        ],
+        'seat_price' => [
+            'required' => 'Seat price is required.',
+            'numeric' => 'Seat price must be a number.',
+            'min' => 'Seat price cannot be negative.',
+        ],
+    ],
 ];

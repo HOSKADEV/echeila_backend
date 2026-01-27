@@ -20,6 +20,7 @@ use App\Constants\NotificationMessages;
 use App\Notifications\NewMessageNotification;
 use App\Http\Requests\Api\Driver\CreateDriverRequest;
 use App\Http\Requests\Api\Driver\UpdateDriverRequest;
+use App\Http\Requests\Api\Driver\DriverIncomeRequest;
 
 class DriverController extends Controller
 {
@@ -162,10 +163,8 @@ class DriverController extends Controller
         }
     }
 
-    public function income(Request $request){
-        $this->validateRequest($request, [
-            'period' => 'required|in:day,week,month,year'
-        ]);
+    public function income(DriverIncomeRequest $request){
+        $validated = $this->validateRequest($request);
 
         try {
 

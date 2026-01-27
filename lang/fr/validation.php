@@ -154,4 +154,267 @@ return [
     'url'                    => 'Le format de l\'URL de :attribute n\'est pas valide.',
     'uuid'                   => 'Le champ :attribute doit être un UUID valide',
     'attributes'             => [],
+    'custom'                 => [
+        // Messages de validation d'authentification
+        'phone' => [
+            'required' => 'Le numéro de téléphone est requis.',
+            'string' => 'Le numéro de téléphone doit être du texte.',
+            'exists' => 'Ce numéro de téléphone n\'est pas enregistré.',
+        ],
+        'old_password' => [
+            'required' => 'Le mot de passe actuel est requis.',
+            'string' => 'Le mot de passe actuel doit être du texte.',
+        ],
+        'new_password' => [
+            'required' => 'Le nouveau mot de passe est requis.',
+            'string' => 'Le nouveau mot de passe doit être du texte.',
+            'min' => 'Le nouveau mot de passe doit contenir au moins 6 caractères.',
+            'confirmed' => 'La confirmation du nouveau mot de passe ne correspond pas.',
+        ],
+        'code' => [
+            'required' => 'Le code de vérification est requis.',
+            'string' => 'Le code de vérification doit être du texte.',
+        ],
+
+        // Messages de validation conducteur
+        'period' => [
+            'required' => 'La période est requise.',
+            'in' => 'La période doit être jour, semaine, mois ou année.',
+        ],
+        'driver_id' => [
+            'required' => 'Le conducteur est requis.',
+            'exists' => 'Le conducteur sélectionné n\'existe pas.',
+        ],
+
+        // Messages de validation objets perdus et trouvés
+        'description' => [
+            'required' => 'La description est requise.',
+            'string' => 'La description doit être du texte.',
+        ],
+        'image' => [
+            'required' => 'L\'image est requise.',
+            'image' => 'Le fichier doit être une image.',
+            'mimes' => 'L\'image doit être au format jpeg, png, jpg, gif ou svg.',
+            'max' => 'La taille de l\'image ne doit pas dépasser 8MB.',
+        ],
+
+        // Messages de validation voyage
+        'trip_id' => [
+            'required' => 'Le voyage est requis.',
+            'exists' => 'Le voyage sélectionné n\'existe pas.',
+        ],
+        'reviewer_type' => [
+            'required' => 'Le type d\'évaluateur est requis.',
+            'in' => 'Le type d\'évaluateur doit être conducteur ou passager.',
+        ],
+        'reviewee_id' => [
+            'required' => 'La personne à évaluer est requise.',
+            'integer' => 'La personne à évaluer doit être un ID valide.',
+        ],
+        'rating' => [
+            'required' => 'La note est requise.',
+            'integer' => 'La note doit être un nombre.',
+            'min' => 'La note doit être au moins 1 étoile.',
+            'max' => 'La note ne peut pas dépasser 5 étoiles.',
+        ],
+        'comment' => [
+            'string' => 'Le commentaire doit être du texte.',
+        ],
+
+        // Messages de validation généraux
+        'note' => [
+            'string' => 'La note doit être du texte.',
+            'max' => 'La note ne peut pas dépasser 1000 caractères.',
+        ],
+        'metadata' => [
+            'array' => 'Les métadonnées doivent être dans un format valide.',
+        ],
+        'total_fees' => [
+            'required' => 'Le coût total est requis.',
+            'numeric' => 'Le coût total doit être un nombre.',
+            'min' => 'Le coût total ne peut pas être négatif.',
+        ],
+
+        // Messages spécifiques aux types de voyage
+        'ride_type' => [
+            'required' => 'Le type de trajet est requis.',
+            'string' => 'Le type de trajet doit être du texte.',
+            'in' => 'Veuillez sélectionner un type de trajet valide.',
+        ],
+        'starting_point_id' => [
+            'required' => 'Le lieu de départ est requis.',
+            'exists' => 'Le lieu de départ sélectionné n\'existe pas.',
+        ],
+        'arrival_point_id' => [
+            'required' => 'La destination est requise.',
+            'exists' => 'La destination sélectionnée n\'existe pas.',
+        ],
+        'number_of_seats' => [
+            'required' => 'Le nombre de sièges est requis.',
+            'integer' => 'Le nombre de sièges doit être un nombre entier.',
+            'min' => 'Au moins 1 siège est requis.',
+            'max' => 'Ne peut pas dépasser 8 sièges.',
+        ],
+
+        // Messages de coordonnées de localisation
+        'starting_point.longitude' => [
+            'required' => 'La longitude du point de départ est requise.',
+            'numeric' => 'La longitude du point de départ doit être un nombre.',
+            'between' => 'La longitude du point de départ doit être des coordonnées valides.',
+        ],
+        'starting_point.latitude' => [
+            'required' => 'La latitude du point de départ est requise.',
+            'numeric' => 'La latitude du point de départ doit être un nombre.',
+            'between' => 'La latitude du point de départ doit être des coordonnées valides.',
+        ],
+        'starting_point.name' => [
+            'required' => 'Le nom du point de départ est requis.',
+            'string' => 'Le nom du point de départ doit être du texte.',
+            'max' => 'Le nom du point de départ ne peut pas dépasser 255 caractères.',
+        ],
+        'arrival_point.longitude' => [
+            'required' => 'La longitude de destination est requise.',
+            'numeric' => 'La longitude de destination doit être un nombre.',
+            'between' => 'La longitude de destination doit être des coordonnées valides.',
+        ],
+        'arrival_point.latitude' => [
+            'required' => 'La latitude de destination est requise.',
+            'numeric' => 'La latitude de destination doit être un nombre.',
+            'between' => 'La latitude de destination doit être des coordonnées valides.',
+        ],
+        'arrival_point.name' => [
+            'required' => 'Le nom de destination est requis.',
+            'string' => 'Le nom de destination doit être du texte.',
+            'max' => 'Le nom de destination ne peut pas dépasser 255 caractères.',
+        ],
+
+        // Messages spécifiques au dépannage automobile
+        'breakdown_point.longitude' => [
+            'required' => 'La longitude du lieu de panne est requise.',
+            'numeric' => 'La longitude du lieu de panne doit être un nombre.',
+            'between' => 'La longitude du lieu de panne doit être des coordonnées valides.',
+        ],
+        'breakdown_point.latitude' => [
+            'required' => 'La latitude du lieu de panne est requise.',
+            'numeric' => 'La latitude du lieu de panne doit être un nombre.',
+            'between' => 'La latitude du lieu de panne doit être des coordonnées valides.',
+        ],
+        'breakdown_point.name' => [
+            'required' => 'Le nom du lieu de panne est requis.',
+            'string' => 'Le nom du lieu de panne doit être du texte.',
+            'max' => 'Le nom du lieu de panne ne peut pas dépasser 255 caractères.',
+        ],
+        'malfunction_type' => [
+            'required' => 'Le type de problème est requis.',
+            'string' => 'Le type de problème doit être du texte.',
+            'in' => 'Veuillez sélectionner un type de problème valide.',
+        ],
+
+        // Messages de transport de marchandises
+        'pickup_point.longitude' => [
+            'required' => 'La longitude du lieu de ramassage est requise.',
+            'numeric' => 'La longitude du lieu de ramassage doit être un nombre.',
+            'between' => 'La longitude du lieu de ramassage doit être des coordonnées valides.',
+        ],
+        'pickup_point.latitude' => [
+            'required' => 'La latitude du lieu de ramassage est requise.',
+            'numeric' => 'La latitude du lieu de ramassage doit être un nombre.',
+            'between' => 'La latitude du lieu de ramassage doit être des coordonnées valides.',
+        ],
+        'pickup_point.name' => [
+            'required' => 'Le nom du lieu de ramassage est requis.',
+            'string' => 'Le nom du lieu de ramassage doit être du texte.',
+            'max' => 'Le nom du lieu de ramassage ne peut pas dépasser 255 caractères.',
+        ],
+        'delivery_point.longitude' => [
+            'required' => 'La longitude du lieu de livraison est requise.',
+            'numeric' => 'La longitude du lieu de livraison doit être un nombre.',
+            'between' => 'La longitude du lieu de livraison doit être des coordonnées valides.',
+        ],
+        'delivery_point.latitude' => [
+            'required' => 'La latitude du lieu de livraison est requise.',
+            'numeric' => 'La latitude du lieu de livraison doit être un nombre.',
+            'between' => 'La latitude du lieu de livraison doit être des coordonnées valides.',
+        ],
+        'delivery_point.name' => [
+            'required' => 'Le nom du lieu de livraison est requis.',
+            'string' => 'Le nom du lieu de livraison doit être du texte.',
+            'max' => 'Le nom du lieu de livraison ne peut pas dépasser 255 caractères.',
+        ],
+        'delivery_time' => [
+            'required' => 'L\'heure de livraison est requise.',
+            'date' => 'L\'heure de livraison doit être une date valide.',
+            'after' => 'L\'heure de livraison doit être dans le futur.',
+        ],
+        'cargo.description' => [
+            'required' => 'La description de la marchandise est requise.',
+            'string' => 'La description de la marchandise doit être du texte.',
+            'max' => 'La description de la marchandise ne peut pas dépasser 1000 caractères.',
+        ],
+        'cargo.weight' => [
+            'required' => 'Le poids de la marchandise est requis.',
+            'numeric' => 'Le poids de la marchandise doit être un nombre.',
+            'min' => 'Le poids de la marchandise doit être au moins 0,1 kg.',
+        ],
+        'cargo.images' => [
+            'array' => 'Les images de marchandise doivent être dans un format valide.',
+        ],
+        'cargo.images.*' => [
+            'image' => 'Chaque image de marchandise doit être une image valide.',
+            'mimes' => 'Les images de marchandise doivent être au format jpeg, png, jpg ou gif.',
+            'max' => 'Chaque image de marchandise ne doit pas dépasser 8MB.',
+        ],
+
+        // Messages de transport d'eau
+        'water_type' => [
+            'required' => 'Le type d\'eau est requis.',
+            'string' => 'Le type d\'eau doit être du texte.',
+            'in' => 'Veuillez sélectionner un type d\'eau valide.',
+        ],
+        'quantity' => [
+            'required' => 'La quantité est requise.',
+            'numeric' => 'La quantité doit être un nombre.',
+            'min' => 'La quantité doit être au moins 0,1.',
+        ],
+
+        // Messages de conduite payante
+        'starting_time' => [
+            'required' => 'L\'heure de départ est requise.',
+            'date' => 'L\'heure de départ doit être une date valide.',
+            'after' => 'L\'heure de départ doit être dans le futur.',
+        ],
+        'vehicle_type' => [
+            'required' => 'Le type de véhicule est requis.',
+            'string' => 'Le type de véhicule doit être du texte.',
+            'in' => 'Veuillez sélectionner un type de véhicule valide.',
+        ],
+
+        // Messages de voyage international
+        'direction' => [
+            'required' => 'La direction est requise.',
+            'string' => 'La direction doit être du texte.',
+            'in' => 'Veuillez sélectionner une direction valide.',
+        ],
+        'starting_place' => [
+            'required' => 'Le lieu de départ est requis.',
+            'string' => 'Le lieu de départ doit être du texte.',
+            'max' => 'Le lieu de départ ne peut pas dépasser 255 caractères.',
+        ],
+        'arrival_time' => [
+            'required' => 'L\'heure d\'arrivée est requise.',
+            'date' => 'L\'heure d\'arrivée doit être une date valide.',
+            'after' => 'L\'heure d\'arrivée doit être après l\'heure de départ.',
+        ],
+        'total_seats' => [
+            'required' => 'Le nombre total de sièges est requis.',
+            'integer' => 'Le nombre total de sièges doit être un nombre entier.',
+            'min' => 'Au moins 1 siège est requis.',
+            'max' => 'Ne peut pas dépasser 50 sièges.',
+        ],
+        'seat_price' => [
+            'required' => 'Le prix du siège est requis.',
+            'numeric' => 'Le prix du siège doit être un nombre.',
+            'min' => 'Le prix du siège ne peut pas être négatif.',
+        ],
+    ],
 ];

@@ -12,6 +12,7 @@ use App\Constants\TripStatus;
 use App\Traits\ApiResponseTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TripReviewResource;
+use App\Http\Requests\Api\TripReview\StoreTripReviewRequest;
 
 class TripReviewController extends Controller
 {
@@ -105,15 +106,9 @@ class TripReviewController extends Controller
         }
     }
 
-    public function store(Request $request)
+    public function store(StoreTripReviewRequest $request)
     {
-        $validated = $this->validateRequest($request, [
-            'trip_id' => 'required|exists:trips,id',
-            'reviewer_type' => 'required|in:driver,passenger',
-            'reviewee_id' => 'required|integer',
-            'rating' => 'required|integer|min:1|max:5',
-            'comment' => 'nullable|string'
-        ]);
+        $validated = $this->validateRequest($request);
 
         try {
             $user = auth()->user();
@@ -152,7 +147,7 @@ class TripReviewController extends Controller
                 if ($trip->driver_id !== $reviewer->id) {
                     throw new Exception('You are not the driver of this trip', 400);
                 }
-                
+
                 if ($trip->clients()->where(['client_type' => Passenger::class, 'client_id' => $reviewee->id])->doesntExist()) {
                     throw new Exception('Invalid reviewee for this trip', 400);
                 }

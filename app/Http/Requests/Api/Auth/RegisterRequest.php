@@ -32,4 +32,18 @@ class RegisterRequest extends FormRequest
   {
   }
 
+    public function messages(){
+        return [
+            'phone.required' => __('validation.custom.phone.required'),
+            'phone.string' => __('validation.custom.phone.string'),
+            'phone.regex' => __('validation.custom.phone.regex'),
+            'phone.unique' => __('validation.custom.phone.unique'),
+            'password.required' => __('validation.custom.password.required'),
+            'password.string' => __('validation.custom.password.string'),
+            'password.min' => __('validation.custom.password.min'),
+            'password.confirmed' => __('validation.custom.password.confirmed'),
+            'device_token.string' => __('validation.custom.device_token.string'),
+        ];
+    }
+
 }
