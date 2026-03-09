@@ -11,7 +11,7 @@ return new class extends Migration
     {
         Schema::create('lost_and_founds', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('passenger_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->text('description');
             $table->enum('status', LostAndFoundStatus::all())->default(LostAndFoundStatus::default());
             $table->timestamps();

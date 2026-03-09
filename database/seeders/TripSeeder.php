@@ -109,6 +109,13 @@ class TripSeeder extends Seeder
         $passenger2 = $passengers->where('first_name', 'Fatima')->first();
 
         if ($driver2 && $passenger2) {
+            $pickupLocation = Location::create([
+                'name' => 'Marche Central Alger',
+                'address' => 'Rue Abderrahmane Arbadji, Algiers',
+                'latitude' => 36.737305,
+                'longitude' => 3.086472,
+            ]);
+
             $deliveryLocation = Location::create([
                 'name' => 'Marche de Gros Boufarik',
                 'address' => 'Boufarik, Blida',
@@ -117,6 +124,7 @@ class TripSeeder extends Seeder
             ]);
 
             $cargoDetail = CargoTransportDetail::create([
+                'pickup_point_id' => $pickupLocation->id,
                 'delivery_point_id' => $deliveryLocation->id,
                 'delivery_time' => now()->addHours(3),
             ]);

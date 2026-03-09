@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Datatables\LostAndFoundDatatable;
 use App\Models\LostAndFound;
-use App\Models\Passenger;
+use App\Models\User;
 use App\Constants\LostAndFoundStatus;
 use App\Support\Enum\Permissions;
 use App\Traits\ImageUpload;
@@ -40,7 +40,7 @@ class LostAndFoundController extends Controller
         }
         
         return view('dashboard.lost-and-found.create')->with([
-            'passengers' => Passenger::all(),
+            'users' => User::has('passenger')->with('passenger')->get(),
             'statuses' => LostAndFoundStatus::all2(),
         ]);
     }
@@ -51,7 +51,7 @@ class LostAndFoundController extends Controller
             return redirect()->route('unauthorized');
         }
         
-        $lostAndFound = LostAndFound::with(['passenger.user', 'passenger.lostAndFounds'])->findOrFail($id);
+        $lostAndFound = LostAndFound::with(['user.passenger', 'user.lostAndFounds'])->findOrFail($id);
         
         return view('dashboard.lost-and-found.show')->with([
             'lostAndFound' => $lostAndFound,
@@ -66,7 +66,7 @@ class LostAndFoundController extends Controller
         
         return view('dashboard.lost-and-found.edit')->with([
             'lostAndFound' => LostAndFound::findOrFail($id),
-            'passengers' => Passenger::all(),
+            'users' => User::has('passenger')->with('passenger')->get(),
             'statuses' => LostAndFoundStatus::all2(),
         ]);
     }
@@ -78,7 +78,7 @@ class LostAndFoundController extends Controller
         }
         
         $data = $request->validate([
-            'passenger_id' => 'required|exists:passengers,id',
+            'user_id' => 'required|exists:users,id',
             'description' => 'required|string',
             'status' => 'required|in:' . implode(',', LostAndFoundStatus::all()),
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:8192',

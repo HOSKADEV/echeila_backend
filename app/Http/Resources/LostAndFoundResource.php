@@ -13,8 +13,9 @@ class LostAndFoundResource extends JsonResource
             'id' => $this->id,
             'description' => $this->description,
             'image' => $this->getFirstMediaUrl('image'),
+            'status' => $this->status,
             'created_at' => $this->created_at,
-            'passenger' => new PassengerResource($this->passenger)
+            'user' => new UserResource($this->user)
         ];
     }
 }

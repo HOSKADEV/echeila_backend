@@ -12,7 +12,6 @@ use App\Traits\ApiResponseTrait;
 use App\Traits\ImageUpload;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 class LostAndFoundController extends Controller
 {
@@ -24,8 +23,7 @@ class LostAndFoundController extends Controller
             $items = LostAndFound::query()
                 ->when($request->filled('status'), fn($q) => $q->where('status', $request->status))
                 ->when(!$request->filled('status'), fn($q) => $q->where('status', LostAndFoundStatus::FOUND))
-                ->when($request->filled('user_id'), fn($q) => $q->whereHas('passenger', fn($q) => $q->where('user_id', $request->user_id)))
-                ->when(!$request->filled('user_id'), fn($q) => $q->whereHas('passenger', fn($q) => $q->whereNot('user_id', $request->user_id)))
+                ->when($request->filled('user_id'), fn($q) => $q->where('user_id', $request->user_id))
                 ->when($request->filled('search'), fn($q) => $q->where('description', 'like', '%' . $request->search . '%'))
                 ->latest()
                 ->paginate(10);
@@ -44,13 +42,7 @@ class LostAndFoundController extends Controller
 
             $user = auth()->user();
 
-            $passenger = $user->passenger;
-
-            if (!$passenger) {
-                throw new Exception('Passenger profile not found', 404);
-            }
-
-            $item = $passenger->lostAndFounds()->create([
+            $item = $user->lostAndFounds()->create([
                 'description' => $validated['description'],
             ]);
 
@@ -67,13 +59,8 @@ class LostAndFoundController extends Controller
     {
         try {
             $user = auth()->user();
-            $passenger = $user->passenger;
 
-            if (!$passenger) {
-                throw new Exception('Passenger profile not found', 404);
-            }
-
-            if ($lostAndFound->passenger_id !== $passenger->id) {
+            if ($lostAndFound->user_id !== $user->id) {
                 throw new Exception('Unauthorized', 403);
             }
 
@@ -99,13 +86,8 @@ class LostAndFoundController extends Controller
     {
         try {
             $user = auth()->user();
-            $passenger = $user->passenger;
 
-            if (!$passenger) {
-                throw new Exception('Passenger profile not found', 404);
-            }
-
-            if ($lostAndFound->passenger_id !== $passenger->id) {
+            if ($lostAndFound->user_id !== $user->id) {
                 throw new Exception('Unauthorized', 403);
             }
 
