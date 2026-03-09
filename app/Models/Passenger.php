@@ -56,6 +56,11 @@ class Passenger extends Model implements HasMedia
         return $this->reviewsReceived()->avg('rating') ?? 0;
     }
 
+    public function getTripsCountAttribute()
+    {
+        return $this->trips()->count();
+    }
+
     public function trips()
     {
         // Get trips where passenger is a trip client

@@ -165,6 +165,8 @@ Route::prefix('v1')->group(function () {
     Route::prefix('lost-and-found')->group(function () {
       Route::get('/', [LostAndFoundController::class, 'index']);
       Route::post('/', [LostAndFoundController::class, 'store']);
+      Route::post('/{lostAndFound}', [LostAndFoundController::class, 'update']);
+      Route::delete('/{lostAndFound}', [LostAndFoundController::class, 'destroy']);
     });
 
     // Trip Review routes
