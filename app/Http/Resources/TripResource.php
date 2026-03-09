@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Constants\TripStatus;
 use App\Constants\TripType;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -28,6 +29,14 @@ class TripResource extends JsonResource
 
             // Include available seats if calculated (for available trips API)
             'available_seats' => $this->when(isset($this->available_seats), $this->available_seats),
+
+            // Include cancellation info when trip is canceled
+            'cancellation' => $this->when($this->status === TripStatus::CANCELED, [
+                'cancellation_reason'       => $this->cancellation_reason,
+                'cancellation_note'         => $this->cancellation_note,
+                'canceled_by_type'          => $this->canceled_by_type,
+                'canceled_by_id'            => $this->canceled_by_id,
+            ]),
 
             // Include details using polymorphic relationship with dedicated resources
             'details' => $this->when($this->detailable, function () {

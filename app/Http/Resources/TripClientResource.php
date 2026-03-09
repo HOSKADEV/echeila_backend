@@ -27,6 +27,10 @@ class TripClientResource extends JsonResource
             'number_of_seats' => $this->number_of_seats,
             'total_fees' => $this->total_fees,
             'note' => $this->note,
+            'trip_count' => $this->when(
+                $this->client_type == Passenger::class,
+                fn() => $this->client?->trip_count
+            ),
             //'created_at' => $this->created_at,
             //'updated_at' => $this->updated_at,
 

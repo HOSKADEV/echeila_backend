@@ -23,7 +23,7 @@
     <div class="row">
       <!-- Left Column - Trip Card -->
       <div class="col-xl-4 col-lg-5 mb-4">
-        <div class="card shadow-sm">
+        <div class="card shadow-sm mb-4">
           <div class="card-body">
             <!-- Trip Status Badge -->
             <div class="text-center mb-4">
