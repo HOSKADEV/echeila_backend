@@ -24,6 +24,7 @@ class LostAndFoundController extends Controller
                 ->when($request->filled('status'), fn($q) => $q->where('status', $request->status))
                 ->when(!$request->filled('status'), fn($q) => $q->where('status', LostAndFoundStatus::FOUND))
                 ->when($request->filled('user_id'), fn($q) => $q->where('user_id', $request->user_id))
+                ->when(!$request->filled('user_id'), fn($q) => $q->whereNot('user_id', $request->user_id))
                 ->when($request->filled('search'), fn($q) => $q->where('description', 'like', '%' . $request->search . '%'))
                 ->latest()
                 ->paginate(10);
