@@ -91,6 +91,25 @@ return [
     'filter_by_driver' => 'تصفية حسب السائق',
     'filter_by_passenger' => 'تصفية حسب الراكب',
 
+    // Cancellation
+    'cancellation_info'   => 'معلومات الإلغاء',
+    'canceled_by'         => 'ألغى بواسطة',
+    'cancellation_reason' => 'سبب الإلغاء',
+    'cancellation_note'   => 'ملاحظة الإلغاء',
+    'cancellation_reasons' => [
+        'passenger_no_show'     => 'لم يحضر الراكب',
+        'wrong_pickup_location' => 'موقع استلام خاطئ',
+        'vehicle_malfunction'   => 'عطل في المركبة',
+        'traffic'               => 'ازدحام مروري',
+        'emergency'             => 'طارئ',
+        'driver_late'           => 'السائق متأخر',
+        'changed_mind'          => 'غيّرت رأيي',
+        'found_another_way'     => 'وجدت طريقة أخرى',
+        'unsuitable_price'      => 'السعر غير مناسب',
+        'driver_no_contact'     => 'السائق لم يتصل بي',
+        'other'                 => 'أخرى',
+    ],
+
     // Trip Types
     'types' => [
         'taxi_ride' => 'ركوب تاكسي',

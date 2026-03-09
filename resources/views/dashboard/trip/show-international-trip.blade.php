@@ -127,6 +127,7 @@
             </div>
           </div>
         </div>
+        @include('dashboard.trip._partials.cancellation-info')
       </div>
 
       <!-- Right Column - Details & Data -->

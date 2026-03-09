@@ -80,6 +80,8 @@
         </div>
       </div>
 
+      @include('dashboard.trip._partials.cancellation-info')
+
       <!-- Reviews -->
       @if($trip->reviews && $trip->reviews->count() > 0)
       <div class="card mb-4">

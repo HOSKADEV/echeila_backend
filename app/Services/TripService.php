@@ -899,7 +899,14 @@ class TripService
     {
         return DB::transaction(function () use ($trip, $data, $tripType) {
             // Update main trip fields
-            $tripData = array_intersect_key($data, array_flip(['status', 'note']));
+            $tripData = array_intersect_key($data, array_flip([
+                'status',
+                'note',
+                'canceled_by_type',
+                'canceled_by_id',
+                'cancellation_reason',
+                'cancellation_note',
+            ]));
             if (!empty($tripData)) {
                 $trip->update($tripData);
             }

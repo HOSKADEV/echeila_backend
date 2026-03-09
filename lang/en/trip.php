@@ -103,6 +103,25 @@ return [
         'esp_trip' => 'Spain Trip',
     ],
 
+    // Cancellation
+    'cancellation_info'   => 'Cancellation Information',
+    'canceled_by'         => 'Canceled By',
+    'cancellation_reason' => 'Cancellation Reason',
+    'cancellation_note'   => 'Cancellation Note',
+    'cancellation_reasons' => [
+        'passenger_no_show'   => 'Passenger did not show up',
+        'wrong_pickup_location' => 'Wrong pick-up location',
+        'vehicle_malfunction' => 'Vehicle malfunction',
+        'traffic'             => 'Traffic',
+        'emergency'           => 'Emergency',
+        'driver_late'         => 'Driver is late',
+        'changed_mind'        => 'Changed my mind',
+        'found_another_way'   => 'Found another way',
+        'unsuitable_price'    => 'Unsuitable price',
+        'driver_no_contact'   => 'Driver did not contact me',
+        'other'               => 'Other',
+    ],
+
     // Trip Status
     'statuses' => [
         'pending' => 'Pending',

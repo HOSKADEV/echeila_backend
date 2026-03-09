@@ -26,6 +26,10 @@ class Trip extends Model
         'metadata',
         'detailable_id',
         'detailable_type',
+        'canceled_by_type',
+        'canceled_by_id',
+        'cancellation_reason',
+        'cancellation_note',
     ];
 
     protected $casts = [

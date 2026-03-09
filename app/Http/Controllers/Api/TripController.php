@@ -15,6 +15,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\TripResource;
 use App\Constants\NotificationMessages;
 use App\Notifications\NewMessageNotification;
+use App\Constants\UserType;
 use App\Http\Requests\Api\Trip\CreateTripRequest;
 use App\Http\Requests\Api\Trip\UpdateTripRequest;
 use App\Http\Requests\Api\Trip\AvailableTripsRequest;
@@ -200,21 +201,44 @@ class TripController extends Controller
     public function update(UpdateTripRequest $request, $id): JsonResponse
     {
         try {
-            $user = auth()->user();
-            $driver = $user->driver;
-            $trip = Trip::findOrFail($id);
+            $user      = auth()->user();
+            $driver    = $user->driver;
+            $passenger = $user->passenger;
+            $trip      = Trip::findOrFail($id);
 
-            if (!$driver) {
-                throw new Exception('Driver profile not found');
-            }
+            $isDriver    = $driver && $trip->driver_id === $driver->id;
+            $isPassenger = $passenger && $trip->passenger?->id === $passenger->id;
 
-            // Verify the driver owns this trip
-            if ($trip->driver_id !== $driver->id) {
+            if (!$isDriver && !$isPassenger) {
                 throw new Exception('Unauthorized to update this trip', 403);
             }
 
-            $validated = $this->validateRequest($request);
+            $validated   = $this->validateRequest($request);
+            $isCanceling = ($validated['status'] ?? null) === TripStatus::CANCELED;
+
+            // Validate cancellation reason belongs to the correct group
+            if ($isCanceling) {
+                $reason = $validated['cancellation_reason'] ?? null;
+                if ($isPassenger && !$isDriver && $reason && !in_array($reason, CancellationReason::passengerReasons())) {
+                    throw new Exception('Invalid cancellation reason for passenger', 422);
+                }
+                if ($isDriver && $reason && !in_array($reason, CancellationReason::driverReasons())) {
+                    throw new Exception('Invalid cancellation reason for driver', 422);
+                }
+            }
+
             $tripType = $trip->type;
+
+            // Attach actor identity when canceling
+            if ($isCanceling) {
+                if ($isDriver) {
+                    $validated['canceled_by_type'] = UserType::DRIVER;
+                    $validated['canceled_by_id']   = $driver->id;
+                } else {
+                    $validated['canceled_by_type'] = UserType::PASSENGER;
+                    $validated['canceled_by_id']   = $passenger->id;
+                }
+            }
 
             // For international trips, check if details can be updated
             if (in_array($tripType, [TripType::MRT_TRIP, TripType::ESP_TRIP])) {
@@ -237,19 +261,27 @@ class TripController extends Controller
 
             $updatedTrip = $this->tripService->updateTrip($trip, $validated, $tripType);
 
-            // Notify passenger of status change for non-international trips
+            // Send status-change notifications for non-international trips
             if ($updatedTrip->wasChanged('status') && !in_array($tripType, [TripType::MRT_TRIP, TripType::ESP_TRIP])) {
                 try {
-                    $updatedTrip->client?->client?->user?->notify(new NewMessageNotification(
-                        match($updatedTrip->status) {
-                            TripStatus::CANCELED => NotificationMessages::TRIP_CANCELLED,
-                            TripStatus::ONGOING => NotificationMessages::TRIP_ONGOING,
-                            TripStatus::COMPLETED => NotificationMessages::TRIP_COMPLETED,
-                        },
-                        ['trip_id' => $updatedTrip->id, 'new_status' => $updatedTrip->status]
-                    ));
+                    if ($isPassenger && !$isDriver) {
+                        // Passenger canceled → notify the driver
+                        $updatedTrip->driver?->user?->notify(new NewMessageNotification(
+                            NotificationMessages::TRIP_CANCELLED,
+                            ['trip_id' => $updatedTrip->id, 'new_status' => $updatedTrip->status]
+                        ));
+                    } else {
+                        // Driver changed status → notify the passenger
+                        $updatedTrip->client?->client?->user?->notify(new NewMessageNotification(
+                            match($updatedTrip->status) {
+                                TripStatus::CANCELED  => NotificationMessages::TRIP_CANCELLED,
+                                TripStatus::ONGOING   => NotificationMessages::TRIP_ONGOING,
+                                TripStatus::COMPLETED => NotificationMessages::TRIP_COMPLETED,
+                            },
+                            ['trip_id' => $updatedTrip->id, 'new_status' => $updatedTrip->status]
+                        ));
+                    }
                 } catch (Exception $notificationException) {
-                    // Log the error but don't fail the trip update
                     Log::warning('Failed to send notification: ' . $notificationException->getMessage());
                 }
             }
@@ -334,4 +366,5 @@ class TripController extends Controller
             return $this->errorResponse($e->getMessage(), $e->getCode());
         }
     }
+
 }

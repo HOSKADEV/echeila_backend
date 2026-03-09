@@ -9,6 +9,7 @@ use App\Constants\WaterType;
 use App\Constants\Direction;
 use App\Constants\VehicleType;
 use App\Constants\MalfunctionType;
+use App\Constants\CancellationReason;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -22,20 +23,21 @@ class UpdateTripRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => ['nullable', 'string', Rule::in(TripStatus::all())],
-            'note' => 'nullable|string|max:1000',
-            'metadata' => 'nullable|array',
-            'direction' => ['nullable', 'string', Rule::in(Direction::all())],
-            'starting_place' => 'nullable|string|max:255',
-            'starting_time' => 'nullable|date|after:now',
-            'arrival_time' => 'nullable|date|after:starting_time',
-            'total_seats' => 'nullable|integer|min:1|max:50',
-            'seat_price' => 'nullable|numeric|min:0',
+            'status'              => ['nullable', 'string', Rule::in(TripStatus::all())],
+            'note'                => 'nullable|string|max:1000',
+            'metadata'            => 'nullable|array',
+            'direction'           => ['nullable', 'string', Rule::in(Direction::all())],
+            'starting_place'      => 'nullable|string|max:255',
+            'starting_time'       => 'nullable|date|after:now',
+            'arrival_time'        => 'nullable|date|after:starting_time',
+            'total_seats'         => 'nullable|integer|min:1|max:50',
+            'seat_price'          => 'nullable|numeric|min:0',
+            'cancellation_reason' => ['nullable', 'string', Rule::in(CancellationReason::all()), 'required_if:status,' . TripStatus::CANCELED],
+            'cancellation_note'   => ['nullable', 'string', 'max:1000', 'required_if:cancellation_reason,' . CancellationReason::OTHER],
         ];
-
     }
 
-        public function validateResolved()
+    public function validateResolved()
     {
     }
 
