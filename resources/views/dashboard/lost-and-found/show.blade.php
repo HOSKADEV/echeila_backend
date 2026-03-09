@@ -86,37 +86,42 @@
         </div>
       </div>
 
-      <!-- Right Column - Passenger Info -->
+              <!-- Right Column - Finder Info -->
       <div class="col-xl-8 col-lg-7">
-        <!-- Passenger Card -->
+        <!-- Finder Card -->
         <div class="row g-3 mb-4">
           <div class="col-12">
             <div class="card shadow-sm">
               <div class="card-body">
                 <div class="d-flex align-items-center justify-content-between mb-3">
-                  <h6 class="mb-0">{{ __('lost_and_found.passenger_information') }}</h6>
-                  @if($lostAndFound->passenger)
-                    <a href="{{ route('passengers.show', $lostAndFound->passenger->user_id) }}" class="btn btn-sm btn-label-primary">
+                  <h6 class="mb-0">{{ __('lost_and_found.finder_information') }}</h6>
+                  @if($lostAndFound->finder)
+                    @php
+                      $profileRoute = $lostAndFound->finder_type === \App\Models\Passenger::class
+                          ? route('passengers.show', $lostAndFound->finder->user_id)
+                          : route('drivers.show', $lostAndFound->finder->user_id);
+                    @endphp
+                    <a href="{{ $profileRoute }}" class="btn btn-sm btn-label-primary">
                       <i class="bx bx-show me-1"></i>{{ __('lost_and_found.view_profile') }}
                     </a>
                   @endif
                 </div>
-                @if($lostAndFound->passenger)
+                @if($lostAndFound->finder)
                   <div class="d-flex align-items-center">
                     <img class="img-fluid rounded-circle me-3" 
-                         src="{{ $lostAndFound->passenger->avatar_url }}" 
+                         src="{{ $lostAndFound->finder->avatar_url }}" 
                          height="60" 
                          width="60" 
-                         alt="Passenger avatar"
+                         alt="Finder avatar"
                          style="object-fit: cover;" />
                     <div>
-                      <h6 class="mb-1">{{ $lostAndFound->passenger->fullname }}</h6>
+                      <h6 class="mb-1">{{ $lostAndFound->finder->fullname }}</h6>
                       <p class="text-muted small mb-1">
-                        <i class="bx bx-phone me-1"></i>{{ $lostAndFound->passenger->user->phone }}
+                        <i class="bx bx-phone me-1"></i>{{ $lostAndFound->finder->user->phone }}
                       </p>
-                      @if($lostAndFound->passenger->user->email)
+                      @if($lostAndFound->finder->user->email ?? null)
                         <p class="text-muted small mb-0">
-                          <i class="bx bx-envelope me-1"></i>{{ $lostAndFound->passenger->user->email }}
+                          <i class="bx bx-envelope me-1"></i>{{ $lostAndFound->finder->user->email }}
                         </p>
                       @endif
                     </div>

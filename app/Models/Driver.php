@@ -121,6 +121,11 @@ class Driver extends Model implements HasMedia
         return empty($image) ? asset('assets/img/avatars/1.png') : $image;
     }
 
+    public function lostAndFounds()
+    {
+        return $this->morphMany(LostAndFound::class, 'finder');
+    }
+
     public function adminActions()
     {
         return $this->morphMany(AdminAction::class, 'target');

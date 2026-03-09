@@ -59,11 +59,6 @@ class User extends Authenticatable
     return $this->hasOne(Wallet::class);
   }
 
-  public function lostAndFounds()
-  {
-    return $this->hasMany(LostAndFound::class);
-  }
-
   public function getTypeAttribute(){
     if($this->has('federation')){
       return UserType::FEDERATION;

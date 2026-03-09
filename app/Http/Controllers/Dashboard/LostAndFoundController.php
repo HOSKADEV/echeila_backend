@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Datatables\LostAndFoundDatatable;
+use App\Models\Driver;
 use App\Models\LostAndFound;
+use App\Models\Passenger;
 use App\Models\User;
 use App\Constants\LostAndFoundStatus;
 use App\Support\Enum\Permissions;
@@ -40,8 +42,9 @@ class LostAndFoundController extends Controller
         }
         
         return view('dashboard.lost-and-found.create')->with([
-            'users' => User::has('passenger')->with('passenger')->get(),
-            'statuses' => LostAndFoundStatus::all2(),
+            'passengers' => Passenger::all(),
+            'drivers'    => Driver::all(),
+            'statuses'   => LostAndFoundStatus::all2(),
         ]);
     }
 
@@ -51,7 +54,7 @@ class LostAndFoundController extends Controller
             return redirect()->route('unauthorized');
         }
         
-        $lostAndFound = LostAndFound::with(['user.passenger', 'user.lostAndFounds'])->findOrFail($id);
+        $lostAndFound = LostAndFound::with('finder')->findOrFail($id);
         
         return view('dashboard.lost-and-found.show')->with([
             'lostAndFound' => $lostAndFound,
@@ -65,9 +68,10 @@ class LostAndFoundController extends Controller
         }
         
         return view('dashboard.lost-and-found.edit')->with([
-            'lostAndFound' => LostAndFound::findOrFail($id),
-            'users' => User::has('passenger')->with('passenger')->get(),
-            'statuses' => LostAndFoundStatus::all2(),
+            'lostAndFound' => LostAndFound::with('finder')->findOrFail($id),
+            'passengers'   => Passenger::all(),
+            'drivers'      => Driver::all(),
+            'statuses'     => LostAndFoundStatus::all2(),
         ]);
     }
 
@@ -78,16 +82,23 @@ class LostAndFoundController extends Controller
         }
         
         $data = $request->validate([
-            'user_id' => 'required|exists:users,id',
+            'finder_type' => 'required|in:passenger,driver',
+            'finder_id'   => 'required|integer',
             'description' => 'required|string',
-            'status' => 'required|in:' . implode(',', LostAndFoundStatus::all()),
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:8192',
+            'status'      => 'required|in:' . implode(',', LostAndFoundStatus::all()),
+            'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:8192',
         ]);
 
         try {
             DB::beginTransaction();
 
-            $lostAndFound = LostAndFound::create($data);
+            $finderClass  = $data['finder_type'] === 'driver' ? Driver::class : Passenger::class;
+            $lostAndFound = LostAndFound::create([
+                'finder_type' => $finderClass,
+                'finder_id'   => $data['finder_id'],
+                'description' => $data['description'],
+                'status'      => $data['status'],
+            ]);
 
             if ($request->hasFile('image')) {
                 $this->uploadImageFromRequest($lostAndFound, $request, 'image');
@@ -111,15 +122,18 @@ class LostAndFoundController extends Controller
         
         $data = $request->validate([
             'description' => 'required|string',
-            'status' => 'required|in:' . implode(',', LostAndFoundStatus::all()),
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:8192',
+            'status'      => 'required|in:' . implode(',', LostAndFoundStatus::all()),
+            'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:8192',
         ]);
 
         try {
             DB::beginTransaction();
 
             $lostAndFound = LostAndFound::findOrFail($id);
-            $lostAndFound->update($data);
+            $lostAndFound->update([
+                'description' => $data['description'],
+                'status'      => $data['status'],
+            ]);
 
             if ($request->hasFile('image')) {
                 $lostAndFound->clearMediaCollection(LostAndFound::IMAGE);

@@ -56,7 +56,7 @@ class Passenger extends Model implements HasMedia
         return $this->reviewsReceived()->avg('rating') ?? 0;
     }
 
-    public function getTripsCountAttribute()
+    public function getTripCountAttribute()
     {
         return $this->trips()->count();
     }
@@ -84,7 +84,7 @@ class Passenger extends Model implements HasMedia
 
     public function lostAndFounds()
     {
-        return $this->hasMany(LostAndFound::class);
+        return $this->morphMany(LostAndFound::class, 'finder');
     }
 
     public function getFullnameAttribute()

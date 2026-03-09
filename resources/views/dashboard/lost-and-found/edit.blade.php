@@ -54,9 +54,9 @@
           <div class="card-body">
             <div class="row">
               <div class="mb-3 col-md-6">
-                <label for="passenger" class="form-label">{{ __('lost_and_found.passenger') }}</label>
-                <input type="text" class="form-control" id="passenger"
-                       value="{{ $lostAndFound->passenger->fullname ?? '-' }}" 
+                <label for="finder" class="form-label">{{ __('lost_and_found.passenger') }}</label>
+                <input type="text" class="form-control" id="finder"
+                       value="{{ $lostAndFound->finder ? $lostAndFound->finder->fullname : '-' }} ({{ $lostAndFound->finder_type === \App\Models\Passenger::class ? 'Passenger' : 'Driver' }})" 
                        disabled readonly>
                 <small class="text-muted">{{ __('lost_and_found.passenger_cannot_be_changed') }}</small>
               </div>

@@ -44,7 +44,7 @@ class LostAndFoundDatatable
                     return $this->thumbnailTitleMeta($imageUrl, $description, '');
                 })
                 ->addColumn('passenger', function ($model) {
-                    return $model->user && $model->user->passenger ? $model->user->passenger->fullname : '-';
+                    return $model->finder ? $model->finder->fullname : '-';
                 })
                 ->addColumn('status', function ($model) {
                     return $this->badge(
@@ -64,14 +64,15 @@ class LostAndFoundDatatable
 
     public function query($request)
     {
-        $query = LostAndFound::with('user.passenger');
+        $query = LostAndFound::with('finder');
 
         if ($request->status_filter) {
             $query->where('status', $request->status_filter);
         }
 
         if ($request->passenger_filter) {
-            $query->whereHas('user.passenger', fn($q) => $q->where('id', $request->passenger_filter));
+            $query->where('finder_type', \App\Models\Passenger::class)
+                  ->where('finder_id', $request->passenger_filter);
         }
 
         return $query->latest()->get();

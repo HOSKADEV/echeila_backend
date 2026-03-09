@@ -14,6 +14,7 @@ class StoreLostAndFoundRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'finder_type' => ['required', \Illuminate\Validation\Rule::in(['passenger', 'driver'])],
             'description' => 'required|string',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:8192',
         ];

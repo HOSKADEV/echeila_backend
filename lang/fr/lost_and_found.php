@@ -5,7 +5,7 @@ return [
     'lost_and_founds' => 'Articles Objets Trouvés',
     'item' => 'Article',
     'items' => 'Articles',
-    'passenger' => 'Passager',
+    'passenger' => 'Signalant',
     'description' => 'Description',
     'status' => 'Statut',
     'image' => 'Image',
@@ -22,9 +22,10 @@ return [
     'delete' => 'Supprimer l\'article objet trouvé',
     
     // Form Labels
-    'select_passenger' => 'Sélectionner un passager',
+    'select_passenger' => 'Sélectionner un signalant',
+    'select_finder_type' => 'Sélectionner le type de signalant',
     'select_status' => 'Sélectionner un statut',
-    'passenger_cannot_be_changed' => 'Le passager ne peut pas être modifié après la création',
+    'passenger_cannot_be_changed' => 'Le signalant ne peut pas être modifié après la création',
     'upload_image' => 'Télécharger une image',
     'no_image' => 'Aucune image disponible',
     
@@ -44,7 +45,8 @@ return [
     
     // Show Page
     'details' => 'Détails',
-    'passenger_information' => 'Informations du passager',
+    'finder_information' => 'Informations du signalant',
+    'passenger_information' => 'Informations du signalant',
     'view_profile' => 'Voir le profil',
     'view_image' => 'Voir l\'image',
     
@@ -57,10 +59,10 @@ return [
     // Filters
     'all_statuses' => 'Tous les statuts',
     'filter_by_status' => 'Filtrer par statut',
-    'filter_by_passenger' => 'Filtrer par passager',
+    'filter_by_passenger' => 'Filtrer par signalant',
     
     // Validation
-    'passenger_required' => 'Le passager est requis',
+    'passenger_required' => 'Le signalant est requis',
     'description_required' => 'La description est requise',
     'status_required' => 'Le statut est requis',
     'image_invalid' => 'L\'image doit être un fichier image valide',

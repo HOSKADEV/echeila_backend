@@ -5,7 +5,7 @@ return [
     'lost_and_founds' => 'Objetos perdidos',
     'item' => 'Objeto',
     'items' => 'Objetos',
-    'passenger' => 'Pasajero',
+    'passenger' => 'Informante',
     'description' => 'Descripción',
     'status' => 'Estado',
     'image' => 'Imagen',
@@ -22,9 +22,10 @@ return [
     'delete' => 'Eliminar objeto perdido',
     
     // Form Labels
-    'select_passenger' => 'Seleccionar pasajero',
+    'select_passenger' => 'Seleccionar informante',
+    'select_finder_type' => 'Seleccionar tipo de informante',
     'select_status' => 'Seleccionar estado',
-    'passenger_cannot_be_changed' => 'El pasajero no se puede cambiar después de la creación',
+    'passenger_cannot_be_changed' => 'El informante no se puede cambiar después de la creación',
     'upload_image' => 'Subir imagen',
     'no_image' => 'No hay imagen disponible',
     
@@ -44,7 +45,8 @@ return [
     
     // Show Page
     'details' => 'Detalles',
-    'passenger_information' => 'Información del pasajero',
+    'finder_information' => 'Información del informante',
+    'passenger_information' => 'Información del informante',
     'view_profile' => 'Ver perfil',
     'view_image' => 'Ver imagen',
     
@@ -57,10 +59,10 @@ return [
     // Filters
     'all_statuses' => 'Todos los estados',
     'filter_by_status' => 'Filtrar por estado',
-    'filter_by_passenger' => 'Filtrar por pasajero',
+    'filter_by_passenger' => 'Filtrar por informante',
     
     // Validation
-    'passenger_required' => 'El pasajero es obligatorio',
+    'passenger_required' => 'El informante es obligatorio',
     'description_required' => 'La descripción es obligatoria',
     'status_required' => 'El estado es obligatorio',
     'image_invalid' => 'La imagen debe ser un archivo de imagen válido',

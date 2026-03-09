@@ -5,7 +5,7 @@ return [
     'lost_and_founds' => 'Lost and Found Items',
     'item' => 'Item',
     'items' => 'Items',
-    'passenger' => 'Passenger',
+    'passenger' => 'Finder',
     'description' => 'Description',
     'status' => 'Status',
     'image' => 'Image',
@@ -22,9 +22,10 @@ return [
     'delete' => 'Delete Lost and Found Item',
     
     // Form Labels
-    'select_passenger' => 'Select Passenger',
+    'select_passenger' => 'Select Finder',
+    'select_finder_type' => 'Select Finder Type',
     'select_status' => 'Select Status',
-    'passenger_cannot_be_changed' => 'Passenger cannot be changed after creation',
+    'passenger_cannot_be_changed' => 'Finder cannot be changed after creation',
     'upload_image' => 'Upload Image',
     'no_image' => 'No Image Available',
     
@@ -44,7 +45,8 @@ return [
     
     // Show Page
     'details' => 'Details',
-    'passenger_information' => 'Passenger Information',
+    'finder_information' => 'Finder Information',
+    'passenger_information' => 'Finder Information',
     'view_profile' => 'View Profile',
     'view_image' => 'View Image',
     
@@ -57,10 +59,10 @@ return [
     // Filters
     'all_statuses' => 'All Statuses',
     'filter_by_status' => 'Filter by Status',
-    'filter_by_passenger' => 'Filter by Passenger',
+    'filter_by_passenger' => 'Filter by Finder',
     
     // Validation
-    'passenger_required' => 'Passenger is required',
+    'passenger_required' => 'Finder is required',
     'description_required' => 'Description is required',
     'status_required' => 'Status is required',
     'image_invalid' => 'Image must be a valid image file',

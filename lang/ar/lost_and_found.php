@@ -5,7 +5,7 @@ return [
     'lost_and_founds' => 'عناصر المفقودات والموجودات',
     'item' => 'عنصر',
     'items' => 'عناصر',
-    'passenger' => 'الراكب',
+    'passenger' => 'المُبلِّغ',
     'description' => 'الوصف',
     'status' => 'الحالة',
     'image' => 'الصورة',
@@ -22,9 +22,10 @@ return [
     'delete' => 'حذف عنصر المفقودات والموجودات',
     
     // Form Labels
-    'select_passenger' => 'اختر الراكب',
+    'select_passenger' => 'اختر المُبلِّغ',
+    'select_finder_type' => 'اختر نوع المُبلِّغ',
     'select_status' => 'اختر الحالة',
-    'passenger_cannot_be_changed' => 'لا يمكن تغيير الراكب بعد الإنشاء',
+    'passenger_cannot_be_changed' => 'لا يمكن تغيير المُبلِّغ بعد الإنشاء',
     'upload_image' => 'تحميل الصورة',
     'no_image' => 'لا توجد صورة متاحة',
     
@@ -44,7 +45,8 @@ return [
     
     // Show Page
     'details' => 'التفاصيل',
-    'passenger_information' => 'معلومات الراكب',
+    'finder_information' => 'معلومات المُبلِّغ',
+    'passenger_information' => 'معلومات المُبلِّغ',
     'view_profile' => 'عرض الملف الشخصي',
     'view_image' => 'عرض الصورة',
     
@@ -57,10 +59,10 @@ return [
     // Filters
     'all_statuses' => 'جميع الحالات',
     'filter_by_status' => 'تصفية حسب الحالة',
-    'filter_by_passenger' => 'تصفية حسب الراكب',
+    'filter_by_passenger' => 'تصفية حسب المُبلِّغ',
     
     // Validation
-    'passenger_required' => 'الراكب مطلوب',
+    'passenger_required' => 'المُبلِّغ مطلوب',
     'description_required' => 'الوصف مطلوب',
     'status_required' => 'الحالة مطلوبة',
     'image_invalid' => 'يجب أن تكون الصورة ملف صورة صالح',
