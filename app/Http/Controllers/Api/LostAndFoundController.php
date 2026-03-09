@@ -77,7 +77,7 @@ class LostAndFoundController extends Controller
                 throw new Exception('Unauthorized', 403);
             }
 
-            $validated = $request->validated();
+            $validated = $this->validateRequest($request);
 
             $lostAndFound->update([
                 'description' => $validated['description'] ?? null,
