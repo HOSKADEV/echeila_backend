@@ -15,7 +15,12 @@ class LostAndFoundResource extends JsonResource
             'image'       => $this->getFirstMediaUrl('image'),
             'status'      => $this->status,
             'finder_type' => $this->finder_type,
-            'finder'      => $this->whenLoaded('finder', fn() => new UserResource($this->finder->user)),
+            'finder'      => $this->whenLoaded('finder', fn() => [
+                'first_name' => $this->finder->first_name,
+                'last_name'  => $this->finder->last_name,
+                'phone'      => $this->finder->user->phone,
+                'image'      => $this->finder->getFirstMediaUrl('image'),
+            ]),
             'created_at'  => $this->created_at,
         ];
     }
