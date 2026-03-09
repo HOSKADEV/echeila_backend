@@ -70,7 +70,7 @@ class LostAndFoundController extends Controller
 
     public function store(StoreLostAndFoundRequest $request)
     {
-        $validated = $request->validated();
+        $validated = $this->validateRequest($request);
 
         try {
             $user  = auth()->user();
@@ -98,7 +98,7 @@ class LostAndFoundController extends Controller
                 throw new Exception('Unauthorized', 403);
             }
 
-            $validated = $request->validated();
+            $validated = $this->validateRequest($request);
 
             $lostAndFound->update([
                 'description' => $validated['description'] ?? $lostAndFound->description,
