@@ -2,23 +2,24 @@
 
 namespace App\Http\Controllers\Api;
 
-use Exception;
-use App\Models\Trip;
-use App\Constants\TripType;
-use Illuminate\Http\Request;
-use App\Constants\TripStatus;
-use App\Services\TripService;
-use App\Traits\ApiResponseTrait;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Log;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\TripResource;
+use App\Constants\CancellationReason;
 use App\Constants\NotificationMessages;
-use App\Notifications\NewMessageNotification;
+use App\Constants\TripStatus;
+use App\Constants\TripType;
 use App\Constants\UserType;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Trip\AvailableTripsRequest;
 use App\Http\Requests\Api\Trip\CreateTripRequest;
 use App\Http\Requests\Api\Trip\UpdateTripRequest;
-use App\Http\Requests\Api\Trip\AvailableTripsRequest;
+use App\Http\Resources\TripResource;
+use App\Models\Trip;
+use App\Notifications\NewMessageNotification;
+use App\Services\TripService;
+use App\Traits\ApiResponseTrait;
+use Exception;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class TripController extends Controller
 {
