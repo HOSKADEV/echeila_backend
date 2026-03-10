@@ -160,7 +160,7 @@ class UsersController extends Controller
         $permission = match ($request->input('type')) {
             'driver' => Permissions::DRIVER_CHANGE_USER_STATUS,
             'passenger' => Permissions::PASSENGER_CHANGE_USER_STATUS,
-            'federator' => Permissions::FEDERATION_CHANGE_USER_STATUS,
+            'federation' => Permissions::FEDERATION_CHANGE_USER_STATUS,
         };
         if (! auth()->user()->hasPermissionTo($permission)) {
             return redirect()->route('unauthorized');
@@ -202,7 +202,14 @@ class UsersController extends Controller
               ? __('user.activated_successfully')
               : __('user.suspended_successfully');
 
-            return redirect()->back()->with('success', $statusMessage);
+            if ($request->input('type') === 'driver') {
+                return redirect()->route('drivers.index')->with('success', __('app.wallet_charged_successfully'));
+            } elseif ($request->input('type') === 'passenger') {
+                return redirect()->route('passengers.index')->with('success', __('app.wallet_charged_successfully'));
+            }else {
+                return redirect()->route('federations.index')->with('success', $statusMessage);
+            }
+
         } catch (\Exception $e) {
             DB::rollBack();
 
@@ -260,7 +267,12 @@ class UsersController extends Controller
 
             DB::commit();
 
-            return redirect()->back()->with('success', __('app.wallet_charged_successfully'));
+            if ($request->input('type') === 'driver') {
+                return redirect()->route('drivers.index')->with('success', __('app.wallet_charged_successfully'));
+            } else {
+                return redirect()->route('passengers.index')->with('success', __('app.wallet_charged_successfully'));
+            }
+
         } catch (\Exception $e) {
             DB::rollBack();
 
@@ -322,7 +334,11 @@ class UsersController extends Controller
 
             DB::commit();
 
-            return redirect()->back()->with('success', __('app.withdrawal_completed_successfully'));
+                if ($request->input('type') === 'driver') {
+                    return redirect()->route('drivers.index')->with('success', __('app.withdrawn_successfully'));
+                } else {
+                    return redirect()->route('passengers.index')->with('success', __('app.withdrawn_successfully'));
+                }
         } catch (\Exception $e) {
             DB::rollBack();
 

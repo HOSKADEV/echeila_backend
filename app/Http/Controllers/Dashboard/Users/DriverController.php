@@ -113,7 +113,7 @@ class DriverController extends Controller
               ? __('driver.approved_successfully')
               : __('driver.denied_successfully');
 
-            return redirect()->back()->with('success', $statusMessage);
+            return redirect()->route('drivers.index')->with('success', $statusMessage);
         } catch (\Exception $e) {
             DB::rollBack();
 
@@ -176,7 +176,7 @@ class DriverController extends Controller
 
             DB::commit();
 
-            return redirect()->back()->with('success', __('app.subscription_purchased_successfully'));
+            return redirect()->route('drivers.index')->with('success', __('app.subscription_purchased_successfully'));
         } catch (\Exception $e) {
             DB::rollBack();
 
