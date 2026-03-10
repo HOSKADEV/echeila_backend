@@ -6,12 +6,21 @@ class UserType
   const DRIVER = 'driver';
   const FEDERATION = 'federation';
 
-  public static function all($translated = false):array
+  public static function all(): array
   {
     return [
-      self::PASSENGER => $translated ? __('constants.passenger') : self::PASSENGER,
-      self::DRIVER => $translated ? __('constants.driver') : self::DRIVER,
-      self::FEDERATION => $translated ? __('constants.federation') : self::FEDERATION,
+      self::PASSENGER,
+      self::DRIVER,
+      self::FEDERATION,
+    ];
+  }
+
+  public static function translated(): array
+  {
+    return [
+      self::PASSENGER => __('constants.passenger'),
+      self::DRIVER => __('constants.driver'),
+      self::FEDERATION => __('constants.federation'),
     ];
   }
 
@@ -47,9 +56,9 @@ class UserType
     return self::lists_arabic()[$type];
   }
 
-  public static function get_name(string $type):string
+  public static function get_name(string $type): string
   {
-    return self::all(true)[$type];
+    return self::translated()[$type];
   }
 
   public static function get_color(string $type):string

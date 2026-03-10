@@ -86,7 +86,9 @@ class DriverDatatable
             $query->where('status', $request->user_status_filter);
         }
         if ($request->federation_filter) {
-            $query->where('federation_id', $request->federation_filter);
+            $query->whereHas('driver', function ($q) use ($request) {
+                $q->where('federation_id', $request->federation_filter);
+            });
         }
         if ($request->driver_status_filter) {
             $query->whereHas('driver', function ($q) use ($request) {
@@ -94,6 +96,8 @@ class DriverDatatable
             });
         }
 
-        return $query->with(['driver.federation', 'driver.subscription', 'wallet'])->get();
+        return $query->with(['driver.federation', 'driver.subscription', 'wallet'])
+        ->withAggregate('driver', 'status')
+        ->orderBy('driver_status', 'DESC')->get();
     }
 }

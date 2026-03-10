@@ -31,7 +31,7 @@ class LostAndFoundController extends Controller
 
         return view('dashboard.lost-and-found.list')->with([
             'columns' => $lostAndFounds::columns(),
-            'statuses' => LostAndFoundStatus::all2(),
+            'statuses' => LostAndFoundStatus::translated(),
         ]);
     }
 
@@ -44,7 +44,7 @@ class LostAndFoundController extends Controller
         return view('dashboard.lost-and-found.create')->with([
             'passengers' => Passenger::all(),
             'drivers'    => Driver::all(),
-            'statuses'   => LostAndFoundStatus::all2(),
+            'statuses'   => LostAndFoundStatus::translated(),
         ]);
     }
 
@@ -71,7 +71,7 @@ class LostAndFoundController extends Controller
             'lostAndFound' => LostAndFound::with('finder')->findOrFail($id),
             'passengers'   => Passenger::all(),
             'drivers'      => Driver::all(),
-            'statuses'     => LostAndFoundStatus::all2(),
+            'statuses'     => LostAndFoundStatus::translated(),
         ]);
     }
 

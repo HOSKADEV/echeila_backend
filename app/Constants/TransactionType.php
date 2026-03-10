@@ -25,7 +25,7 @@ class TransactionType
         ];
     }
 
-    public static function all2(): array
+    public static function translated(): array
     {
         return [
             self::RESERVATION => __('constants.reservation'),
@@ -61,7 +61,7 @@ class TransactionType
 
     public static function get_name(string $type): string
     {
-        return self::all2()[$type];
+        return self::translated()[$type];
     }
 
     public static function get_color(string $type): string

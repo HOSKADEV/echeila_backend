@@ -190,6 +190,19 @@ class Permissions
         ];
     }
 
+    public static function all(): array
+    {
+        return array_values(self::lists());
+    }
+
+    public static function translated(): array
+    {
+        return array_combine(
+            self::all(),
+            array_map(fn(string $p) => self::get_permission_slug($p), self::all())
+        );
+    }
+
     public static function get_permission_slug($permission)
     {
         return __('permissions.' . $permission);

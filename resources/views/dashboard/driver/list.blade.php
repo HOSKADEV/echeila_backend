@@ -109,13 +109,13 @@
           'id' => 'user_status_filter',
           'name' => 'user_status_filter',
           'label' => __('driver.user_status'),
-          'options' => App\Constants\UserStatus::all(true),
+          'options' => App\Constants\UserStatus::translated(),
         ],
         [
           'id' => 'driver_status_filter',
           'name' => 'driver_status_filter',
           'label' => __('driver.driver_status'),
-          'options' => App\Constants\DriverStatus::all(true),
+          'options' => App\Constants\DriverStatus::translated(),
         ],
         [
           'id' => 'federation_filter',

@@ -25,13 +25,13 @@
           'id' => 'status_filter',
           'name' => 'status_filter',
           'label' => 'trip.status',
-          'options' => App\Constants\TripStatus::all2()
+          'options' => App\Constants\TripStatus::translated()
         ],
         [
           'id' => 'malfunction_type_filter',
           'name' => 'malfunction_type_filter',
           'label' => 'trip.malfunction_type',
-          'options' => App\Constants\MalfunctionType::all2()
+          'options' => App\Constants\MalfunctionType::translated()
         ],
       ]" />
     </div>

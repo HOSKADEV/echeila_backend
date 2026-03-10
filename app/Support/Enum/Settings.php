@@ -144,4 +144,17 @@ class Settings
       (app()->getLocale() == 'fr' ? self::permission_french_slugs()[$permission] :
         self::permission_slugs()[$permission]);
   }
+
+  public static function all(): array
+  {
+    return array_values(self::lists());
+  }
+
+  public static function translated(): array
+  {
+    return array_combine(
+        self::all(),
+        array_map(fn(string $s) => self::get_slug($s), self::all())
+    );
+  }
 }

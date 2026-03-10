@@ -19,7 +19,7 @@ class UserStatus
         ];
     }
 
-    public static function all2():array
+    public static function translated(): array
     {
         return [
           self::ACTIVE => __('constants.active'),
@@ -49,7 +49,7 @@ class UserStatus
 
     public static function get_name(string $status):string
     {
-        return self::all2()[$status];
+        return self::translated()[$status];
     }
 
     public static function get_color(string $status):string

@@ -101,19 +101,19 @@
           'id' => 'user_type_filter',
           'name' => 'user_type_filter',
           'label' => 'user.type',
-          'options' => \App\Constants\UserType::all(true)
+          'options' => \App\Constants\UserType::translated()
         ],
         [
           'id' => 'user_role_filter',
           'name' => 'user_role_filter',
           'label' => 'app.role',
-          'options' => \App\Support\Enum\Roles::all(true)
+          'options' => \App\Support\Enum\Roles::translated()
         ],
         [
           'id' => 'user_status_filter',
           'name' => 'user_status_filter',
           'label' => 'user.status',
-          'options' => \App\Constants\UserStatus::all(true)
+          'options' => \App\Constants\UserStatus::translated()
         ]
       ]" />
     </div>

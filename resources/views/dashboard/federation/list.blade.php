@@ -109,7 +109,7 @@
           'id' => 'user_status_filter',
           'name' => 'user_status_filter',
           'label' => __('federation.user_status'),
-          'options' => App\Constants\UserStatus::all(true),
+          'options' => App\Constants\UserStatus::translated(),
         ],
       ]" />
     </div>

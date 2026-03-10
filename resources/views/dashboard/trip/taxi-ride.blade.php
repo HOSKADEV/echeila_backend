@@ -25,14 +25,14 @@
           'id' => 'status_filter',
           'name' => 'status_filter',
           'label' => 'trip.status',
-          'options' => App\Constants\TripStatus::all2()
+          'options' => App\Constants\TripStatus::translated()
         ],
 
         [
           'id' => 'ride_type_filter',
           'name' => 'ride_type_filter',
           'label' => 'trip.ride_type',
-          'options' => App\Constants\RideType::all2()
+          'options' => App\Constants\RideType::translated()
         ],
       ]" />
     </div>

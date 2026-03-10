@@ -11,14 +11,25 @@ class DocumentationKey
   const delete_account = 'delete_account';
   const terms_of_use = 'terms_of_use';
   const safety = 'safety';
-  public static function all($translated = false):array
+  public static function all(): array
   {
     return [
-      self::about_us => $translated ? __('app.about_us') : 'about_us',
-      self::privacy_policy => $translated ? __('app.privacy_policy') : 'privacy_policy',
-      self::delete_account => $translated ? __('app.delete_account') : 'delete_account',
-      self::terms_of_use => $translated ? __('app.terms_of_use') : 'terms_of_use',
-      self::safety => $translated ? __('app.safety') : 'safety',
+      self::about_us,
+      self::privacy_policy,
+      self::delete_account,
+      self::terms_of_use,
+      self::safety,
+    ];
+  }
+
+  public static function translated(): array
+  {
+    return [
+      self::about_us => __('app.about_us'),
+      self::privacy_policy => __('app.privacy_policy'),
+      self::delete_account => __('app.delete_account'),
+      self::terms_of_use => __('app.terms_of_use'),
+      self::safety => __('app.safety'),
     ];
   }
 
@@ -43,9 +54,9 @@ class DocumentationKey
     return self::collection()->get($value);
   }
 
-  public static function get_name(string $value):string
+  public static function get_name(string $value): string
   {
-    return self::all(true)[$value];
+    return self::translated()[$value];
   }
 
   public static function get_color(string $value):string

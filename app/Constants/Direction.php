@@ -17,7 +17,7 @@ class Direction
         ];
     }
 
-    public static function all2(): array
+    public static function translated(): array
     {
         return [
             self::FROM => __('constants.from'),
@@ -45,7 +45,7 @@ class Direction
 
     public static function get_name(string $direction): string
     {
-        return self::all2()[$direction];
+        return self::translated()[$direction];
     }
 
     public static function get_color(string $direction): string

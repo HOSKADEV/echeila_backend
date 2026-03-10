@@ -5,11 +5,19 @@ class Roles
   const SUPER_ADMIN = 'super_admin';
   const ADMIN = 'admin';
 
-  public static function all($translated = false):array
+  public static function all(): array
   {
     return [
-      self::SUPER_ADMIN => $translated ? __('constants.super_admin') : self::SUPER_ADMIN,
-      self::ADMIN => $translated ? __('constants.admin') : self::ADMIN,
+      self::SUPER_ADMIN,
+      self::ADMIN,
+    ];
+  }
+
+  public static function translated(): array
+  {
+    return [
+      self::SUPER_ADMIN => __('constants.super_admin'),
+      self::ADMIN => __('constants.admin'),
     ];
   }
 
@@ -21,9 +29,9 @@ class Roles
     ];
   }
 
-  public static function get_name(string $role):string
+  public static function get_name(string $role): string
   {
-    return self::all(true)[$role];
+    return self::translated()[$role];
   }
 
   public static function get_color(string $role):string

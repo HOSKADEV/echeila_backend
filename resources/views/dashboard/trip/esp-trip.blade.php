@@ -25,7 +25,7 @@
           'id' => 'status_filter',
           'name' => 'status_filter',
           'label' => 'trip.status',
-          'options' => App\Constants\TripStatus::all(true)
+          'options' => App\Constants\TripStatus::translated()
         ],
 
         [

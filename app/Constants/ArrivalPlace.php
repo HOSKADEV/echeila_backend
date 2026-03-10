@@ -17,7 +17,7 @@ class ArrivalPlace
         ];
     }
 
-    public static function all2(): array
+    public static function translated(): array
     {
         return [
             self::MAURITANIA => __('constants.mauritania'),
@@ -45,7 +45,7 @@ class ArrivalPlace
 
     public static function get_name(string $place): string
     {
-        return self::all2()[$place];
+        return self::translated()[$place];
     }
 
     public static function get_color(string $place): string

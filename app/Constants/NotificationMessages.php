@@ -109,6 +109,36 @@ class NotificationMessages
         ];
     }
 
+    public static function all(): array
+    {
+        return [
+            self::ADMIN_NOTIFICATION,
+            self::SYSTEM_UPDATE,
+            self::USER_ACTIVATED,
+            self::USER_DEACTIVATED,
+            self::USER_BANNED,
+            self::DRIVER_PENDING,
+            self::DRIVER_APPROVED,
+            self::DRIVER_DENIED,
+            self::TRIP_PENDING,
+            self::TRIP_ACCEPTED,
+            self::TRIP_ONGOING,
+            self::TRIP_COMPLETED,
+            self::TRIP_CANCELLED,
+            self::TRANSACTION_RESERVATION,
+            self::TRANSACTION_REFUND,
+            self::TRANSACTION_DEPOSIT,
+            self::TRANSACTION_WITHDRAW,
+            self::TRANSACTION_SUBSCRIPTION,
+            self::TRANSACTION_SERVICE,
+        ];
+    }
+
+    public static function translated(): array
+    {
+        return self::titles();
+    }
+
     public static function customNotifications(): array
     {
         return [

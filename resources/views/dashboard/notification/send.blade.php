@@ -56,7 +56,7 @@
               <div class="mb-3 col-md-4">
                 <label for="user_types[]" class="form-label">@lang('app.send_to')</label>
                 <select name="user_types[]" id="select2UserTypes" class="select2 form-select" multiple required>
-                  @foreach(\App\Constants\UserType::all(true) as $type => $label)
+                  @foreach(\App\Constants\UserType::translated() as $type => $label)
                     <option value="{{ $type }}" selected>{{ $label }}</option>
                   @endforeach
                 </select>

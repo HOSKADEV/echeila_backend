@@ -50,6 +50,14 @@ class CancellationReason
         return array_unique(array_merge(self::driverReasons(), self::passengerReasons()));
     }
 
+    public static function translated(): array
+    {
+        return array_combine(
+            self::all(),
+            array_map(fn(string $r) => __('trip.cancellation_reasons.' . $r), self::all())
+        );
+    }
+
     public static function get_name(string $reason): string
     {
         return __('trip.cancellation_reasons.' . $reason);

@@ -17,7 +17,7 @@ class RideType
         ];
     }
 
-    public static function all2(): array
+    public static function translated(): array
     {
         return [
             self::SHARED => __('constants.shared'),
@@ -45,7 +45,7 @@ class RideType
 
     public static function get_name(string $type): string
     {
-        return self::all2()[$type];
+        return self::translated()[$type];
     }
 
     public static function get_color(string $type): string

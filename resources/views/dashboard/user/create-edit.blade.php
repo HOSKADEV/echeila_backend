@@ -74,7 +74,7 @@
                     <label for="type" class="form-label">{{ __('user.type') }}</label>
                     <select name="type" class="form-select" id="type" required>
                       <option value="">{{ __('app.select_option') }}</option>
-                      @foreach(\App\Constants\UserType::all(true) as $key => $value)
+                      @foreach(\App\Constants\UserType::translated() as $key => $value)
                         <option
                           value="{{ $key }}" {{ old('type', $user->type ?? '') == $key ? 'selected' : '' }}>{{ $value }}</option>
                       @endforeach
@@ -111,7 +111,7 @@
             @php
               $adminOptions = array_merge(
                   ['' => __('app.select_option')],
-                  \App\Support\Enum\Roles::all()
+                  \App\Support\Enum\Roles::translated()
               );
             @endphp
 
