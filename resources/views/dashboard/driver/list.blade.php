@@ -172,6 +172,7 @@
     inputs='
     <input type="hidden" name="id" value="">
     <input type="hidden" name="status" value="banned">
+    <input type="hidden" name="type" value="driver">    
   '
     theme="danger"
     confirmationTitle="{{ __('user.suspend.confirmation') }}"
@@ -206,6 +207,7 @@
     inputs='
     <input type="hidden" name="id" value="">
     <input type="hidden" name="status" value="denied">
+    <input type="hidden" name="type" value="driver">
   '
     theme="warning"
     confirmationTitle="{{ __('driver.suspend.confirmation') }}"
@@ -467,12 +469,12 @@
       // Driver user status modal handlers
       $(document).on('click', '[data-bs-target="#user-status-activate-modal"]', function() {
         const userId = $(this).data('id');
-        $('#driver-user-activate-modal').find('input[name="id"]').val(userId);
+        $('#user-status-activate-modal').find('input[name="id"]').val(userId);
       });
 
       $(document).on('click', '[data-bs-target="#user-status-suspend-modal"]', function() {
         const userId = $(this).data('id');
-        $('#driver-user-suspend-modal').find('input[name="id"]').val(userId);
+        $('#user-status-suspend-modal').find('input[name="id"]').val(userId);
       });
 
       // Driver status modal handlers
