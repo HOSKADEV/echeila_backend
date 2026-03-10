@@ -31,6 +31,17 @@ return [
     'driver_status' => 'الحالة',
     'no_drivers' => 'لا يوجد سائقون مسجلون',
     'joined_date' => 'تاريخ الانضمام',
+    'add_driver' => 'إضافة سائق',
+    'select_driver' => 'اختيار سائق',
+    'choose_driver' => 'تحديد سائق',
+    'select_driver_info' => 'اختر السائق الذي تريد إضافته إلى هذه الاتحادية.',
+    'add_driver_notice' => 'بمجرد الإضافة، سيصبح السائق مرتبطاً بهذه الاتحادية وسيظهر في قائمة سائقيها.',
+    'remove_driver' => 'إزالة السائق',
+    'remove_driver_confirmation' => 'إزالة السائق؟',
+    'remove_driver_notice' => 'هل أنت متأكد أنك تريد إزالة هذا السائق من الاتحادية؟',
+    'remove_driver_confirm_checkbox' => 'أؤكد أنني أريد إزالة هذا السائق من الاتحادية.',
+    'remove_driver_text' => 'إزالة السائق',
+    'driver_removed_successfully' => 'تمت إزالة السائق من الاتحادية بنجاح.',
 
     // Statistics
     'stats' => [

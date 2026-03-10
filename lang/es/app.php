@@ -9,6 +9,7 @@ return [
     'save' => 'Guardar',
     'update' => 'Actualizar',
     'cancel' => 'Cancelar',
+    'remove' => 'Eliminar',
     'confirm' => 'Confirmar',
     'filter' => 'Filtrar',
     'all' => 'Todos',

@@ -31,6 +31,17 @@ return [
     'driver_status' => 'Statut',
     'no_drivers' => 'Aucun conducteur enregistré',
     'joined_date' => 'Date d\'Inscription',
+    'add_driver' => 'Ajouter un Conducteur',
+    'select_driver' => 'Sélectionner un Conducteur',
+    'choose_driver' => 'Choisir un Conducteur',
+    'select_driver_info' => 'Sélectionnez le conducteur que vous souhaitez ajouter à cette fédération.',
+    'add_driver_notice' => 'Une fois ajouté, le conducteur sera associé à cette fédération et apparaîtra dans sa liste de conducteurs.',
+    'remove_driver' => 'Retirer le Conducteur',
+    'remove_driver_confirmation' => 'Retrait du Conducteur?',
+    'remove_driver_notice' => 'Êtes-vous sûr de vouloir retirer ce conducteur de la fédération ?',
+    'remove_driver_confirm_checkbox' => 'Je confirme que je souhaite retirer ce conducteur de la fédération.',
+    'remove_driver_text' => 'Retirer le conducteur',
+    'driver_removed_successfully' => 'Le conducteur a été retiré de la fédération avec succès.',
 
     // Statistics
     'stats' => [

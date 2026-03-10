@@ -178,7 +178,7 @@
               <div class="card-body">
                 <div class="d-flex align-items-center mb-2">
                   <div class="avatar me-2">
-                    <div class="avatar-initial bg-label-primary rounded">
+                    <div class="avatar-initial bg-label-blue rounded">
                       <i class="bx bx-group"></i>
                     </div>
                   </div>
@@ -395,7 +395,7 @@
   '
     theme="danger"
     confirmationTitle="{{ __('federation.remove_driver_confirmation') }}"
-    confirmationText='<span id="driver-name-placeholder"></span>'
+    confirmationText="{{ __('federation.remove_driver_notice') }}"
     checkboxLabel="{{ __('federation.remove_driver_confirm_checkbox') }}"
     submitLabel="{{ __('app.remove') }}"
     cancelLabel="{{ __('app.cancel') }}"

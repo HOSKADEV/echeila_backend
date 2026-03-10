@@ -31,6 +31,17 @@ return [
     'driver_status' => 'Status',
     'no_drivers' => 'No drivers registered',
     'joined_date' => 'Joined Date',
+    'add_driver' => 'Add Driver',
+    'select_driver' => 'Select Driver',
+    'choose_driver' => 'Choose Driver',
+    'select_driver_info' => 'Select the driver you want to add to this federation.',
+    'add_driver_notice' => 'Once added, the driver will be associated with this federation and will appear in its drivers list.',
+    'remove_driver' => 'Remove Driver',
+    'remove_driver_confirmation' => 'Remove Driver?',
+    'remove_driver_notice' => 'Are you sure you want to remove this driver from the federation?',
+    'remove_driver_confirm_checkbox' => 'I confirm that I want to remove this driver from the federation.',
+    'remove_driver_text' => 'Remove driver',
+    'driver_removed_successfully' => 'Driver has been removed from the federation successfully.',
 
     // Statistics
     'stats' => [

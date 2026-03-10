@@ -31,6 +31,17 @@ return [
     'driver_status' => 'Estado',
     'no_drivers' => 'No hay conductores registrados',
     'joined_date' => 'Fecha de registro',
+    'add_driver' => 'Agregar Conductor',
+    'select_driver' => 'Seleccionar Conductor',
+    'choose_driver' => 'Elegir Conductor',
+    'select_driver_info' => 'Seleccione el conductor que desea agregar a esta federación.',
+    'add_driver_notice' => 'Una vez agregado, el conductor quedará asociado a esta federación y aparecerá en su lista de conductores.',
+    'remove_driver' => 'Eliminar Conductor',
+    'remove_driver_confirmation' => 'Eliminación del Conductor?',
+    'remove_driver_notice' => '¿Está seguro de que desea eliminar este conductor de la federación?',
+    'remove_driver_confirm_checkbox' => 'Confirmo que deseo eliminar este conductor de la federación.',
+    'remove_driver_text' => 'Eliminar conductor',
+    'driver_removed_successfully' => 'El conductor ha sido eliminado de la federación exitosamente.',
 
     // Statistics
     'stats' => [
