@@ -67,6 +67,7 @@ class AdminActionDatatable
                     $targetName = '';
                     $targetMeta = '';
                     $targetAvatar = asset('assets/img/avatars/1.png');
+                    $targetUrl = '#';
                     
                     if ($model->target) {
                         $targetName = $model->target->fullname ?? 'N/A';
