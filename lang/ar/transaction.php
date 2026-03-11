@@ -26,5 +26,5 @@ return [
     'completed' => 'مكتملة',
     'pending' => 'قيد الانتظار',
     'failed' => 'فشلت',
-    'cancelled' => 'ملغاة',
+    'canceled' => 'ملغاة',
 ];

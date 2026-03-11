@@ -246,7 +246,7 @@ class TripClientController extends Controller
                 $trip->update(['status' => TripStatus::CANCELED]);
 
                 $notification = new NewMessageNotification(
-                            key: NotificationMessages::TRIP_CANCELLED,
+                            key: NotificationMessages::TRIP_CANCELED,
                             data: ['trip_id' => $trip->id]
                     );
 

@@ -128,6 +128,6 @@ return [
         'accepted' => 'Accepted',
         'ongoing' => 'Ongoing',
         'completed' => 'Completed',
-        'cancelled' => 'Cancelled',
+        'canceled' => 'Cancelled',
     ],
 ];

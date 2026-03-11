@@ -128,6 +128,6 @@ return [
         'accepted' => 'مقبولة',
         'ongoing' => 'قيد التنفيذ',
         'completed' => 'مكتملة',
-        'cancelled' => 'ملغاة',
+        'canceled' => 'ملغاة',
     ],
 ];

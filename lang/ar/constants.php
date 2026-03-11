@@ -43,7 +43,7 @@ return [
     'accepted' => 'مقبول',
     'ongoing' => 'جاري',
     'completed' => 'مكتمل',
-    'cancelled' => 'ملغي',
+    'canceled' => 'ملغي',
 
     // Vehicle Type
     'car' => 'سيارة',

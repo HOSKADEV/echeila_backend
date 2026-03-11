@@ -268,14 +268,14 @@ class TripController extends Controller
                     if ($isPassenger && !$isDriver) {
                         // Passenger canceled → notify the driver
                         $updatedTrip->driver?->user?->notify(new NewMessageNotification(
-                            NotificationMessages::TRIP_CANCELLED,
+                            NotificationMessages::TRIP_CANCELED,
                             ['trip_id' => $updatedTrip->id, 'new_status' => $updatedTrip->status]
                         ));
                     } else {
                         // Driver changed status → notify the passenger
                         $updatedTrip->client?->client?->user?->notify(new NewMessageNotification(
                             match($updatedTrip->status) {
-                                TripStatus::CANCELED  => NotificationMessages::TRIP_CANCELLED,
+                                TripStatus::CANCELED  => NotificationMessages::TRIP_CANCELED,
                                 TripStatus::ONGOING   => NotificationMessages::TRIP_ONGOING,
                                 TripStatus::COMPLETED => NotificationMessages::TRIP_COMPLETED,
                             },

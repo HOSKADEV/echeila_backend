@@ -109,6 +109,6 @@ return [
         'accepted' => 'Accepté',
         'ongoing' => 'En cours',
         'completed' => 'Terminé',
-        'cancelled' => 'Annulé',
+        'canceled' => 'Annulé',
     ],
 ];

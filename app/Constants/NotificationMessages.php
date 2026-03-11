@@ -25,7 +25,7 @@ class NotificationMessages
     const TRIP_ACCEPTED = 'trip_accepted';
     const TRIP_ONGOING = 'trip_ongoing';
     const TRIP_COMPLETED = 'trip_completed';
-    const TRIP_CANCELLED = 'trip_cancelled';
+    const TRIP_CANCELED = 'trip_canceled';
     
     // Transaction type notifications
     const TRANSACTION_RESERVATION = 'transaction_reservation';
@@ -60,7 +60,7 @@ class NotificationMessages
             self::TRIP_ACCEPTED => __('messages.titles.trip_accepted', [], $locale),
             self::TRIP_ONGOING => __('messages.titles.trip_ongoing', [], $locale),
             self::TRIP_COMPLETED => __('messages.titles.trip_completed', [], $locale),
-            self::TRIP_CANCELLED => __('messages.titles.trip_cancelled', [], $locale),
+            self::TRIP_CANCELED => __('messages.titles.trip_canceled', [], $locale),
             
             // Transaction types
             self::TRANSACTION_RESERVATION => __('messages.titles.transaction_reservation', [], $locale),
@@ -97,7 +97,7 @@ class NotificationMessages
             self::TRIP_ACCEPTED => __('messages.bodies.trip_accepted', $replace, $locale),
             self::TRIP_ONGOING => __('messages.bodies.trip_ongoing', $replace, $locale),
             self::TRIP_COMPLETED => __('messages.bodies.trip_completed', $replace, $locale),
-            self::TRIP_CANCELLED => __('messages.bodies.trip_cancelled', $replace, $locale),
+            self::TRIP_CANCELED => __('messages.bodies.trip_canceled', $replace, $locale),
             
             // Transaction types
             self::TRANSACTION_RESERVATION => __('messages.bodies.transaction_reservation', $replace, $locale),
@@ -124,7 +124,7 @@ class NotificationMessages
             self::TRIP_ACCEPTED,
             self::TRIP_ONGOING,
             self::TRIP_COMPLETED,
-            self::TRIP_CANCELLED,
+            self::TRIP_CANCELED,
             self::TRANSACTION_RESERVATION,
             self::TRANSACTION_REFUND,
             self::TRANSACTION_DEPOSIT,
