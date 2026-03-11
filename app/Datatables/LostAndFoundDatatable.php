@@ -19,7 +19,7 @@ class LostAndFoundDatatable
     {
         return [
             'item',
-            'passenger',
+            'finder',
             'status',
             'created_at',
             'actions',
@@ -43,8 +43,8 @@ class LostAndFoundDatatable
                     $description = Str::limit($model->description, 50);
                     return $this->thumbnailTitleMeta($imageUrl, $description, '');
                 })
-                ->addColumn('passenger', function ($model) {
-                    return $model->finder ? $model->finder->fullname : '-';
+                ->addColumn('finder', function ($model) {
+                    return $model->finder?->fullname ?? $model->finder?->user?->username ;
                 })
                 ->addColumn('status', function ($model) {
                     return $this->badge(

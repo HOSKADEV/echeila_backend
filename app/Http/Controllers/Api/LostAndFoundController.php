@@ -26,7 +26,7 @@ class LostAndFoundController extends Controller
             $user = auth()->user();
 
             $items = LostAndFound::query()
-                ->with('finder')
+                ->with('finder.user')
                 ->when($request->filled('status'), fn($q) => $q->where('status', $request->status))
                 ->when(!$request->filled('status'), fn($q) => $q->where('status', LostAndFoundStatus::FOUND))
                 ->when($request->boolean('mine'), function ($q) use ($user) {

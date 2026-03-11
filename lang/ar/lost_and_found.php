@@ -5,7 +5,7 @@ return [
     'lost_and_founds' => 'عناصر المفقودات والموجودات',
     'item' => 'عنصر',
     'items' => 'عناصر',
-    'passenger' => 'المُبلِّغ',
+    'finder' => 'المُبلِّغ',
     'description' => 'الوصف',
     'status' => 'الحالة',
     'image' => 'الصورة',

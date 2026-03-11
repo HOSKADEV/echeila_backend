@@ -16,6 +16,7 @@ class LostAndFoundResource extends JsonResource
             'status'      => $this->status,
             'finder_type' => $this->finder_type,
             'finder'      => $this->whenLoaded('finder', fn() => [
+                'username'   => $this->finder->user->username,
                 'first_name' => $this->finder->first_name,
                 'last_name'  => $this->finder->last_name,
                 'phone'      => $this->finder->user->phone,

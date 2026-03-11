@@ -5,7 +5,7 @@ return [
     'lost_and_founds' => 'Lost and Found Items',
     'item' => 'Item',
     'items' => 'Items',
-    'passenger' => 'Finder',
+    'finder' => 'Finder',
     'description' => 'Description',
     'status' => 'Status',
     'image' => 'Image',
