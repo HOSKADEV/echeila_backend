@@ -203,9 +203,9 @@ class UsersController extends Controller
               : __('user.suspended_successfully');
 
             if ($request->input('type') === 'driver') {
-                return redirect()->route('drivers.index')->with('success', __('app.wallet_charged_successfully'));
+                return redirect()->route('drivers.index')->with('success', $statusMessage);
             } elseif ($request->input('type') === 'passenger') {
-                return redirect()->route('passengers.index')->with('success', __('app.wallet_charged_successfully'));
+                return redirect()->route('passengers.index')->with('success', $statusMessage);
             }else {
                 return redirect()->route('federations.index')->with('success', $statusMessage);
             }
