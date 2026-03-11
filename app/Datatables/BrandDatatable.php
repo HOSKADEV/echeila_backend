@@ -43,6 +43,6 @@ class BrandDatatable
 
     public function query($request)
     {
-        return Brand::query()->get();
+        return Brand::query()->latest()->get();
     }
 }

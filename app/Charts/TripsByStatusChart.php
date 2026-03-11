@@ -23,7 +23,7 @@ class TripsByStatusChart
         $this->chart = $chart;
     }
 
-    public function build(): \ArielMejiaDev\LarapexCharts\DonutChart
+    public function build(): \ArielMejiaDev\LarapexCharts\PolarAreaChart
     {
         $statuses = TripStatus::all();
         $counts   = [];
@@ -37,7 +37,7 @@ class TripsByStatusChart
             $colors[] = self::COLOR_MAP[$bsColor] ?? '#6c757d';
         }
 
-        return $this->chart->donutChart()
+        return $this->chart->polarAreaChart()
             ->addData($counts)
             ->setLabels($labels)
             ->setColors($colors);

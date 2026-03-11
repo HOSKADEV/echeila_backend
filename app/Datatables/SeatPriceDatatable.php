@@ -65,6 +65,6 @@ class SeatPriceDatatable
             $query->where('arrival_wilaya_id', $request->arrival_wilaya_filter);
         }
 
-        return $query->get();
+        return $query->latest()->get();
     }
 }

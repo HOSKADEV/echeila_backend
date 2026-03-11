@@ -66,6 +66,6 @@ class PassengerDatatable
             $query->where('status', $request->user_status_filter);
         }
 
-        return $query->with(['passenger', 'wallet'])->get();
+        return $query->with(['passenger', 'wallet'])->latest()->get();
     }
 }

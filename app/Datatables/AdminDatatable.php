@@ -60,6 +60,6 @@ class AdminDatatable
             $query->role($request->role_filter);
         }
 
-        return $query->get();
+        return $query->latest()->get();
     }
 }

@@ -51,6 +51,6 @@ class WilayaDatatable
 
     public function query($request)
     {
-        return Wilaya::query()->get();
+        return Wilaya::query()->latest()->get();
     }
 }

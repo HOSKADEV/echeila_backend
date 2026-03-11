@@ -52,7 +52,7 @@ class RoleDatatable
   public function query($request)
   {
     $query =Role::query();
-    return $query->get();
+    return $query->latest()->get();
   }
 
 }

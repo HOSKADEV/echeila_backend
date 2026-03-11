@@ -52,6 +52,6 @@ class VehicleModelDatatable
         if($request->brand_filter){
             $query->where('brand_id', $request->brand_filter);
         }
-        return $query->get();
+        return $query->latest()->get();
     }
 }

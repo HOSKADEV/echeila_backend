@@ -70,6 +70,6 @@ class FederationDatatable
             $query->where('status', $request->user_status_filter);
         }
 
-        return $query->with(['federation', 'wallet'])->get();
+        return $query->with(['federation', 'wallet'])->latest()->get();
     }
 }

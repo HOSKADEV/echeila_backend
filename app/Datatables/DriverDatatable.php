@@ -98,6 +98,6 @@ class DriverDatatable
 
         return $query->with(['driver.federation', 'driver.subscription', 'wallet'])
         ->withAggregate('driver', 'status')
-        ->orderBy('driver_status', 'DESC')->get();
+        ->orderBy('driver_status', 'DESC')->latest()->get();
     }
 }

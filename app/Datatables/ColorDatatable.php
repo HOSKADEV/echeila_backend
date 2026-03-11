@@ -47,6 +47,6 @@ class ColorDatatable
 
     public function query($request)
     {
-        return Color::query()->get();
+        return Color::query()->latest()->get();
     }
 }

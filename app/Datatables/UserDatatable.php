@@ -89,7 +89,7 @@ class UserDatatable
       $query->role($request->user_role_filter);
     }
 
-    return $query->get();
+    return $query->latest()->get();
   }
 
 }
