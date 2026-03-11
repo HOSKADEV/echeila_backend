@@ -51,7 +51,7 @@ class DriverController extends Controller
         }
         $driver = Driver::with([
             'user.wallet.transactions',
-            'services',
+            'lostAndFounds',
             'subscription',
             'trips',
             'reviewsReceived',
@@ -63,7 +63,7 @@ class DriverController extends Controller
             'reviews_count' => $driver->reviewsReceived()->count(),
             'avg_rating' => $driver->reviewsReceived()->avg('rating') ?? 0,
             'transactions_count' => $driver->user->wallet->transactions()->count(),
-            'services_count' => $driver->services()->count(),
+            'lostandfounds_count' => $driver->lostAndFounds()->count(),
             'total_earned' => $driver->trips()->join('trip_clients', 'trips.id', '=', 'trip_clients.trip_id')
                 ->sum('trip_clients.total_fees'),
         ];

@@ -28,7 +28,7 @@ return [
     'avg_rating' => 'Average Rating',
     'total_reviews' => 'Total Reviews',
     'total_cards' => 'Total Cards',
-    'total_services' => 'Total Services',
+    'total_lostandfounds' => 'Total Lost & Founds',
     'total_transactions' => 'Total Transactions',
     'total_amount_earned' => 'Total Amount Earned',
 

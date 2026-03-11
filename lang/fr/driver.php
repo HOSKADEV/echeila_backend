@@ -28,7 +28,7 @@ return [
     'avg_rating' => 'Note Moyenne',
     'total_reviews' => 'Total des Avis',
     'total_cards' => 'Total des Cartes',
-    'total_services' => 'Total des Services',
+    'total_lostandfounds' => 'Total Objets Trouvés',
     'total_transactions' => 'Total des Transactions',
     'total_amount_earned' => 'Montant Total Gagné',
 

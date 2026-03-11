@@ -28,7 +28,7 @@ return [
     'avg_rating' => 'متوسط التقييم',
     'total_reviews' => 'إجمالي التقييمات',
     'total_cards' => 'إجمالي البطاقات',
-    'total_services' => 'إجمالي الخدمات',
+    'total_lostandfounds' => 'إجمالي المفقودات',
     'total_transactions' => 'إجمالي المعاملات',
     'total_amount_earned' => 'إجمالي المبلغ المكتسب',
 

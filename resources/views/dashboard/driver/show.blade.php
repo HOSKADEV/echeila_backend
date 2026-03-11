@@ -310,13 +310,13 @@
               <div class="card-body">
                 <div class="d-flex align-items-center mb-2">
                   <div class="avatar me-2">
-                    <div class="avatar-initial bg-label-warning rounded">
-                      <i class="bx bx-briefcase"></i>
+                    <div class="avatar-initial bg-label-danger rounded">
+                      <i class="bx bx-search"></i>
                     </div>
                   </div>
-                  <h5 class="mb-0">{{ $stats['services_count'] }}</h5>
+                  <h5 class="mb-0">{{ $stats['lostandfounds_count'] }}</h5>
                 </div>
-                <small class="text-muted">{{ __('driver.total_services') }}</small>
+                <small class="text-muted">{{ __('driver.total_lostandfounds') }}</small>
               </div>
             </div>
           </div>

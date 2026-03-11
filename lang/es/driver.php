@@ -28,7 +28,7 @@ return [
     'avg_rating' => 'Calificación promedio',
     'total_reviews' => 'Total de reseñas',
     'total_cards' => 'Total de tarjetas',
-    'total_services' => 'Total de servicios',
+    'total_lostandfounds' => 'Total de Objetos Perdidos',
     'total_transactions' => 'Total de transacciones',
     'total_amount_earned' => 'Total ganado',
 
