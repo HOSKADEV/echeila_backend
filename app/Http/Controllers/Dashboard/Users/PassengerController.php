@@ -51,6 +51,7 @@ $stats = [
     'cargos_count' => $passenger->cargos()->count(),
     'lost_and_founds_count' => $passenger->lostAndFounds()->count(),
     'total_spent' => $passenger->tripClients()->sum('total_fees'),
+    'transactions_count' => $passenger->user->wallet->transactions()->count(),
 ];
 
 $transactions = $passenger->user->wallet->transactions()->paginate(15);

@@ -27,6 +27,7 @@ return [
     'total_cargos' => 'إجمالي الشحنات',
     'total_lost_and_founds' => 'عناصر مفقودة ومعثور عليها',
     'total_amount_spent' => 'إجمالي المبلغ المنفق',
+    'total_transactions' => 'إجمالي المعاملات',
 
     // Tabs & Sections
     'recent_trips' => 'الرحلات الأخيرة',

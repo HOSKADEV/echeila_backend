@@ -162,21 +162,46 @@
 
       <!-- Right Column - Statistics & Data -->
       <div class="col-xl-8 col-lg-7">
-        <!-- Wallet Card -->
-        <div class="card shadow-sm mb-4">
-          <div class="card-body">
-            <div class="d-flex align-items-center justify-content-between">
-              <div>
-                <div class="d-flex align-items-center mb-2">
-                  <i class="bx bx-wallet text-success me-2" style="font-size: 1.5rem;"></i>
-                  <h6 class="mb-0">{{ __('passenger.wallet') }}</h6>
+        <!-- Wallet & Spent Cards -->
+        <div class="row g-3 mb-4">
+          <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+              <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between">
+                  <div>
+                    <div class="d-flex align-items-center mb-2">
+                      <i class="bx bx-wallet text-success me-2" style="font-size: 1.5rem;"></i>
+                      <h6 class="mb-0">{{ __('passenger.wallet') }}</h6>
+                    </div>
+                    <h3 class="mb-0 text-success fw-bold">{{ number_format($passenger->user->wallet->balance ?? 0, 2) }} {{ __('app.DZD') }}</h3>
+                    <small class="text-muted">{{ __('passenger.wallet_balance') }}</small>
+                  </div>
+                  <div class="avatar avatar-lg bg-label-success rounded">
+                    <div class="avatar-initial bg-label-success rounded">
+                      <i class="bx bx-wallet" style="font-size: 2rem;"></i>
+                    </div>
+                  </div>
                 </div>
-                <h3 class="mb-0 text-success fw-bold">{{ number_format($passenger->user->wallet->balance ?? 0, 2) }} {{ __('app.DZD') }}</h3>
-                <small class="text-muted">{{ __('passenger.wallet_balance') }}</small>
               </div>
-              <div class="avatar avatar-lg bg-label-success rounded">
-                <div class="avatar-initial bg-label-success rounded">
-                  <i class="bx bx-wallet" style="font-size: 2rem;"></i>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+              <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between">
+                  <div>
+                    <div class="d-flex align-items-center mb-2">
+                      <i class="bx bx-money text-danger me-2" style="font-size: 1.5rem;"></i>
+                      <h6 class="mb-0">{{ __('passenger.total_amount_spent') }}</h6>
+                    </div>
+                    <h3 class="mb-0 text-danger fw-bold">{{ number_format($stats['total_spent'], 2) }} {{ __('app.DZD') }}</h3>
+                    <small class="text-muted">{{ __('passenger.total_amount_spent') }}</small>
+                  </div>
+                  <div class="avatar avatar-lg bg-label-danger rounded">
+                    <div class="avatar-initial bg-label-danger rounded">
+                      <i class="bx bx-money" style="font-size: 2rem;"></i>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -205,13 +230,13 @@
               <div class="card-body">
                 <div class="d-flex align-items-center mb-2">
                   <div class="avatar me-2">
-                    <div class="avatar-initial bg-label-warning rounded">
-                      <i class="bx bx-package"></i>
+                    <div class="avatar-initial bg-label-info rounded">
+                      <i class="bx bx-transfer"></i>
                     </div>
                   </div>
-                  <h5 class="mb-0">{{ $stats['cargos_count'] }}</h5>
+                  <h5 class="mb-0">{{ $stats['transactions_count'] }}</h5>
                 </div>
-                <small class="text-muted">{{ __('passenger.total_cargos') }}</small>
+                <small class="text-muted">{{ __('passenger.total_transactions') }}</small>
               </div>
             </div>
           </div>
@@ -235,15 +260,13 @@
               <div class="card-body">
                 <div class="d-flex align-items-center mb-2">
                   <div class="avatar me-2">
-                    <div class="avatar-initial bg-label-success rounded">
-                      <i class="bx bx-money"></i>
+                    <div class="avatar-initial bg-label-warning rounded">
+                      <i class="bx bx-package"></i>
                     </div>
                   </div>
-                  <h5 class="mb-0 text-truncate" title="{{ number_format($stats['total_spent'], 2) }} {{ __('app.DZD') }}">
-                    {{ number_format($stats['total_spent'], 0) }} {{ __('app.DZD') }}
-                  </h5>
+                  <h5 class="mb-0">{{ $stats['cargos_count'] }}</h5>
                 </div>
-                <small class="text-muted">{{ __('passenger.total_amount_spent') }}</small>
+                <small class="text-muted">{{ __('passenger.total_cargos') }}</small>
               </div>
             </div>
           </div>

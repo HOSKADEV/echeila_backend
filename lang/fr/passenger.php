@@ -27,6 +27,7 @@ return [
     'total_cargos' => 'Total des Cargaisons',
     'total_lost_and_founds' => 'Objets Perdus et Trouvés',
     'total_amount_spent' => 'Montant Total Dépensé',
+    'total_transactions' => 'Total des Transactions',
 
     // Tabs & Sections
     'recent_trips' => 'Trajets Récents',
