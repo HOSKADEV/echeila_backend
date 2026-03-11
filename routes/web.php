@@ -29,6 +29,7 @@ use App\Http\Controllers\Dashboard\Permissions\PermissionsController;
 use App\Http\Controllers\Dashboard\Documentation\DocumentationController;
 use App\Http\Controllers\Dashboard\Notifications\NotificationsController;
 use App\Http\Controllers\Dashboard\AdminActionController;
+use App\Http\Controllers\Dashboard\DashboardController;
 
 // locale
 Route::get('/{locale}', function ($locale) {
@@ -64,9 +65,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('profile', [ProfileController::class, 'store'])->name('profile.store');
         Route::post('profile/update-password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
 
-        Route::get('/dashboard', function () {
-            return view('dashboard.index');
-        })->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
         Route::get('/', function () {
             return redirect()->route('dashboard');

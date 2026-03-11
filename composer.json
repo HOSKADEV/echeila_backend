@@ -9,6 +9,7 @@
   "license": "MIT",
   "require": {
     "php": "^8.4",
+    "arielmejiadev/larapex-charts": "^9.0",
     "intervention/image-laravel": "^1.5",
     "kreait/laravel-firebase": "^6.1",
     "laravel-lang/common": "^6.7",
