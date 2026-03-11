@@ -75,6 +75,6 @@ class LostAndFoundDatatable
                   ->where('finder_id', $request->passenger_filter);
         }
 
-        return $query->latest()->get();
+        return $query->orderByRaw("FIELD(status, 'found', 'returned')")->latest()->get();
     }
 }

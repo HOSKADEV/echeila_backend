@@ -101,6 +101,6 @@ class TripDatatable
             $query->whereDate('created_at', '<=', $request->date_to);
         }
 
-        return $query->latest()->get();
+        return $query->orderByRaw("FIELD(status, 'pending', 'ongoing', 'completed', 'canceled')")->latest()->get();
     }
 }

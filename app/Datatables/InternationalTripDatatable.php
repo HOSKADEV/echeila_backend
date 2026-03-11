@@ -144,6 +144,6 @@ class InternationalTripDatatable
         }
 
 
-        return $query->latest()->get();
+        return $query->orderByRaw("FIELD(status, 'pending', 'ongoing', 'completed', 'canceled')")->latest()->get();
     }
 }
