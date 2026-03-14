@@ -2,14 +2,16 @@
 
 namespace App\Datatables;
 
+use App\Services\FirestoreService;
 use App\Traits\DataTableActionsTrait;
 use App\Traits\FirebaseTrait;
 use Exception;
+use GPBMetadata\Google\Firestore\V1\Firestore;
 use Illuminate\Support\Facades\Log;
 
 class ZoneDatatable
 {
-    use DataTableActionsTrait, FirebaseTrait;
+    use DataTableActionsTrait;
 
     public static function columns(): array
     {
@@ -67,7 +69,16 @@ class ZoneDatatable
 
     public function query($request)
     {
-        $data = $this->getFirestoreData('zones');
+        $firstore = new FirestoreService();
+
+        $filters = [];
+        if ($request->has('type')) {
+            $filters[] = ['field' => 'type', 'operator' => '==', 'value' => $request->input('type')];
+        }
+        if ($request->has('isActive')) {
+            $filters[] = ['field' => 'isActive', 'operator' => '==', 'value' => boolval($request->input('isActive'))];
+        }
+        $data = $firstore->get('zones', filters: $filters);
         return collect($data);
     }
 }

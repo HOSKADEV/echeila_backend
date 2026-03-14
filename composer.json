@@ -11,8 +11,7 @@
     "php": "^8.4",
     "ext-gd": "*",
     "arielmejiadev/larapex-charts": "^9.0",
-    "google/cloud": "^0.322.0",
-    "google/cloud-firestore": "*",
+    "google/cloud-firestore": "^1.55",
     "intervention/image-laravel": "^1.5",
     "kreait/laravel-firebase": "^6.1",
     "laravel-lang/common": "^6.7",
@@ -23,6 +22,7 @@
     "spatie/laravel-permission": "^6.17",
     "spatie/laravel-translatable": "^6.11",
     "stichoza/google-translate-php": "^5.3",
+    "svk/yc-grpc-injector": "^0.0.1",
     "twilio/sdk": "^8.10",
     "yajra/laravel-datatables": "^12.0",
     "yajra/laravel-datatables-oracle": "^12.2"
