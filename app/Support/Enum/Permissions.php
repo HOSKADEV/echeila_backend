@@ -46,6 +46,12 @@ class Permissions
     const WILAYA_UPDATE = 'wilaya_update';
     const WILAYA_DELETE = 'wilaya_delete';
 
+    // Zone permissions
+    const ZONE_INDEX = 'zone_index';
+    const ZONE_CREATE = 'zone_create';
+    const ZONE_UPDATE = 'zone_update';
+    const ZONE_DELETE = 'zone_delete';
+
     // Seat Price permissions
     const SEAT_PRICE_INDEX = 'seatPrice_index';
     const SEAT_PRICE_CREATE = 'seatPrice_create';
@@ -138,6 +144,12 @@ class Permissions
             self::WILAYA_CREATE => self::WILAYA_CREATE,
             self::WILAYA_UPDATE => self::WILAYA_UPDATE,
             self::WILAYA_DELETE => self::WILAYA_DELETE,
+
+            // Zone
+            self::ZONE_INDEX => self::ZONE_INDEX,
+            self::ZONE_CREATE => self::ZONE_CREATE,
+            self::ZONE_UPDATE => self::ZONE_UPDATE,
+            self::ZONE_DELETE => self::ZONE_DELETE,
             
             // Seat Price
             self::SEAT_PRICE_INDEX => self::SEAT_PRICE_INDEX,
@@ -257,6 +269,12 @@ class Permissions
                 self::WILAYA_CREATE,
                 self::WILAYA_UPDATE,
                 self::WILAYA_DELETE,
+            ],
+            'zone_management' => [
+                self::ZONE_INDEX,
+                self::ZONE_CREATE,
+                self::ZONE_UPDATE,
+                self::ZONE_DELETE,
             ],
             'seat_price_management' => [
                 self::SEAT_PRICE_INDEX,

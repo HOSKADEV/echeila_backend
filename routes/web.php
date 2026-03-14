@@ -1,35 +1,36 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\pages\MiscError;
 use App\Http\Controllers\Auth\ForgotPassword;
-use App\Http\Controllers\front_pages\Landing;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\pages\MiscComingSoon;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\pages\MiscNotAuthorized;
+use App\Http\Controllers\Dashboard\Admin\AdminController;
+use App\Http\Controllers\Dashboard\AdminActionController;
 use App\Http\Controllers\Dashboard\BrandController;
 use App\Http\Controllers\Dashboard\ColorController;
-use App\Http\Controllers\Dashboard\WilayaController;
-use App\Http\Controllers\pages\MiscUnderMaintenance;
-use App\Http\Controllers\Dashboard\ProfileController;
-use App\Http\Controllers\Dashboard\SeatPriceController;
-use App\Http\Controllers\Dashboard\Admin\AdminController;
-use App\Http\Controllers\Dashboard\Roles\RolesController;
-use App\Http\Controllers\Dashboard\Users\UsersController;
+use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Dashboard\Documentation\DocumentationController;
 use App\Http\Controllers\Dashboard\LostAndFoundController;
+use App\Http\Controllers\Dashboard\Notifications\NotificationsController;
+use App\Http\Controllers\Dashboard\Permissions\PermissionsController;
+use App\Http\Controllers\Dashboard\ProfileController;
+use App\Http\Controllers\Dashboard\Roles\RolesController;
+use App\Http\Controllers\Dashboard\SeatPriceController;
+use App\Http\Controllers\Dashboard\Settings\SettingController;
 use App\Http\Controllers\Dashboard\TripController;
 use App\Http\Controllers\Dashboard\Users\DriverController;
-use App\Http\Controllers\Dashboard\VehicleModelController;
-use App\Http\Controllers\Dashboard\Users\PassengerController;
-use App\Http\Controllers\Dashboard\Settings\SettingController;
 use App\Http\Controllers\Dashboard\Users\FederationController;
-use App\Http\Controllers\Dashboard\Permissions\PermissionsController;
-use App\Http\Controllers\Dashboard\Documentation\DocumentationController;
-use App\Http\Controllers\Dashboard\Notifications\NotificationsController;
-use App\Http\Controllers\Dashboard\AdminActionController;
-use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Dashboard\Users\PassengerController;
+use App\Http\Controllers\Dashboard\Users\UsersController;
+use App\Http\Controllers\Dashboard\VehicleModelController;
+use App\Http\Controllers\Dashboard\WilayaController;
+use App\Http\Controllers\Dashboard\ZoneController;
+use App\Http\Controllers\front_pages\Landing;
+use App\Http\Controllers\pages\MiscComingSoon;
+use App\Http\Controllers\pages\MiscError;
+use App\Http\Controllers\pages\MiscNotAuthorized;
+use App\Http\Controllers\pages\MiscUnderMaintenance;
+use Illuminate\Support\Facades\Route;
 
 // locale
 Route::get('/{locale}', function ($locale) {
@@ -82,6 +83,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('admins', AdminController::class)->except(['show']);
         Route::resource('wilayas', WilayaController::class)->except(['show']);
         Route::resource('seat-prices', SeatPriceController::class)->except(['show']);
+        Route::resource('zones', ZoneController::class)->except(['show']);
         Route::resource('brands', BrandController::class)->except(['show']);
         Route::resource('vehicle-models', VehicleModelController::class)->except(['show']);
         Route::resource('colors', ColorController::class)->except(['show']);

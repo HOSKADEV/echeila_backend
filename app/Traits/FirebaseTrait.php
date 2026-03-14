@@ -159,4 +159,55 @@ trait FirebaseTrait
       return $e;
     }
   }
+
+    protected function getFirestoreData($collection, $documentId = null, $filters = [], $limit = null)
+  {
+    try {
+      $firestore = Firebase::firestore();
+      $database = $firestore->database();
+
+      // Get specific document
+      if ($documentId) {
+        $document = $database->collection($collection)->document($documentId);
+        $snapshot = $document->snapshot();
+        
+        if ($snapshot->exists()) {
+          return array_merge(['id' => $snapshot->id()], $snapshot->data());
+        }
+        
+        return null;
+      }
+
+      // Get collection with optional filters
+      $query = $database->collection($collection);
+
+      // Apply filters
+      foreach ($filters as $filter) {
+        if (isset($filter['field'], $filter['operator'], $filter['value'])) {
+          $query = $query->where($filter['field'], $filter['operator'], $filter['value']);
+        }
+      }
+
+      // Apply limit
+      if ($limit) {
+        $query = $query->limit($limit);
+      }
+
+      $documents = $query->documents();
+      $results = [];
+
+      foreach ($documents as $document) {
+        if ($document->exists()) {
+          $results[] = array_merge(['id' => $document->id()], $document->data());
+        }
+      }
+
+      return $results;
+
+    } catch (FirebaseException $e) {
+      return $e;
+    } catch (\Exception $e) {
+      return $e;
+    }
+  }
 }

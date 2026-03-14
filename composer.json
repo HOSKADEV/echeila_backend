@@ -9,7 +9,10 @@
   "license": "MIT",
   "require": {
     "php": "^8.4",
+    "ext-gd": "*",
     "arielmejiadev/larapex-charts": "^9.0",
+    "google/cloud": "^0.322.0",
+    "google/cloud-firestore": "*",
     "intervention/image-laravel": "^1.5",
     "kreait/laravel-firebase": "^6.1",
     "laravel-lang/common": "^6.7",
