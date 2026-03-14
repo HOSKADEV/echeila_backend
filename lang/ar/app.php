@@ -170,11 +170,14 @@ return [
     'edit-seat-price' => 'تعديل سعر مقعد',
     'create-wilaya' => 'إنشاء ولاية',
     'edit-wilaya' => 'تعديل ولاية',
+    'create-zone' => 'إنشاء منطقة',
+    'edit-zone' => 'تعديل منطقة',
     'add-new-seat-price' => 'إضافة سعر مقعد جديد',
     'add-new-brand' => 'إضافة علامة تجارية جديدة',
     'add-new-color' => 'إضافة لون جديد',
     'add-new-vehicle-model' => 'إضافة طراز مركبة جديد',
     'add-new-wilaya' => 'إضافة ولاية جديدة',
+    'add-new-zone' => 'إضافة منطقة جديدة',
 
     // حقول النموذج
     'starting_wilaya' => 'الولاية المنطلقة',

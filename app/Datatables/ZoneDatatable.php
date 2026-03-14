@@ -3,10 +3,10 @@
 namespace App\Datatables;
 
 use App\Services\FirestoreService;
+use App\Support\Enum\Permissions;
 use App\Traits\DataTableActionsTrait;
-use App\Traits\FirebaseTrait;
 use Exception;
-use GPBMetadata\Google\Firestore\V1\Firestore;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class ZoneDatatable
@@ -22,6 +22,7 @@ class ZoneDatatable
             'radiusKm',
             'center',
             'createdAt',
+            'actions',
         ];
     }
 
@@ -60,6 +61,18 @@ class ZoneDatatable
                     }
                     return 'N/A';
                 })
+                ->addColumn('actions', function ($zone) {
+                    return $this
+                        ->edit(
+                            route('zones.edit', $zone['id']),
+                            Auth::user()->hasPermissionTo(Permissions::ZONE_UPDATE)
+                        )
+                        ->delete(
+                            $zone['id'],
+                            Auth::user()->hasPermissionTo(Permissions::ZONE_DELETE)
+                        )
+                        ->make();
+                })
                 ->rawColumns(self::columns())
                 ->make(true);
         } catch (Exception $e) {
@@ -69,16 +82,17 @@ class ZoneDatatable
 
     public function query($request)
     {
-        $firstore = new FirestoreService();
+        $firestore = new FirestoreService();
 
         $filters = [];
-        if ($request->has('type')) {
+        if ($request->has('type') && $request->input('type') !== '') {
             $filters[] = ['field' => 'type', 'operator' => '==', 'value' => $request->input('type')];
         }
-        if ($request->has('isActive')) {
+        if ($request->has('isActive') && $request->input('isActive') !== '') {
             $filters[] = ['field' => 'isActive', 'operator' => '==', 'value' => boolval($request->input('isActive'))];
         }
-        $data = $firstore->get('zones', filters: $filters);
-        return collect($data);
+
+        return collect($firestore->get('zones', filters: $filters));
     }
 }
+

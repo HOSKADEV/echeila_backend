@@ -28,6 +28,15 @@
             <div
               class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-3 mb-md-0">
               <x-table.custom-datatable-search />
+              <div class="dt-buttons btn-group flex-wrap">
+                @permission(\App\Support\Enum\Permissions::ZONE_CREATE)
+                <a href="{{ route('zones.create') }}" class="text-white text-decoration-none">
+                  <button type="button" class="btn btn-primary">
+                    <span class="tf-icons bx bx-plus"></span> @lang('app.add-new-zone')
+                  </button>
+                </a>
+                @endpermission
+              </div>
             </div>
           </div>
         </div>
@@ -37,6 +46,15 @@
     </div>
   </div>
   <!--/ Bootstrap Table with Header - Light -->
+
+  <x-modal.confirmation
+    id="delete-modal"
+    title="{{ __('app.delete') }}"
+    action="{{ route('zones.destroy', ':id') }}"
+    method="DELETE"
+    inputs='<input type="hidden" name="id" value="">'
+    theme="danger"
+  />
 
 @endsection
 @section('page-script')
@@ -55,6 +73,14 @@
         let filterName = $(this).attr('id');
         filters[filterName] = $(this).val();
         table.ajax.reload();
+      });
+
+      $(document).on('click', '[data-bs-target="#delete-modal"]', function() {
+        const id = $(this).data('id');
+        const $form = $('#delete-modal form');
+        $form.data('action') ?? $form.data('action', $form.attr('action'));
+        $form.attr('action', $form.data('action').replace(':id', id));
+        $form.find('input[name="id"]').val(id);
       });
     });
   </script>

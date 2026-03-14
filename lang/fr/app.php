@@ -171,11 +171,10 @@ return [
     'edit-seat-price' => 'Modifier un Prix de Siège',
     'create-wilaya' => 'Créer une Wilaya',
     'edit-wilaya' => 'Modifier une Wilaya',
-    'add-new-seat-price' => 'Ajouter un Nouveau Prix de Siège',
-    'add-new-brand' => 'Ajouter une Nouvelle Marque',
-    'add-new-color' => 'Ajouter une Nouvelle Couleur',
-    'add-new-vehicle-model' => 'Ajouter un Nouveau Modèle de Véhicule',
+    'create-zone' => 'Créer une Zone',
+    'edit-zone' => 'Modifier une Zone',
     'add-new-wilaya' => 'Ajouter une Nouvelle Wilaya',
+    'add-new-zone' => 'Ajouter une Nouvelle Zone',
 
     // Champs de formulaire
     'starting_wilaya' => 'Wilaya de Départ',
