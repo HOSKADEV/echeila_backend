@@ -75,10 +75,10 @@ class ZoneDatatable
                             $zone['id'],
                             Auth::user()->hasPermissionTo(Permissions::ZONE_DELETE)
                         )
-                        ->make();
+                        ->makeLabelledIcons();
                 })
                 ->rawColumns(self::columns())
-                ->makeLabelledIcons();
+                ->make(true);
         } catch (Exception $e) {
             Log::error(get_class($this) . ' Error ' . $e->getMessage());
         }
