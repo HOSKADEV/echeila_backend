@@ -59,6 +59,12 @@ return [
     'wilaya_update' => 'Update Wilaya',
     'wilaya_delete' => 'Delete Wilaya',
 
+    // Zone Management
+    'zone_index' => 'Zones',
+    'zone_create' => 'Create Zone',
+    'zone_update' => 'Update Zone',
+    'zone_delete' => 'Delete Zone',
+
     // Seat Price Management
     'seatPrice_index' => 'Seat Prices',
     'seatPrice_create' => 'Create Seat Price',

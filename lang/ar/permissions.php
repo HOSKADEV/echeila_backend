@@ -59,6 +59,12 @@ return [
     'wilaya_update' => 'تحديث ولاية',
     'wilaya_delete' => 'حذف ولاية',
 
+    // Zone Management
+    'zone_index' => 'المناطق',
+    'zone_create' => 'إنشاء منطقة',
+    'zone_update' => 'تحديث منطقة',
+    'zone_delete' => 'حذف منطقة',
+
     // Seat Price Management
     'seatPrice_index' => 'أسعار المقاعد',
     'seatPrice_create' => 'إنشاء سعر مقعد',

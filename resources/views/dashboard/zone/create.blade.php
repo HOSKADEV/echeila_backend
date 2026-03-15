@@ -47,11 +47,11 @@
           <div class="card-body">
 
             <div class="mb-3">
-              <label for="zoneId" class="form-label">{{ __('zone.zoneId') }} <small class="text-muted">(e.g. dz_adrar)</small></label>
+              <label for="zoneId" class="form-label">{{ __('zone.zoneId') }}</label>
               <input type="text" name="zoneId" id="zoneId"
                 class="form-control @error('zoneId') is-invalid @enderror"
                 value="{{ old('zoneId') }}"
-                placeholder="dz_adrar" required pattern="[a-z0-9_]+">
+                placeholder="zone_id" required pattern="[a-z0-9_]+">
               @error('zoneId')
                 <span class="invalid-feedback">{{ $message }}</span>
               @enderror
@@ -137,7 +137,7 @@
       <div class="col-xl-5 col-lg-5 mb-4">
         <div class="card h-100">
           <div class="card-header">
-            <h6 class="mb-0">{{ __('zone.center') }}</h6>
+            <h6 class="mb-0">{{ __('zone.map') }}</h6>
             <small class="text-muted" id="map-hint">{{ __('zone.click_map_hint') }}</small>
           </div>
           <div class="card-body p-2">

@@ -11,6 +11,13 @@ return [
     'cancel' => 'Cancelar',
     'remove' => 'Eliminar',
     'confirm' => 'Confirmar',
+    'modal' => [
+        'confirm' => [
+            'question' => 'Esta seguro?',
+            'text' => 'Esta accion no se puede deshacer.',
+            'checkbox' => 'Entiendo y quiero continuar',
+        ],
+    ],
     'filter' => 'Filtrar',
     'all' => 'Todos',
     'search' => 'Buscar',

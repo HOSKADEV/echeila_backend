@@ -11,6 +11,13 @@ return [
     'cancel' => 'Cancel',
     'remove' => 'Remove',
     'confirm' => 'Confirm',
+    'modal' => [
+        'confirm' => [
+            'question' => 'Are you sure?',
+            'text' => 'This action cannot be undone.',
+            'checkbox' => 'I understand and want to continue',
+        ],
+    ],
     'filter' => 'Filter',
     'all' => 'All',
     'search' => 'Search',

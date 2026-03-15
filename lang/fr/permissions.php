@@ -59,6 +59,12 @@ return [
     'wilaya_update' => 'Mettre à jour la Wilaya',
     'wilaya_delete' => 'Supprimer la Wilaya',
 
+    // Zone Management
+    'zone_index' => 'Zones',
+    'zone_create' => 'Creer une Zone',
+    'zone_update' => 'Mettre a jour la Zone',
+    'zone_delete' => 'Supprimer la Zone',
+
     // Seat Price Management
     'seatPrice_index' => 'Prix des Sièges',
     'seatPrice_create' => 'Créer un Prix de Siège',

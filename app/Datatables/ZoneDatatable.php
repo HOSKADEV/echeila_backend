@@ -35,8 +35,8 @@ class ZoneDatatable
                 })
                 ->addColumn('type', function ($zone) {
                     return match ($zone['type'] ?? '') {
-                        'circle' => $this->badge(__('app.circle'), 'info', 'bx bx-shape-circle'),
-                        'polygon' => $this->badge(__('app.polygon'), 'info', 'bx bx-shape-polygon'),
+                        'circle' => $this->badge(__('zone.circle'), 'blue', 'bx bx-shape-circle'),
+                        'polygon' => $this->badge(__('zone.polygon'), 'purple', 'bx bx-shape-polygon'),
                         default => $this->badge('N/A', 'secondary'),
                     };
                 })
@@ -78,7 +78,7 @@ class ZoneDatatable
                         ->make();
                 })
                 ->rawColumns(self::columns())
-                ->make(true);
+                ->makeLabelledIcons();
         } catch (Exception $e) {
             Log::error(get_class($this) . ' Error ' . $e->getMessage());
         }

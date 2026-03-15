@@ -135,7 +135,7 @@
       <div class="col-xl-5 col-lg-5 mb-4">
         <div class="card h-100">
           <div class="card-header">
-            <h6 class="mb-0">{{ __('zone.center') }}</h6>
+            <h6 class="mb-0">{{ __('zone.map') }}</h6>
             <small class="text-muted" id="map-hint">{{ __('zone.click_map_hint') }}</small>
           </div>
           <div class="card-body p-2">

@@ -11,6 +11,13 @@ return [
     'cancel' => 'Annuler',
     'remove' => 'Retirer',
     'confirm' => 'Confirmer',
+    'modal' => [
+        'confirm' => [
+            'question' => 'Etes-vous sur ?',
+            'text' => 'Cette action est irreversible.',
+            'checkbox' => 'Je confirme et je souhaite continuer',
+        ],
+    ],
     'filter' => 'Filtrer',
     'all' => 'Tous',
     'search' => 'Rechercher',
