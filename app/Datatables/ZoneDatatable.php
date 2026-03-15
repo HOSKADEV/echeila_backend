@@ -35,8 +35,8 @@ class ZoneDatatable
                 })
                 ->addColumn('type', function ($zone) {
                     return match ($zone['type'] ?? '') {
-                        'circle' => $this->badge(__('app.circle'), 'info', 'bx-shape-circle'),
-                        'polygon' => $this->badge(__('app.polygon'), 'info', 'bx-shape-polygon'),
+                        'circle' => $this->badge(__('app.circle'), 'info', 'bx bx-shape-circle'),
+                        'polygon' => $this->badge(__('app.polygon'), 'info', 'bx bx-shape-polygon'),
                         default => $this->badge('N/A', 'secondary'),
                     };
                 })
@@ -89,10 +89,10 @@ class ZoneDatatable
         $firestore = new FirestoreService();
 
         $filters = [];
-        if ($request->has('type') && $request->input('type') !== '') {
+        if (in_array($request->input('type'), ['circle', 'polygon'])) {
             $filters[] = ['field' => 'type', 'operator' => '==', 'value' => $request->input('type')];
         }
-        if ($request->has('isActive') && $request->input('isActive') !== '') {
+        if (in_array($request->input('isActive'), ['0', '1'])) {
             $filters[] = ['field' => 'isActive', 'operator' => '==', 'value' => boolval($request->input('isActive'))];
         }
 
