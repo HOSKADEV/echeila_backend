@@ -18,6 +18,28 @@
 
   <!-- Bootstrap Table with Header - Light -->
   <div class="card">
+    <div class="card-header border-bottom">
+      <x-table.filters :filters="[
+        [
+          'id' => 'type',
+          'name' => 'type',
+          'label' => __('zone.type'),
+          'options' => [
+            'circle' => 'Circle',
+            'polygon' => 'Polygon',
+          ],
+        ],
+        [
+          'id' => 'isActive',
+          'name' => 'isActive',
+          'label' => __('zone.isActive'),
+          'options' => [
+            '1' => __('zone.active'),
+            '0' => __('zone.inactive'),
+          ],
+        ],
+      ]" />
+    </div>
     <div class="card-datatable table-responsive">
       <div class="dataTables_wrapper dt-bootstrap5 no-footer">
         <div class="row mx-2">
@@ -60,7 +82,10 @@
 @section('page-script')
   <script>
     $(document).ready(function() {
-      let filters = {};
+      let filters = {
+        type: $('#type').val(),
+        isActive: $('#isActive').val()
+      };
 
       let table = initializeDataTable(
         "{{ route('zones.index') }}",

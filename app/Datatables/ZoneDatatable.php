@@ -19,8 +19,8 @@ class ZoneDatatable
             'name',
             'type',
             'isActive',
-            'radiusKm',
-            'center',
+            //'radiusKm',
+            //'center',
             'createdAt',
             'actions',
         ];
@@ -34,7 +34,11 @@ class ZoneDatatable
                     return $this->bold($zone['name'] ?? 'N/A');
                 })
                 ->addColumn('type', function ($zone) {
-                    return ucfirst($zone['type'] ?? 'N/A');
+                    return match ($zone['type'] ?? '') {
+                        'circle' => $this->badge(__('app.circle'), 'info', 'bx-shape-circle'),
+                        'polygon' => $this->badge(__('app.polygon'), 'info', 'bx-shape-polygon'),
+                        default => $this->badge('N/A', 'secondary'),
+                    };
                 })
                 ->addColumn('isActive', function ($zone) {
                     $isActive = $zone['isActive'] ?? false;
@@ -42,7 +46,7 @@ class ZoneDatatable
                     $text = $isActive ? __('zone.active') : __('zone.inactive');
                     return '<span class="badge ' . $badgeClass . '">' . $text . '</span>';
                 })
-                ->addColumn('radiusKm', function ($zone) {
+                /* ->addColumn('radiusKm', function ($zone) {
                     return ($zone['radiusKm'] ?? 0) . ' km';
                 })
                 ->addColumn('center', function ($zone) {
@@ -54,7 +58,7 @@ class ZoneDatatable
                         return '<a href="' . $mapsUrl . '" target="_blank" class="text-primary"><i class="bx bx-map me-1"></i>' . $coords . '</a>';
                     }
                     return 'N/A';
-                })
+                }) */
                 ->addColumn('createdAt', function ($zone) {
                     if (isset($zone['createdAt'])) {
                         return date('Y-m-d H:i', strtotime($zone['createdAt']));
@@ -92,7 +96,7 @@ class ZoneDatatable
             $filters[] = ['field' => 'isActive', 'operator' => '==', 'value' => boolval($request->input('isActive'))];
         }
 
-        return collect($firestore->get('zones', filters: $filters));
+        return collect($firestore->get('zones', filters: $filters))->sortByDesc('createdAt');
     }
 }
 
