@@ -15,5 +15,9 @@ return [
     'zoneId' => 'ID de Zona',
     'zoneId_readonly' => 'El ID de zona no se puede cambiar después de la creación.',
     'click_map_hint' => 'Haz clic en el mapa para establecer las coordenadas del centro.',
+    'polygon_click_map_hint' => 'Haz clic en el mapa para agregar esquinas del polígono (mínimo 3 puntos).',
+    'corners' => 'Esquinas del polígono',
+    'polygon_hint' => 'Haz clic en el mapa para agregar esquinas. Necesitas al menos 3 puntos.',
+    'polygon_points_min' => 'El polígono debe tener al menos 3 puntos.',
     'actions' => 'Acciones',
 ];

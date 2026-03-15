@@ -78,22 +78,22 @@
               @enderror
             </div>
 
-            <div class="mb-3">
+            <div class="mb-3" id="circle-radius-group">
               <label for="radiusKm" class="form-label">{{ __('zone.radiusKm') }}</label>
               <input type="number" name="radiusKm" id="radiusKm" step="0.1" min="0"
                 class="form-control @error('radiusKm') is-invalid @enderror"
-                value="{{ old('radiusKm', $zone['radiusKm'] ?? '') }}" required>
+                value="{{ old('radiusKm', $zone['radiusKm'] ?? '') }}">
               @error('radiusKm')
                 <span class="invalid-feedback">{{ $message }}</span>
               @enderror
             </div>
 
-            <div class="row mb-3">
+            <div class="row mb-3" id="circle-center-group">
               <div class="col-md-6">
                 <label for="lat" class="form-label">{{ __('app.latitude') }}</label>
                 <input type="number" name="lat" id="lat" step="any"
                   class="form-control @error('lat') is-invalid @enderror"
-                  value="{{ old('lat', $zone['center']['lat'] ?? '') }}" required>
+                  value="{{ old('lat', $zone['center']['lat'] ?? '') }}">
                 @error('lat')
                   <span class="invalid-feedback">{{ $message }}</span>
                 @enderror
@@ -102,11 +102,21 @@
                 <label for="lng" class="form-label">{{ __('app.longitude') }}</label>
                 <input type="number" name="lng" id="lng" step="any"
                   class="form-control @error('lng') is-invalid @enderror"
-                  value="{{ old('lng', $zone['center']['lng'] ?? '') }}" required>
+                  value="{{ old('lng', $zone['center']['lng'] ?? '') }}">
                 @error('lng')
                   <span class="invalid-feedback">{{ $message }}</span>
                 @enderror
               </div>
+            </div>
+
+            <div class="mb-3 d-none" id="polygon-points-group">
+              <label class="form-label">{{ __('zone.corners') }}</label>
+              <input type="hidden" name="points_json" id="points_json" value='{{ old('points_json', json_encode($zone['corners'] ?? [])) }}'>
+              <div id="polygon-points-list" class="small text-muted"></div>
+              @error('points_json')
+                <div class="invalid-feedback d-block">{{ $message }}</div>
+              @enderror
+              <small class="text-muted">{{ __('zone.polygon_hint') }}</small>
             </div>
 
             <div class="mb-3">
@@ -126,7 +136,7 @@
         <div class="card h-100">
           <div class="card-header">
             <h6 class="mb-0">{{ __('zone.center') }}</h6>
-            <small class="text-muted">{{ __('zone.click_map_hint') }}</small>
+            <small class="text-muted" id="map-hint">{{ __('zone.click_map_hint') }}</small>
           </div>
           <div class="card-body p-2">
             <div id="map"></div>
@@ -144,8 +154,19 @@
 
 @section('page-script')
 <script>
-  const initialLat = parseFloat('{{ $zone['center']['lat'] ?? 28.0 }}') || 28.0;
-  const initialLng = parseFloat('{{ $zone['center']['lng'] ?? 2.0 }}') || 2.0;
+  const typeField = document.getElementById('type');
+  const circleRadiusGroup = document.getElementById('circle-radius-group');
+  const circleCenterGroup = document.getElementById('circle-center-group');
+  const polygonPointsGroup = document.getElementById('polygon-points-group');
+  const pointsInput = document.getElementById('points_json');
+  const pointsList = document.getElementById('polygon-points-list');
+  const latInput = document.getElementById('lat');
+  const lngInput = document.getElementById('lng');
+  const radiusInput = document.getElementById('radiusKm');
+  const mapHint = document.getElementById('map-hint');
+
+  const initialLat = parseFloat('{{ old('lat', $zone['center']['lat'] ?? 28.0) }}') || 28.0;
+  const initialLng = parseFloat('{{ old('lng', $zone['center']['lng'] ?? 2.0) }}') || 2.0;
 
   const map = L.map('map').setView([initialLat, initialLng], 8);
 
@@ -154,28 +175,168 @@
     attribution: '© OpenStreetMap contributors'
   }).addTo(map);
 
-  let marker = L.marker([initialLat, initialLng]).addTo(map);
+  let marker = null;
+  let polygonLayer = null;
+  let polygonMarkers = [];
+  let polygonPoints = [];
+
+  function normalizePoints(points) {
+    if (!Array.isArray(points)) {
+      return [];
+    }
+
+    return points
+      .filter(function(point) {
+        return point && !isNaN(parseFloat(point.lat)) && !isNaN(parseFloat(point.lng));
+      })
+      .map(function(point) {
+        return {
+          lat: parseFloat(point.lat),
+          lng: parseFloat(point.lng)
+        };
+      });
+  }
+
+  function renderPolygonPoints() {
+    pointsInput.value = JSON.stringify(polygonPoints);
+
+    polygonMarkers.forEach(function(m) {
+      map.removeLayer(m);
+    });
+    polygonMarkers = [];
+
+    if (polygonLayer) {
+      map.removeLayer(polygonLayer);
+      polygonLayer = null;
+    }
+
+    if (polygonPoints.length === 0) {
+      pointsList.innerHTML = '<span class="text-muted">No points selected.</span>';
+      return;
+    }
+
+    polygonPoints.forEach(function(point, index) {
+      const pMarker = L.circleMarker([point.lat, point.lng], {
+        radius: 5,
+        color: '#0d6efd',
+        fillColor: '#0d6efd',
+        fillOpacity: 0.8
+      }).addTo(map);
+      pMarker.bindTooltip('#' + (index + 1));
+      polygonMarkers.push(pMarker);
+    });
+
+    if (polygonPoints.length >= 2) {
+      polygonLayer = L.polygon(polygonPoints.map(function(p) {
+        return [p.lat, p.lng];
+      }), {
+        color: '#0d6efd',
+        fillOpacity: 0.15
+      }).addTo(map);
+    }
+
+    pointsList.innerHTML = polygonPoints.map(function(point, index) {
+      return '<div>#' + (index + 1) + ': ' + point.lat.toFixed(6) + ', ' + point.lng.toFixed(6) + ' <a href="javascript:void(0);" data-remove-index="' + index + '">remove</a></div>';
+    }).join('');
+  }
 
   function setMarker(lat, lng) {
-    marker.setLatLng([lat, lng]);
-    document.getElementById('lat').value = lat.toFixed(6);
-    document.getElementById('lng').value = lng.toFixed(6);
+    if (!marker) {
+      marker = L.marker([lat, lng]).addTo(map);
+    } else {
+      marker.setLatLng([lat, lng]);
+    }
+    latInput.value = lat.toFixed(6);
+    lngInput.value = lng.toFixed(6);
+  }
+
+  function clearCircleMarker() {
+    if (marker) {
+      map.removeLayer(marker);
+      marker = null;
+    }
+  }
+
+  function applyTypeState() {
+    const currentType = typeField.value;
+    const isCircle = currentType === 'circle';
+    const isPolygon = currentType === 'polygon';
+
+    circleRadiusGroup.classList.toggle('d-none', !isCircle);
+    circleCenterGroup.classList.toggle('d-none', !isCircle);
+    polygonPointsGroup.classList.toggle('d-none', !isPolygon);
+
+    radiusInput.required = isCircle;
+    latInput.required = isCircle;
+    lngInput.required = isCircle;
+    pointsInput.required = isPolygon;
+
+    mapHint.textContent = isPolygon
+      ? '{{ __('zone.polygon_click_map_hint') }}'
+      : '{{ __('zone.click_map_hint') }}';
+
+    if (isPolygon) {
+      clearCircleMarker();
+      renderPolygonPoints();
+      if (polygonPoints.length > 0) {
+        const first = polygonPoints[0];
+        map.setView([first.lat, first.lng], 8);
+      }
+    } else {
+      if (polygonLayer) {
+        map.removeLayer(polygonLayer);
+        polygonLayer = null;
+      }
+      polygonMarkers.forEach(function(m) { map.removeLayer(m); });
+      polygonMarkers = [];
+
+      const lat = parseFloat(latInput.value);
+      const lng = parseFloat(lngInput.value);
+      if (!isNaN(lat) && !isNaN(lng)) {
+        setMarker(lat, lng);
+      }
+    }
   }
 
   map.on('click', function(e) {
+    if (typeField.value === 'polygon') {
+      polygonPoints.push({
+        lat: parseFloat(e.latlng.lat.toFixed(6)),
+        lng: parseFloat(e.latlng.lng.toFixed(6))
+      });
+      renderPolygonPoints();
+      return;
+    }
+
     setMarker(e.latlng.lat, e.latlng.lng);
   });
+
+  polygonPoints = normalizePoints(JSON.parse(pointsInput.value || '[]'));
+  renderPolygonPoints();
 
   // Sync lat/lng inputs → move marker
   ['lat', 'lng'].forEach(function(id) {
     document.getElementById(id).addEventListener('change', function() {
-      const lat = parseFloat(document.getElementById('lat').value);
-      const lng = parseFloat(document.getElementById('lng').value);
+      const lat = parseFloat(latInput.value);
+      const lng = parseFloat(lngInput.value);
       if (!isNaN(lat) && !isNaN(lng)) {
         setMarker(lat, lng);
         map.setView([lat, lng], 8);
       }
     });
   });
+
+  pointsList.addEventListener('click', function(event) {
+    const removeIndex = event.target.getAttribute('data-remove-index');
+    if (removeIndex === null) {
+      return;
+    }
+
+    polygonPoints.splice(parseInt(removeIndex, 10), 1);
+    renderPolygonPoints();
+  });
+
+  typeField.addEventListener('change', applyTypeState);
+  applyTypeState();
 </script>
 @endsection

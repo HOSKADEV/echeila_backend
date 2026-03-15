@@ -15,5 +15,9 @@ return [
     'zoneId' => 'ID de zone',
     'zoneId_readonly' => "L'ID de zone ne peut pas être modifié après la création.",
     'click_map_hint' => 'Cliquez sur la carte pour définir les coordonnées du centre.',
+    'polygon_click_map_hint' => 'Cliquez sur la carte pour ajouter les sommets du polygone (minimum 3 points).',
+    'corners' => 'Sommets du polygone',
+    'polygon_hint' => 'Cliquez sur la carte pour ajouter des sommets. Au moins 3 points sont requis.',
+    'polygon_points_min' => 'Le polygone doit contenir au moins 3 points.',
     'actions' => 'Actions',
 ];

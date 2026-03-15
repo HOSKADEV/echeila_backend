@@ -15,5 +15,9 @@ return [
     'zoneId' => 'Zone ID',
     'zoneId_readonly' => 'The Zone ID cannot be changed after creation.',
     'click_map_hint' => 'Click on the map to set the center coordinates.',
+    'polygon_click_map_hint' => 'Click on the map to add polygon corners (minimum 3 points).',
+    'corners' => 'Polygon Corners',
+    'polygon_hint' => 'Click the map to add corners. You need at least 3 points.',
+    'polygon_points_min' => 'Polygon must have at least 3 points.',
     'actions' => 'Actions',
 ];
