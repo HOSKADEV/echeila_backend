@@ -236,6 +236,16 @@
       }).addTo(map);
     }
 
+    if (typeField.value === 'polygon') {
+      if (polygonPoints.length === 1) {
+        map.setView([polygonPoints[0].lat, polygonPoints[0].lng], 8);
+      } else if (polygonLayer) {
+        map.fitBounds(polygonLayer.getBounds(), {
+          padding: [30, 30]
+        });
+      }
+    }
+
     pointsList.innerHTML = polygonPoints.map(function(point, index) {
       return '<div>#' + (index + 1) + ': ' + point.lat.toFixed(6) + ', ' + point.lng.toFixed(6) + ' <a href="javascript:void(0);" data-remove-index="' + index + '">remove</a></div>';
     }).join('');
@@ -311,10 +321,6 @@
     if (isPolygon) {
       clearCircleMarker();
       renderPolygonPoints();
-      if (polygonPoints.length > 0) {
-        const first = polygonPoints[0];
-        map.setView([first.lat, first.lng], 8);
-      }
     } else {
       if (polygonLayer) {
         map.removeLayer(polygonLayer);
