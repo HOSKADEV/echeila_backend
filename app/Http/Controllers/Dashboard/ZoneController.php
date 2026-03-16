@@ -95,7 +95,7 @@ class ZoneController extends Controller
                 $payload['corners'] = json_decode($data['points_json'], true);
             }
 
-            $this->firestore->create('zones', $payload, $data['zoneId']);
+            $this->firestore->create(env('ZONES_DATABASE', 'zones'), $payload, $data['zoneId']);
 
             return redirect()->route('zones.index')
                 ->with('success', __('app.created_successfully', ['name' => __('zone.zone')]));
@@ -110,7 +110,7 @@ class ZoneController extends Controller
             return redirect()->route('unauthorized');
         }
 
-        $zone = $this->firestore->get('zones', $id);
+        $zone = $this->firestore->get(env('ZONES_DATABASE', 'zones'), $id);
 
         if (! $zone) {
             abort(404);
@@ -172,7 +172,7 @@ class ZoneController extends Controller
                 $payload['corners'] = json_decode($data['points_json'], true);
             }
 
-            $this->firestore->update('zones', $id, $payload);
+            $this->firestore->update(env('ZONES_DATABASE', 'zones'), $id, $payload);
 
             return redirect()->route('zones.index')
                 ->with('success', __('app.updated_successfully', ['name' => __('zone.zone')]));
@@ -188,7 +188,7 @@ class ZoneController extends Controller
         }
 
         try {
-            $this->firestore->delete('zones', $id);
+            $this->firestore->delete(env('ZONES_DATABASE', 'zones'), $id);
 
             return redirect()->route('zones.index')
                 ->with('success', __('app.deleted_successfully', ['name' => __('zone.zone')]));
