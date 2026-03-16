@@ -43,7 +43,7 @@
     @method('PATCH')
     <div class="row">
       <!-- Left Column -->
-      <div class="col-xl-7 col-lg-7 mb-4">
+      <div class="col-xl-5 col-lg-5 mb-4">
         <div class="card h-100">
           <div class="card-body">
 
@@ -132,7 +132,7 @@
       </div>
 
       <!-- Right Column: Map -->
-      <div class="col-xl-5 col-lg-5 mb-4">
+      <div class="col-xl-7 col-lg-7 mb-4">
         <div class="card h-100">
           <div class="card-header">
             <h6 class="mb-0">{{ __('zone.map') }}</h6>
@@ -176,6 +176,7 @@
   }).addTo(map);
 
   let marker = null;
+  let circleLayer = null;
   let polygonLayer = null;
   let polygonMarkers = [];
   let polygonPoints = [];
@@ -248,6 +249,7 @@
     }
     latInput.value = lat.toFixed(6);
     lngInput.value = lng.toFixed(6);
+    renderCircleOverlay();
   }
 
   function clearCircleMarker() {
@@ -255,6 +257,37 @@
       map.removeLayer(marker);
       marker = null;
     }
+
+    if (circleLayer) {
+      map.removeLayer(circleLayer);
+      circleLayer = null;
+    }
+  }
+
+  function renderCircleOverlay() {
+    if (circleLayer) {
+      map.removeLayer(circleLayer);
+      circleLayer = null;
+    }
+
+    if (typeField.value !== 'circle') {
+      return;
+    }
+
+    const lat = parseFloat(latInput.value);
+    const lng = parseFloat(lngInput.value);
+    const radiusKm = parseFloat(radiusInput.value);
+
+    if (isNaN(lat) || isNaN(lng) || isNaN(radiusKm) || radiusKm <= 0) {
+      return;
+    }
+
+    circleLayer = L.circle([lat, lng], {
+      radius: radiusKm * 1000,
+      color: '#0d6efd',
+      fillColor: '#0d6efd',
+      fillOpacity: 0.12
+    }).addTo(map);
   }
 
   function applyTypeState() {
@@ -294,6 +327,8 @@
       const lng = parseFloat(lngInput.value);
       if (!isNaN(lat) && !isNaN(lng)) {
         setMarker(lat, lng);
+      } else {
+        renderCircleOverlay();
       }
     }
   }
@@ -322,9 +357,14 @@
       if (!isNaN(lat) && !isNaN(lng)) {
         setMarker(lat, lng);
         map.setView([lat, lng], 8);
+      } else {
+        renderCircleOverlay();
       }
     });
   });
+
+  radiusInput.addEventListener('input', renderCircleOverlay);
+  radiusInput.addEventListener('change', renderCircleOverlay);
 
   pointsList.addEventListener('click', function(event) {
     const removeIndex = event.target.getAttribute('data-remove-index');
@@ -338,5 +378,6 @@
 
   typeField.addEventListener('change', applyTypeState);
   applyTypeState();
+  renderCircleOverlay();
 </script>
 @endsection
