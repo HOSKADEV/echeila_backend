@@ -96,7 +96,7 @@ class ZoneDatatable
             $filters[] = ['field' => 'isActive', 'operator' => '==', 'value' => boolval($request->input('isActive'))];
         }
 
-        return collect($firestore->get('zones', filters: $filters))->sortByDesc('createdAt');
+        return collect($firestore->get(env('ZONES_DATABASE', 'zones'), filters: $filters))->sortByDesc('createdAt');
     }
 }
 
