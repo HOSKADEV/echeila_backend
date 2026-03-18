@@ -81,12 +81,21 @@
             </div>
 
             <div class="mb-3 d-none" id="polygon-mode-group">
-              <label for="polygon-mode" class="form-label">Map Click Mode</label>
-              <select id="polygon-mode" class="form-select">
-                <option value="center">Set Center Point</option>
-                <option value="corner" selected>Add Corner Point</option>
-              </select>
-              <small class="text-muted">Choose what happens when you click on the map</small>
+              <label class="form-label">Map Click Mode</label>
+              <div class="btn-group d-flex" role="group">
+                <input type="radio" class="btn-check" name="polygon-mode-radio" id="mode-center" value="center" autocomplete="off">
+                <label class="btn btn-outline-primary flex-grow-1" for="mode-center">
+                  <i class="bx bx-map-pin"></i>
+                </label>
+
+                <input type="radio" class="btn-check" name="polygon-mode-radio" id="mode-corner" value="corner" autocomplete="off" checked>
+                <label class="btn btn-outline-primary flex-grow-1" for="mode-corner">
+                  <i class="bx bx-polygon"></i>
+                </label>
+              </div>
+              <small class="text-muted d-block mt-2">
+                <span id="mode-hint">Add corners to polygon</span>
+              </small>
             </div>
 
             <div class="mb-3" id="circle-radius-group">
@@ -170,7 +179,8 @@
   const centerGroup = document.getElementById('center-group');
   const polygonPointsGroup = document.getElementById('polygon-points-group');
   const polygonModeGroup = document.getElementById('polygon-mode-group');
-  const polygonModeField = document.getElementById('polygon-mode');
+  const modeRadios = document.querySelectorAll('input[name="polygon-mode-radio"]');
+  const modeHint = document.getElementById('mode-hint');
   const pointsInput = document.getElementById('points_json');
   const pointsList = document.getElementById('polygon-points-list');
   const latInput = document.getElementById('lat');
@@ -317,11 +327,13 @@
     pointsInput.required = isPolygon;
 
     if (isPolygon) {
-      const mode = polygonModeField.value;
-      if (mode === 'center') {
+      const selectedMode = document.querySelector('input[name="polygon-mode-radio"]:checked').value;
+      if (selectedMode === 'center') {
         mapHint.textContent = 'Click on the map to set the center point (red dot)';
+        modeHint.textContent = 'Set center point';
       } else {
         mapHint.textContent = '{{ __('zone.polygon_click_map_hint') }}';
+        modeHint.textContent = 'Add corners to polygon';
       }
       renderPolygonPoints();
     } else if (isCircle) {
@@ -335,12 +347,13 @@
   map.on('click', function(e) {
     // Handle polygon mode selection
     if (typeField.value === 'polygon') {
-      if (polygonModeField.value === 'center') {
+      const selectedMode = document.querySelector('input[name="polygon-mode-radio"]:checked').value;
+      if (selectedMode === 'center') {
         setCenterMarker(e.latlng.lat, e.latlng.lng);
         map.setView([e.latlng.lat, e.latlng.lng], 8);
         applyTypeState();
         return;
-      } else if (polygonModeField.value === 'corner') {
+      } else if (selectedMode === 'corner') {
         polygonPoints.push({
           lat: parseFloat(e.latlng.lat.toFixed(6)),
           lng: parseFloat(e.latlng.lng.toFixed(6))
@@ -398,7 +411,9 @@
   });
 
   typeField.addEventListener('change', applyTypeState);
-  polygonModeField.addEventListener('change', applyTypeState);
+  modeRadios.forEach(radio => {
+    radio.addEventListener('change', applyTypeState);
+  });
   applyTypeState();
   renderCircleOverlay();
 </script>
