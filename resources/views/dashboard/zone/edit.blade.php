@@ -88,21 +88,21 @@
               @enderror
             </div>
 
-            <div class="row mb-3" id="circle-center-group">
+            <div class="row mb-3" id="center-group">
               <div class="col-md-6">
-                <label for="lat" class="form-label">{{ __('app.latitude') }}</label>
+                <label for="lat" class="form-label">{{ __('app.latitude') }} <span class="text-danger">*</span></label>
                 <input type="number" name="lat" id="lat" step="any"
                   class="form-control @error('lat') is-invalid @enderror"
-                  value="{{ old('lat', $zone['center']['lat'] ?? '') }}">
+                  value="{{ old('lat', $zone['center']['lat'] ?? '') }}" required>
                 @error('lat')
                   <span class="invalid-feedback">{{ $message }}</span>
                 @enderror
               </div>
               <div class="col-md-6">
-                <label for="lng" class="form-label">{{ __('app.longitude') }}</label>
+                <label for="lng" class="form-label">{{ __('app.longitude') }} <span class="text-danger">*</span></label>
                 <input type="number" name="lng" id="lng" step="any"
                   class="form-control @error('lng') is-invalid @enderror"
-                  value="{{ old('lng', $zone['center']['lng'] ?? '') }}">
+                  value="{{ old('lng', $zone['center']['lng'] ?? '') }}" required>
                 @error('lng')
                   <span class="invalid-feedback">{{ $message }}</span>
                 @enderror
@@ -156,7 +156,7 @@
 <script>
   const typeField = document.getElementById('type');
   const circleRadiusGroup = document.getElementById('circle-radius-group');
-  const circleCenterGroup = document.getElementById('circle-center-group');
+  const centerGroup = document.getElementById('center-group');
   const polygonPointsGroup = document.getElementById('polygon-points-group');
   const pointsInput = document.getElementById('points_json');
   const pointsList = document.getElementById('polygon-points-list');
@@ -175,11 +175,12 @@
     attribution: '© OpenStreetMap contributors'
   }).addTo(map);
 
-  let marker = null;
+  let centerMarker = null;
   let circleLayer = null;
   let polygonLayer = null;
   let polygonMarkers = [];
   let polygonPoints = [];
+  let centerSelected = true;
 
   function normalizePoints(points) {
     if (!Array.isArray(points)) {
@@ -212,7 +213,7 @@
     }
 
     if (polygonPoints.length === 0) {
-      pointsList.innerHTML = '<span class="text-muted">No points selected.</span>';
+      pointsList.innerHTML = '<span class="text-muted">No corners selected.</span>';
       return;
     }
 
@@ -251,27 +252,22 @@
     }).join('');
   }
 
-  function setMarker(lat, lng) {
-    if (!marker) {
-      marker = L.marker([lat, lng]).addTo(map);
-    } else {
-      marker.setLatLng([lat, lng]);
-    }
+  function setCenterMarker(lat, lng) {
+    if (centerMarker) map.removeLayer(centerMarker);
+    centerMarker = L.marker([lat, lng], {
+      icon: L.icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+      })
+    }).addTo(map);
     latInput.value = lat.toFixed(6);
     lngInput.value = lng.toFixed(6);
+    centerSelected = true;
     renderCircleOverlay();
-  }
-
-  function clearCircleMarker() {
-    if (marker) {
-      map.removeLayer(marker);
-      marker = null;
-    }
-
-    if (circleLayer) {
-      map.removeLayer(circleLayer);
-      circleLayer = null;
-    }
   }
 
   function renderCircleOverlay() {
@@ -280,7 +276,7 @@
       circleLayer = null;
     }
 
-    if (typeField.value !== 'circle') {
+    if (typeField.value !== 'circle' || !centerSelected) {
       return;
     }
 
@@ -306,36 +302,17 @@
     const isPolygon = currentType === 'polygon';
 
     circleRadiusGroup.classList.toggle('d-none', !isCircle);
-    circleCenterGroup.classList.toggle('d-none', !isCircle);
     polygonPointsGroup.classList.toggle('d-none', !isPolygon);
 
     radiusInput.required = isCircle;
-    latInput.required = isCircle;
-    lngInput.required = isCircle;
     pointsInput.required = isPolygon;
 
-    mapHint.textContent = isPolygon
-      ? '{{ __('zone.polygon_click_map_hint') }}'
-      : '{{ __('zone.click_map_hint') }}';
-
     if (isPolygon) {
-      clearCircleMarker();
+      mapHint.textContent = '{{ __('zone.polygon_click_map_hint') }}';
       renderPolygonPoints();
-    } else {
-      if (polygonLayer) {
-        map.removeLayer(polygonLayer);
-        polygonLayer = null;
-      }
-      polygonMarkers.forEach(function(m) { map.removeLayer(m); });
-      polygonMarkers = [];
-
-      const lat = parseFloat(latInput.value);
-      const lng = parseFloat(lngInput.value);
-      if (!isNaN(lat) && !isNaN(lng)) {
-        setMarker(lat, lng);
-      } else {
-        renderCircleOverlay();
-      }
+    } else if (isCircle) {
+      mapHint.textContent = 'Adjust the radius in the left panel or click on map to change center (red dot)';
+      renderCircleOverlay();
     }
   }
 
@@ -347,21 +324,29 @@
       });
       renderPolygonPoints();
       return;
+    } else if (typeField.value === 'circle') {
+      setCenterMarker(e.latlng.lat, e.latlng.lng);
+      map.setView([e.latlng.lat, e.latlng.lng], 8);
     }
-
-    setMarker(e.latlng.lat, e.latlng.lng);
   });
+
+  // Initialize center marker with existing data
+  const initialCenterLat = parseFloat('{{ old('lat', $zone['center']['lat'] ?? '') }}');
+  const initialCenterLng = parseFloat('{{ old('lng', $zone['center']['lng'] ?? '') }}');
+  if (!isNaN(initialCenterLat) && !isNaN(initialCenterLng)) {
+    setCenterMarker(initialCenterLat, initialCenterLng);
+  }
 
   polygonPoints = normalizePoints(JSON.parse(pointsInput.value || '[]'));
   renderPolygonPoints();
 
-  // Sync lat/lng inputs → move marker
+  // Sync lat/lng inputs → move center marker
   ['lat', 'lng'].forEach(function(id) {
     document.getElementById(id).addEventListener('change', function() {
       const lat = parseFloat(latInput.value);
       const lng = parseFloat(lngInput.value);
       if (!isNaN(lat) && !isNaN(lng)) {
-        setMarker(lat, lng);
+        setCenterMarker(lat, lng);
         map.setView([lat, lng], 8);
       } else {
         renderCircleOverlay();

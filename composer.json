@@ -12,6 +12,7 @@
     "ext-gd": "*",
     "arielmejiadev/larapex-charts": "^9.0",
     "google/cloud-firestore": "^1.55",
+    "grpc/grpc": "^1.74",
     "intervention/image-laravel": "^1.5",
     "kreait/laravel-firebase": "^6.1",
     "laravel-lang/common": "^6.7",

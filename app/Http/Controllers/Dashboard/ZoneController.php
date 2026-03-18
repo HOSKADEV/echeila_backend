@@ -49,9 +49,9 @@ class ZoneController extends Controller
             'zoneId'   => 'required|string|max:100|regex:/^[a-z0-9_]+$/',
             'name'     => 'required|string|max:255',
             'type'     => 'required|string|in:circle,polygon',
+            'lat'      => 'required|numeric|between:-90,90',
+            'lng'      => 'required|numeric|between:-180,180',
             'radiusKm' => 'nullable|required_if:type,circle|numeric|min:0',
-            'lat'      => 'nullable|required_if:type,circle|numeric|between:-90,90',
-            'lng'      => 'nullable|required_if:type,circle|numeric|between:-180,180',
             'points_json' => 'nullable|required_if:type,polygon|string',
             'isActive' => 'nullable|boolean',
         ]);
@@ -128,9 +128,9 @@ class ZoneController extends Controller
         $data = $request->validate([
             'name'     => 'required|string|max:255',
             'type'     => 'required|string|in:circle,polygon',
+            'lat'      => 'required|numeric|between:-90,90',
+            'lng'      => 'required|numeric|between:-180,180',
             'radiusKm' => 'nullable|required_if:type,circle|numeric|min:0',
-            'lat'      => 'nullable|required_if:type,circle|numeric|between:-90,90',
-            'lng'      => 'nullable|required_if:type,circle|numeric|between:-180,180',
             'points_json' => 'nullable|required_if:type,polygon|string',
             'isActive' => 'nullable|boolean',
         ]);
