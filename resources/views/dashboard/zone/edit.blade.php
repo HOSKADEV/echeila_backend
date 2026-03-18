@@ -78,24 +78,6 @@
               @enderror
             </div>
 
-            <div class="mb-3 d-none" id="polygon-mode-group">
-              <label class="form-label">Map Click Mode</label>
-              <div class="btn-group d-flex" role="group">
-                <input type="radio" class="btn-check" name="polygon-mode-radio" id="mode-center" value="center" autocomplete="off">
-                <label class="btn btn-outline-primary flex-grow-1" for="mode-center">
-                  <i class="bx bx-map-pin"></i>
-                </label>
-
-                <input type="radio" class="btn-check" name="polygon-mode-radio" id="mode-corner" value="corner" autocomplete="off" checked>
-                <label class="btn btn-outline-primary flex-grow-1" for="mode-corner">
-                  <i class="bx bx-polygon"></i>
-                </label>
-              </div>
-              <small class="text-muted d-block mt-2">
-                <span id="mode-hint">Add corners to polygon</span>
-              </small>
-            </div>
-
             <div class="mb-3" id="circle-radius-group">
               <label for="radiusKm" class="form-label">{{ __('zone.radiusKm') }}</label>
               <input type="number" name="radiusKm" id="radiusKm" step="0.1" min="0"
@@ -152,9 +134,23 @@
       <!-- Right Column: Map -->
       <div class="col-xl-7 col-lg-7 mb-4">
         <div class="card h-100">
-          <div class="card-header">
-            <h6 class="mb-0">{{ __('zone.map') }}</h6>
-            <small class="text-muted" id="map-hint">{{ __('zone.click_map_hint') }}</small>
+          <div class="card-header d-flex justify-content-between align-items-start">
+            <div>
+              <h6 class="mb-0">{{ __('zone.map') }}</h6>
+              <small class="text-muted" id="map-hint">{{ __('zone.click_map_hint') }}</small>
+            </div>
+            <div class="d-none" id="polygon-mode-group">
+              <div class="btn-group btn-group-sm" role="group">
+                <input type="radio" class="btn-check" name="polygon-mode-radio" id="mode-center" value="center" autocomplete="off">
+                <label class="btn btn-outline-primary" for="mode-center" title="Set center point">
+                  <i class="bx bx-map-pin"></i>
+                </label>
+                <input type="radio" class="btn-check" name="polygon-mode-radio" id="mode-corner" value="corner" autocomplete="off" checked>
+                <label class="btn btn-outline-primary" for="mode-corner" title="Add corners">
+                  <i class="bx bx-shape-polygon"></i>
+                </label>
+              </div>
+            </div>
           </div>
           <div class="card-body p-2">
             <div id="map"></div>
@@ -202,6 +198,30 @@
   let polygonMarkers = [];
   let polygonPoints = [];
   let centerSelected = true;
+
+  function clearMapShapes() {
+    if (centerMarker) {
+      map.removeLayer(centerMarker);
+      centerMarker = null;
+    }
+    if (circleLayer) {
+      map.removeLayer(circleLayer);
+      circleLayer = null;
+    }
+    if (polygonLayer) {
+      map.removeLayer(polygonLayer);
+      polygonLayer = null;
+    }
+    polygonMarkers.forEach(function(m) {
+      map.removeLayer(m);
+    });
+    polygonMarkers = [];
+    polygonPoints = [];
+    pointsInput.value = '[]';
+    centerSelected = false;
+    latInput.value = '';
+    lngInput.value = '';
+  }
 
   function normalizePoints(points) {
     if (!Array.isArray(points)) {
@@ -408,10 +428,14 @@
     renderPolygonPoints();
   });
 
-  typeField.addEventListener('change', applyTypeState);
-  polygonModeField.addEventListener('change', applyTypeState);  modeRadios.forEach(radio => {
+  typeField.addEventListener('change', function() {
+    clearMapShapes();
+    applyTypeState();
+  });
+  modeRadios.forEach(radio => {
     radio.addEventListener('change', applyTypeState);
-  });  applyTypeState();
+  });
+  applyTypeState();
   renderCircleOverlay();
 </script>
 @endsection
