@@ -78,6 +78,15 @@
               @enderror
             </div>
 
+            <div class="mb-3 d-none" id="polygon-mode-group">
+              <label for="polygon-mode" class="form-label">Map Click Mode</label>
+              <select id="polygon-mode" class="form-select">
+                <option value="center">Set Center Point</option>
+                <option value="corner" selected>Add Corner Point</option>
+              </select>
+              <small class="text-muted">Choose what happens when you click on the map</small>
+            </div>
+
             <div class="mb-3" id="circle-radius-group">
               <label for="radiusKm" class="form-label">{{ __('zone.radiusKm') }}</label>
               <input type="number" name="radiusKm" id="radiusKm" step="0.1" min="0"
@@ -158,6 +167,8 @@
   const circleRadiusGroup = document.getElementById('circle-radius-group');
   const centerGroup = document.getElementById('center-group');
   const polygonPointsGroup = document.getElementById('polygon-points-group');
+  const polygonModeGroup = document.getElementById('polygon-mode-group');
+  const polygonModeField = document.getElementById('polygon-mode');
   const pointsInput = document.getElementById('points_json');
   const pointsList = document.getElementById('polygon-points-list');
   const latInput = document.getElementById('lat');
@@ -303,12 +314,18 @@
 
     circleRadiusGroup.classList.toggle('d-none', !isCircle);
     polygonPointsGroup.classList.toggle('d-none', !isPolygon);
+    polygonModeGroup.classList.toggle('d-none', !isPolygon);
 
     radiusInput.required = isCircle;
     pointsInput.required = isPolygon;
 
     if (isPolygon) {
-      mapHint.textContent = '{{ __('zone.polygon_click_map_hint') }}';
+      const mode = polygonModeField.value;
+      if (mode === 'center') {
+        mapHint.textContent = 'Click on the map to set the center point (red dot)';
+      } else {
+        mapHint.textContent = '{{ __('zone.polygon_click_map_hint') }}';
+      }
       renderPolygonPoints();
     } else if (isCircle) {
       mapHint.textContent = 'Adjust the radius in the left panel or click on map to change center (red dot)';
@@ -317,14 +334,25 @@
   }
 
   map.on('click', function(e) {
+    // Handle polygon mode selection
     if (typeField.value === 'polygon') {
-      polygonPoints.push({
-        lat: parseFloat(e.latlng.lat.toFixed(6)),
-        lng: parseFloat(e.latlng.lng.toFixed(6))
-      });
-      renderPolygonPoints();
-      return;
-    } else if (typeField.value === 'circle') {
+      if (polygonModeField.value === 'center') {
+        setCenterMarker(e.latlng.lat, e.latlng.lng);
+        map.setView([e.latlng.lat, e.latlng.lng], 8);
+        applyTypeState();
+        return;
+      } else if (polygonModeField.value === 'corner') {
+        polygonPoints.push({
+          lat: parseFloat(e.latlng.lat.toFixed(6)),
+          lng: parseFloat(e.latlng.lng.toFixed(6))
+        });
+        renderPolygonPoints();
+        return;
+      }
+    }
+
+    // Handle circle: click to set/move center
+    if (typeField.value === 'circle') {
       setCenterMarker(e.latlng.lat, e.latlng.lng);
       map.setView([e.latlng.lat, e.latlng.lng], 8);
     }
@@ -368,6 +396,7 @@
   });
 
   typeField.addEventListener('change', applyTypeState);
+  polygonModeField.addEventListener('change', applyTypeState);
   applyTypeState();
   renderCircleOverlay();
 </script>
