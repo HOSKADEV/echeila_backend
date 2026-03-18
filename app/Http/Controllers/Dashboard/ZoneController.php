@@ -81,17 +81,16 @@ class ZoneController extends Controller
                 'zoneId'    => $data['zoneId'],
                 'name'      => $data['name'],
                 'type'      => $data['type'],
+                'center'    => ['lat' => (float) $data['lat'], 'lng' => (float) $data['lng']],
                 'isActive'  => isset($data['isActive']) && $data['isActive'],
                 'createdAt' => now()->toDateTimeString(),
             ];
 
             if ($data['type'] === 'circle') {
                 $payload['radiusKm'] = (float) $data['radiusKm'];
-                $payload['center'] = ['lat' => (float) $data['lat'], 'lng' => (float) $data['lng']];
                 $payload['corners'] = [];
             } else {
                 $payload['radiusKm'] = null;
-                $payload['center'] = null;
                 $payload['corners'] = json_decode($data['points_json'], true);
             }
 
@@ -159,16 +158,15 @@ class ZoneController extends Controller
             $payload = [
                 'name'      => $data['name'],
                 'type'      => $data['type'],
+                'center'    => ['lat' => (float) $data['lat'], 'lng' => (float) $data['lng']],
                 'isActive'  => isset($data['isActive']) && $data['isActive'],
             ];
 
             if ($data['type'] === 'circle') {
                 $payload['radiusKm'] = (float) $data['radiusKm'];
-                $payload['center'] = ['lat' => (float) $data['lat'], 'lng' => (float) $data['lng']];
                 $payload['corners'] = [];
             } else {
                 $payload['radiusKm'] = null;
-                $payload['center'] = null;
                 $payload['corners'] = json_decode($data['points_json'], true);
             }
 

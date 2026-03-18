@@ -11,6 +11,7 @@ return [
     'cancel' => 'Annuler',
     'remove' => 'Retirer',
     'confirm' => 'Confirmer',
+    'choose' => 'Choisir',
     'modal' => [
         'confirm' => [
             'question' => 'Etes-vous sur ?',
@@ -155,7 +156,7 @@ return [
     'wilayas' => 'Wilayas',
     'vehicles' => 'Véhicules',
     'lost-and-founds' => 'Objets Trouvés',
-    
+
     // Menu des voyages
     'trips' => 'Voyages',
     'all_trips' => 'Tous les Voyages',

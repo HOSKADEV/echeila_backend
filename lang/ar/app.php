@@ -11,6 +11,7 @@ return [
     'cancel' => 'إلغاء',
     'remove' => 'إزالة',
     'confirm' => 'تأكيد',
+    'choose' => 'اختر',
     'modal' => [
         'confirm' => [
             'question' => 'هل أنت متأكد؟',
@@ -154,7 +155,7 @@ return [
     'wilayas' => 'الولايات',
     'vehicles' => 'المركبات',
     'lost-and-founds' => 'المفقودات والموجودات',
-    
+
     // قائمة الرحلات
     'trips' => 'الرحلات',
     'all_trips' => 'جميع الرحلات',
