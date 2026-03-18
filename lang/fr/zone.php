@@ -22,5 +22,7 @@ return [
     'corners' => 'Sommets du polygone',
     'polygon_hint' => 'Cliquez sur la carte pour ajouter des sommets. Au moins 3 points sont requis.',
     'polygon_points_min' => 'Le polygone doit contenir au moins 3 points.',
+    'center_point_hint' => 'Cliquez sur la carte pour définir le point central (point rouge)',
+    'no_corners_selected' => 'Aucun sommet sélectionné.',
     'actions' => 'Actions',
 ];

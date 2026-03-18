@@ -22,5 +22,7 @@ return [
     'corners' => 'Esquinas del polígono',
     'polygon_hint' => 'Haz clic en el mapa para agregar esquinas. Necesitas al menos 3 puntos.',
     'polygon_points_min' => 'El polígono debe tener al menos 3 puntos.',
+    'center_point_hint' => 'Haz clic en el mapa para establecer el punto central (punto rojo)',
+    'no_corners_selected' => 'No hay esquinas seleccionadas.',
     'actions' => 'Acciones',
 ];

@@ -305,7 +305,7 @@
     }
 
     if (polygonPoints.length === 0) {
-      pointsList.innerHTML = '<span class="text-muted">No corners selected.</span>';
+      pointsList.innerHTML = '<span class="text-muted">{{ __('zone.no_corners_selected') }}</span>';
       return;
     }
 
@@ -349,11 +349,9 @@
     if (isPolygon) {
       const selectedMode = document.querySelector('input[name="polygon-mode-radio"]:checked').value;
       if (selectedMode === 'center') {
-        mapHint.textContent = 'Click on the map to set the center point (red dot)';
-        modeHint.textContent = 'Set center point';
+        mapHint.textContent = '{{ __('zone.center_point_hint') }}';
       } else {
         mapHint.textContent = '{{ __('zone.polygon_click_map_hint') }}';
-        modeHint.textContent = 'Add corners to polygon';
       }
       renderPolygonPoints();
     } else if (isCircle) {

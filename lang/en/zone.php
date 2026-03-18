@@ -22,5 +22,7 @@ return [
     'corners' => 'Polygon Corners',
     'polygon_hint' => 'Click the map to add corners. You need at least 3 points.',
     'polygon_points_min' => 'Polygon must have at least 3 points.',
+    'center_point_hint' => 'Click on the map to set the center point (red dot)',
+    'no_corners_selected' => 'No corners selected.',
     'actions' => 'Actions',
 ];
