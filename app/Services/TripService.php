@@ -64,10 +64,10 @@ class TripService
             $this->handleClient($trip, $tripType, $data, $user);
 
             // Handle cargo creation and relationship for cargo transport trips
-            $this->handleCargo($trip, $tripType, $data, $user);
+            $tripCargo = $this->handleCargo($trip, $tripType, $data, $user);
 
             // Handle cargo images asynchronously (files and URLs)
-            $this->handleCargoImages($trip, $tripType, $data);
+            $this->handleCargoImages($tripCargo, $tripType, $data);
 
             // Load relevant relationships based on trip type
             switch ($tripType) {
@@ -196,28 +196,30 @@ class TripService
    /**
      * Handle cargo creation and relationship for cargo transport trips
      */
-    protected function handleCargo(Trip $trip, string $tripType, array $data, User $user): void
+    protected function handleCargo(Trip $trip, string $tripType, array $data, User $user): ?TripCargo
     {
-        if ($tripType === TripType::CARGO_TRANSPORT) {
-            // Create the cargo record with description, weight, and passenger_id
-            $cargo = Cargo::create([
-                'description' => $data['cargo']['description'],
-                'weight' => $data['cargo']['weight'],
-                'passenger_id' => $user->passenger->id,
-            ]);
-
-            // Create trip cargo relationship
-            TripCargo::create([
-                'trip_id' => $trip->id,
-                'cargo_id' => $cargo->id,
-                'total_fees' => $data['total_fees'] ?? 0,
-            ]);
+        if ($tripType !== TripType::CARGO_TRANSPORT) {
+            return null;
         }
+
+        // Create the cargo record with description, weight, and passenger_id
+        $cargo = Cargo::create([
+            'description' => $data['cargo']['description'],
+            'weight' => $data['cargo']['weight'],
+            'passenger_id' => $user->passenger->id,
+        ]);
+
+        // Create trip cargo relationship
+        return TripCargo::create([
+            'trip_id' => $trip->id,
+            'cargo_id' => $cargo->id,
+            'total_fees' => $data['total_fees'] ?? 0,
+        ]);
     }
 
-    protected function handleCargoImages(Trip $trip, string $tripType, array $data): void
+    protected function handleCargoImages(?TripCargo $tripCargo, string $tripType, array $data): void
     {
-        if ($tripType !== TripType::CARGO_TRANSPORT || !$trip->detailable) {
+        if ($tripType !== TripType::CARGO_TRANSPORT || !$tripCargo) {
             return;
         }
 
@@ -255,9 +257,10 @@ class TripService
 
         if (!empty($imagesPayload)) {
             ProcessCargoImagesJob::dispatch(
-                $trip->detailable_type,
-                $trip->detailable_id,
-                $imagesPayload
+                TripCargo::class,
+                $tripCargo->id,
+                $imagesPayload,
+                TripCargo::IMAGES
             )->afterCommit();
         }
     }

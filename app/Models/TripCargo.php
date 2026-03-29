@@ -11,6 +11,8 @@ class TripCargo extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
+    const IMAGES = 'images';
+
     protected $fillable = [
         'trip_id',
         'cargo_id',
@@ -34,6 +36,6 @@ class TripCargo extends Model implements HasMedia
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('images');
+        $this->addMediaCollection(self::IMAGES);
     }
 }
