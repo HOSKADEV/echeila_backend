@@ -40,7 +40,7 @@ class DocumentationController extends Controller
     $request->validate([
       'locale' => 'required|in:'.implode(',', $locales),
       'documentations' => 'required|array',
-      'documentations.*.key' => 'required|in:'. implode(',', array_keys(DocumentationKey::all())),
+      'documentations.*.key' => 'required|in:'. implode(',', DocumentationKey::all()),
       'documentations.*.value' => 'required|string'
     ]);
 
