@@ -2,12 +2,14 @@
 
 namespace App\Http\Requests\Api\Trip;
 
+use Closure;
 use App\Constants\TripType;
 use App\Constants\RideType;
 use App\Constants\WaterType;
 use App\Constants\Direction;
 use App\Constants\VehicleType;
 use App\Constants\MalfunctionType;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -113,8 +115,38 @@ class CreateTripRequest extends FormRequest
             'cargo.description' => 'required|string|max:1000',
             'cargo.weight' => 'required|numeric|min:0.1',
             'cargo.images' => 'nullable|array',
-            'cargo.images.*' => 'image|mimes:jpeg,png,jpg,gif|max:8192',
+            'cargo.images.*' => ['bail', $this->cargoImageRule()],
         ];
+    }
+
+    protected function cargoImageRule(): Closure
+    {
+        return function (string $attribute, mixed $value, Closure $fail): void {
+            if ($value instanceof UploadedFile) {
+                if (!$value->isValid()) {
+                    $fail(__('validation.custom.cargo.images.*.file_or_url'));
+                    return;
+                }
+
+                $extension = strtolower($value->getClientOriginalExtension());
+                if (!in_array($extension, ['jpeg', 'jpg', 'png', 'gif'], true)) {
+                    $fail(__('validation.custom.cargo.images.*.mimes'));
+                    return;
+                }
+
+                if (($value->getSize() ?? 0) > 8192 * 1024) {
+                    $fail(__('validation.custom.cargo.images.*.max'));
+                }
+
+                return;
+            }
+
+            if (is_string($value) && filter_var($value, FILTER_VALIDATE_URL)) {
+                return;
+            }
+
+            $fail(__('validation.custom.cargo.images.*.file_or_url'));
+        };
     }
 
     protected function getWaterTransportRules(): array
@@ -258,9 +290,9 @@ class CreateTripRequest extends FormRequest
             'cargo.weight.numeric' => __('validation.custom.cargo.weight.numeric'),
             'cargo.weight.min' => __('validation.custom.cargo.weight.min'),
             'cargo.images.array' => __('validation.custom.cargo.images.array'),
-            'cargo.images.*.image' => __('validation.custom.cargo.images.image'),
-            'cargo.images.*.mimes' => __('validation.custom.cargo.images.mimes'),
-            'cargo.images.*.max' => __('validation.custom.cargo.images.max'),
+            'cargo.images.*.file_or_url' => __('validation.custom.cargo.images.*.file_or_url'),
+            'cargo.images.*.mimes' => __('validation.custom.cargo.images.*.mimes'),
+            'cargo.images.*.max' => __('validation.custom.cargo.images.*.max'),
 
             // Water Transport fields
             'water_type.required' => __('validation.custom.water_type.required'),

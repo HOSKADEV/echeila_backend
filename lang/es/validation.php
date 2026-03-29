@@ -358,11 +358,13 @@ return [
         ],
         'cargo.images' => [
             'array' => 'Las imágenes de la carga deben tener un formato válido.',
+            'max' => 'Las imágenes de la carga no pueden exceder 5 elementos.',
         ],
         'cargo.images.*' => [
             'image' => 'Cada imagen de la carga debe ser una imagen válida.',
             'mimes' => 'Las imágenes de la carga deben ser de formato jpeg, png, jpg o gif.',
             'max' => 'Cada imagen de la carga no debe exceder 8MB.',
+            'file_or_url' => 'Cada imagen de la carga debe ser un archivo de imagen subido o una URL válida.',
         ],
 
         // Mensajes de transporte de agua

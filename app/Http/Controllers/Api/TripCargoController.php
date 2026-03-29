@@ -6,12 +6,12 @@ use Exception;
 use App\Models\Trip;
 use App\Models\Cargo;
 use App\Models\TripCargo;
+use App\Jobs\ProcessCargoImagesJob;
 use App\Constants\TripType;
 use App\Models\Transaction;
-use App\Traits\ImageUpload;
-use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Http\UploadedFile;
 use App\Traits\ApiResponseTrait;
-use Illuminate\Http\JsonResponse;
 use App\Constants\TransactionType;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -23,7 +23,7 @@ use App\Http\Requests\Api\TripCargo\TripCargoIndexRequest;
 
 class TripCargoController extends Controller
 {
-    use ApiResponseTrait, ImageUpload;
+    use ApiResponseTrait;
 
     /**
      * Get trip cargos for a specific trip
@@ -106,13 +106,7 @@ class TripCargoController extends Controller
                 'weight' => $validated['cargo']['weight'],
             ]);
 
-            // Handle cargo images
-            if ($request->hasFile('cargo.images')) {
-                foreach ($request->file('cargo.images') as $image) {
-                    $cargo->addMedia($image)
-                        ->toMediaCollection(Cargo::IMAGES);
-                }
-            }
+            $this->handleCargoImages($cargo, $validated);
 
             // Create trip cargo
             $tripCargo = TripCargo::create([
@@ -223,6 +217,50 @@ class TripCargoController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
             return $this->errorResponse($e->getMessage(), $e->getCode());
+        }
+    }
+
+    protected function handleCargoImages(Cargo $cargo, array $data): void
+    {
+        if (!isset($data['cargo']['images']) || !is_array($data['cargo']['images'])) {
+            return;
+        }
+
+        $imagesPayload = [];
+
+        foreach ($data['cargo']['images'] as $image) {
+            if ($image instanceof UploadedFile && $image->isValid()) {
+                $storedPath = $image->storeAs(
+                    'tmp/cargo-images',
+                    Str::uuid() . '.' . $image->getClientOriginalExtension()
+                );
+
+                if ($storedPath) {
+                    $imagesPayload[] = [
+                        'type' => 'file',
+                        'path' => $storedPath,
+                        'original_name' => $image->getClientOriginalName(),
+                    ];
+                }
+
+                continue;
+            }
+
+            if (is_string($image) && filter_var($image, FILTER_VALIDATE_URL)) {
+                $imagesPayload[] = [
+                    'type' => 'url',
+                    'url' => $image,
+                ];
+            }
+        }
+
+        if (!empty($imagesPayload)) {
+            ProcessCargoImagesJob::dispatch(
+                Cargo::class,
+                $cargo->id,
+                $imagesPayload,
+                Cargo::IMAGES
+            )->afterCommit();
         }
     }
 }

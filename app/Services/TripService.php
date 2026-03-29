@@ -7,6 +7,7 @@ use App\Models\Trip;
 use App\Models\User;
 use App\Models\Cargo;
 use App\Models\Driver;
+use App\Jobs\ProcessCargoImagesJob;
 use App\Models\Location;
 use App\Models\Passenger;
 use App\Models\TripCargo;
@@ -14,11 +15,12 @@ use App\Models\TripClient;
 use App\Constants\RideType;
 use App\Constants\TripType;
 use App\Traits\RandomTrait;
-use App\Traits\ImageUpload;
 use App\Constants\TripStatus;
 use App\Models\TaxiRideDetail;
 use App\Models\CarRescueDetail;
 use App\Models\PaidDrivingDetail;
+use Illuminate\Support\Str;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use App\Models\CargoTransportDetail;
 use App\Models\WaterTransportDetail;
@@ -29,7 +31,7 @@ use App\Notifications\NewMessageNotification;
 class TripService
 {
 
-    use RandomTrait, ImageUpload;
+    use RandomTrait;
     /**
      * Create a new trip with its details and related data
      */
@@ -63,6 +65,9 @@ class TripService
 
             // Handle cargo creation and relationship for cargo transport trips
             $this->handleCargo($trip, $tripType, $data, $user);
+
+            // Handle cargo images asynchronously (files and URLs)
+            $this->handleCargoImages($trip, $tripType, $data);
 
             // Load relevant relationships based on trip type
             switch ($tripType) {
@@ -201,21 +206,59 @@ class TripService
                 'passenger_id' => $user->passenger->id,
             ]);
 
-            // Handle cargo images if provided using ImageUpload trait
-            if (isset($data['cargo']['images']) && is_array($data['cargo']['images'])) {
-                foreach ($data['cargo']['images'] as $image) {
-                    if ($image && $image->isValid()) {
-                        $this->uploadImage($cargo, $image, Cargo::IMAGES);
-                    }
-                }
-            }
-
             // Create trip cargo relationship
             TripCargo::create([
                 'trip_id' => $trip->id,
                 'cargo_id' => $cargo->id,
                 'total_fees' => $data['total_fees'] ?? 0,
             ]);
+        }
+    }
+
+    protected function handleCargoImages(Trip $trip, string $tripType, array $data): void
+    {
+        if ($tripType !== TripType::CARGO_TRANSPORT || !$trip->detailable) {
+            return;
+        }
+
+        if (!isset($data['cargo']['images']) || !is_array($data['cargo']['images'])) {
+            return;
+        }
+
+        $imagesPayload = [];
+
+        foreach ($data['cargo']['images'] as $image) {
+            if ($image instanceof UploadedFile && $image->isValid()) {
+                $storedPath = $image->storeAs(
+                    'tmp/cargo-images',
+                    Str::uuid() . '.' . $image->getClientOriginalExtension()
+                );
+
+                if ($storedPath) {
+                    $imagesPayload[] = [
+                        'type' => 'file',
+                        'path' => $storedPath,
+                        'original_name' => $image->getClientOriginalName(),
+                    ];
+                }
+
+                continue;
+            }
+
+            if (is_string($image) && filter_var($image, FILTER_VALIDATE_URL)) {
+                $imagesPayload[] = [
+                    'type' => 'url',
+                    'url' => $image,
+                ];
+            }
+        }
+
+        if (!empty($imagesPayload)) {
+            ProcessCargoImagesJob::dispatch(
+                $trip->detailable_type,
+                $trip->detailable_id,
+                $imagesPayload
+            )->afterCommit();
         }
     }
 

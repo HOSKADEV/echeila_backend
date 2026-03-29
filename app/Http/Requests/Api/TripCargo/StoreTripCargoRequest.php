@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Api\TripCargo;
 
+use Closure;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreTripCargoRequest extends FormRequest
@@ -19,9 +21,39 @@ class StoreTripCargoRequest extends FormRequest
             'cargo' => 'required|array',
             'cargo.description' => 'required|string|max:1000',
             'cargo.weight' => 'required|numeric|min:0.01|max:1000',
-            'cargo.images' => 'nullable|array|max:5',
-            'cargo.images.*' => 'image|mimes:jpeg,png,jpg,gif|max:8192',
+            'cargo.images' => 'nullable|array',
+            'cargo.images.*' => ['bail', $this->cargoImageRule()],
         ];
+    }
+
+    protected function cargoImageRule(): Closure
+    {
+        return function (string $attribute, mixed $value, Closure $fail): void {
+            if ($value instanceof UploadedFile) {
+                if (!$value->isValid()) {
+                    $fail(__('validation.custom.cargo.images.*.file_or_url'));
+                    return;
+                }
+
+                $extension = strtolower($value->getClientOriginalExtension());
+                if (!in_array($extension, ['jpeg', 'jpg', 'png', 'gif'], true)) {
+                    $fail(__('validation.custom.cargo.images.*.mimes'));
+                    return;
+                }
+
+                if (($value->getSize() ?? 0) > 8192 * 1024) {
+                    $fail(__('validation.custom.cargo.images.*.max'));
+                }
+
+                return;
+            }
+
+            if (is_string($value) && filter_var($value, FILTER_VALIDATE_URL)) {
+                return;
+            }
+
+            $fail(__('validation.custom.cargo.images.*.file_or_url'));
+        };
     }
 
     public function validateResolved()
@@ -45,8 +77,7 @@ class StoreTripCargoRequest extends FormRequest
             'cargo.weight.min' => __('validation.custom.cargo.weight.min'),
             'cargo.weight.max' => __('validation.custom.cargo.weight.max'),
             'cargo.images.array' => __('validation.custom.cargo.images.array'),
-            'cargo.images.max' => __('validation.custom.cargo.images.max'),
-            'cargo.images.*.image' => __('validation.custom.cargo.images.*.image'),
+            'cargo.images.*.file_or_url' => __('validation.custom.cargo.images.*.file_or_url'),
             'cargo.images.*.mimes' => __('validation.custom.cargo.images.*.mimes'),
             'cargo.images.*.max' => __('validation.custom.cargo.images.*.max'),
         ];

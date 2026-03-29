@@ -358,11 +358,13 @@ return [
         ],
         'cargo.images' => [
             'array' => 'Cargo images must be a valid format.',
+            'max' => 'Cargo images cannot exceed 5 items.',
         ],
         'cargo.images.*' => [
             'image' => 'Each cargo image must be a valid image.',
             'mimes' => 'Cargo images must be jpeg, png, jpg, or gif format.',
             'max' => 'Each cargo image must not exceed 8MB.',
+            'file_or_url' => 'Each cargo image must be an uploaded image file or a valid URL.',
         ],
 
         // Water transport messages

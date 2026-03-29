@@ -358,11 +358,13 @@ return [
         ],
         'cargo.images' => [
             'array' => 'Les images de marchandise doivent être dans un format valide.',
+            'max' => 'Les images de marchandise ne peuvent pas dépasser 5 éléments.',
         ],
         'cargo.images.*' => [
             'image' => 'Chaque image de marchandise doit être une image valide.',
             'mimes' => 'Les images de marchandise doivent être au format jpeg, png, jpg ou gif.',
             'max' => 'Chaque image de marchandise ne doit pas dépasser 8MB.',
+            'file_or_url' => 'Chaque image de marchandise doit être un fichier image téléversé ou une URL valide.',
         ],
 
         // Messages de transport d'eau
