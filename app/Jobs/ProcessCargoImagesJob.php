@@ -17,7 +17,7 @@ class ProcessCargoImagesJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected const DEFAULT_COLLECTION = 'cargo_images';
+    protected const DEFAULT_COLLECTION = 'images';
     protected const MAX_IMAGE_SIZE_BYTES = 8388608; // 8 MB
 
     public int $tries = 1;
