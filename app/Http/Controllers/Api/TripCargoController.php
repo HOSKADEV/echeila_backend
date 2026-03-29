@@ -106,14 +106,14 @@ class TripCargoController extends Controller
                 'weight' => $validated['cargo']['weight'],
             ]);
 
-            $this->handleCargoImages($cargo, $validated);
-
             // Create trip cargo
             $tripCargo = TripCargo::create([
                 'trip_id' => $validated['trip_id'],
                 'cargo_id' => $cargo->id,
                 'total_fees' => $validated['total_fees']
             ]);
+
+            $this->handleCargoImages($tripCargo, $validated);
 
             // Send notifications
             $user->notify(new NewMessageNotification(
@@ -220,7 +220,7 @@ class TripCargoController extends Controller
         }
     }
 
-    protected function handleCargoImages(Cargo $cargo, array $data): void
+    protected function handleCargoImages(TripCargo $tripCargo, array $data): void
     {
         if (!isset($data['cargo']['images']) || !is_array($data['cargo']['images'])) {
             return;
@@ -257,7 +257,7 @@ class TripCargoController extends Controller
         if (!empty($imagesPayload)) {
             ProcessCargoImagesJob::dispatch(
                 Cargo::class,
-                $cargo->id,
+                $tripCargo->cargo_id,
                 $imagesPayload,
                 Cargo::IMAGES
             )->afterCommit();

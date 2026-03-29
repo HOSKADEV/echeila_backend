@@ -257,10 +257,10 @@ class TripService
 
         if (!empty($imagesPayload)) {
             ProcessCargoImagesJob::dispatch(
-                TripCargo::class,
-                $tripCargo->id,
+                Cargo::class,
+                $tripCargo->cargo_id,
                 $imagesPayload,
-                TripCargo::IMAGES
+                Cargo::IMAGES
             )->afterCommit();
         }
     }

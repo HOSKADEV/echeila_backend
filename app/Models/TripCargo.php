@@ -7,11 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class TripCargo extends Model implements HasMedia
+class TripCargo extends Model
 {
-    use HasFactory, InteractsWithMedia;
-
-    const IMAGES = 'images';
+    use HasFactory;
 
     protected $fillable = [
         'trip_id',
@@ -32,10 +30,5 @@ class TripCargo extends Model implements HasMedia
     public function cargo()
     {
         return $this->belongsTo(Cargo::class);
-    }
-
-    public function registerMediaCollections(): void
-    {
-        $this->addMediaCollection(self::IMAGES);
     }
 }
