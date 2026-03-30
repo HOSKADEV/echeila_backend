@@ -43,6 +43,14 @@
         </ol>
       </nav>
     </div>
+
+    <button
+      type="button"
+      id="add_role"
+      class="btn btn-primary"
+      onclick="updatePermissions()">
+      <i class="bx bx-save me-1"></i>@lang('app.save')
+    </button>
   </div>
 
   <!-- Bootstrap Table with Header - Light -->
@@ -123,13 +131,6 @@
     </div>
   </div>
   <!-- Bootstrap Table with Header - Light -->
-  <br><br>
-  @if(true)
-    <button type="button" id="add_role"
-            class="btn btn-primary"
-            style="float: {{app()->getLocale() == 'ar'? 'left':'right'}}; padding: 6px 12px; font-size: 14px; margin-top: 10px;"
-            onclick="updatePermissions()">@lang('app.save')</button>
-  @endif
 @endsection
 
 @section('page-script')
