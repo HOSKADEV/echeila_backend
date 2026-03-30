@@ -3,12 +3,14 @@
 return [
     // Group Names
     'groups' => [
+        'general_managment' => 'General Management',
         'system_management' => 'System Management',
         'admin_management' => 'Admin Management',
         'passenger_management' => 'Passenger Management',
         'driver_management' => 'Driver Management',
         'federation_management' => 'Federation Management',
         'wilaya_management' => 'Wilaya Management',
+        'zone_management' => 'Zone Management',
         'seat_price_management' => 'Seat Price Management',
         'brand_management' => 'Brand Management',
         'vehicle_model_management' => 'Vehicle Model Management',
