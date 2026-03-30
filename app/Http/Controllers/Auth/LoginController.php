@@ -25,12 +25,7 @@ class LoginController extends Controller
     $credentials = $request->only('email', 'password');
 
     if (Auth::attempt($credentials)) {
-      $user = Auth::user();
-      if ($user->hasAnyRole([Roles::ADMIN, Roles::SUPER_ADMIN])) {
         return redirect()->route('dashboard');
-      }
-      Auth::logout();
-      return redirect()->route('login')->with('error', 'Access denied for this account.');
     }
     return redirect()->route('login')->with('error', 'Login details are not valid');
   }
