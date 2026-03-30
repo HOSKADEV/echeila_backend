@@ -2,8 +2,6 @@
 
 namespace App\Datatables;
 
-use App\Support\DataTable\DataTableActions;
-use App\Support\Enum\Permissions;
 use App\Support\Enum\Roles;
 use App\Traits\DataTableActionsTrait;
 use Exception;
@@ -20,7 +18,7 @@ class RoleDatatable
     return [
       "name",
       "guard_name",
-      //"action",
+      "actions",
     ];
   }
 
@@ -28,11 +26,14 @@ class RoleDatatable
   {
     try {
       return datatables($this->query($request))
-        ->addColumn("action", function (Role $role) {
+        ->addColumn("actions", function (Role $role) {
+          $isSuperAdmin = Auth::user()->hasRole(Roles::SUPER_ADMIN);
+          $isDeleteable = !in_array($role->name, [Roles::SUPER_ADMIN, Roles::ADMIN]);
+
           return $this
-            ->edit(route("roles.edit", $role->id),Auth::user()->hasPermissionTo(Permissions::MANAGE_ROLES))
-            ->delete(route("roles.destroy", $role->id), Auth::user()->hasPermissionTo(Permissions::MANAGE_ROLES))
-            ->make();
+            ->edit(route("roles.edit", $role->id), $isSuperAdmin && $isDeleteable)
+            ->delete($role->id, $isSuperAdmin && $isDeleteable)
+            ->makeLabelledIcons();
         })
         ->addColumn("name", function (Role $role) {
           //test locale ar
@@ -52,7 +53,7 @@ class RoleDatatable
   public function query($request)
   {
     $query =Role::query();
-    return $query->latest()->get();
+    return $query->get();
   }
 
 }
