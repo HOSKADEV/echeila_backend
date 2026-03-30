@@ -29,13 +29,20 @@ class Roles
     ];
   }
 
-  public static function get_name(string $role): string
+  public static function get_name(string $role):string
   {
+
+    if(!in_array($role, array_keys(self::all()))) {
+      return $role;
+    }
     return self::translated()[$role];
   }
 
   public static function get_color(string $role):string
   {
+    if(!in_array($role, array_keys(self::all()))) {
+      return 'secondary';
+    }
     return [
       self::SUPER_ADMIN => 'warning',
       self::ADMIN => 'info',

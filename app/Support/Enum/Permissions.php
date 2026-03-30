@@ -109,21 +109,21 @@ class Permissions
             self::MANAGE_SETTINGS => self::MANAGE_SETTINGS,
             self::MANAGE_NOTIFICATIONS => self::MANAGE_NOTIFICATIONS,
             self::MANAGE_DOCUMENTATIONS => self::MANAGE_DOCUMENTATIONS,
-            
+
             // Admin
             self::ADMIN_INDEX => self::ADMIN_INDEX,
             self::ADMIN_CREATE => self::ADMIN_CREATE,
             self::ADMIN_UPDATE => self::ADMIN_UPDATE,
             self::ADMIN_DELETE => self::ADMIN_DELETE,
             self::ADMIN_ACTION_INDEX => self::ADMIN_ACTION_INDEX,
-            
+
             // Passenger
             self::PASSENGER_INDEX => self::PASSENGER_INDEX,
             self::PASSENGER_SHOW => self::PASSENGER_SHOW,
             self::PASSENGER_CHANGE_USER_STATUS => self::PASSENGER_CHANGE_USER_STATUS,
             self::PASSENGER_CHARGE_WALLET => self::PASSENGER_CHARGE_WALLET,
             self::PASSENGER_WITHDRAW_SUM => self::PASSENGER_WITHDRAW_SUM,
-            
+
             // Driver
             self::DRIVER_INDEX => self::DRIVER_INDEX,
             self::DRIVER_SHOW => self::DRIVER_SHOW,
@@ -132,13 +132,13 @@ class Permissions
             self::DRIVER_CHARGE_WALLET => self::DRIVER_CHARGE_WALLET,
             self::DRIVER_WITHDRAW_SUM => self::DRIVER_WITHDRAW_SUM,
             self::DRIVER_PURCHASE_SUBSCRIPTION => self::DRIVER_PURCHASE_SUBSCRIPTION,
-            
+
             // Federation
             self::FEDERATION_INDEX => self::FEDERATION_INDEX,
             self::FEDERATION_SHOW => self::FEDERATION_SHOW,
             self::FEDERATION_CREATE => self::FEDERATION_CREATE,
             self::FEDERATION_CHANGE_USER_STATUS => self::FEDERATION_CHANGE_USER_STATUS,
-            
+
             // Wilaya
             self::WILAYA_INDEX => self::WILAYA_INDEX,
             self::WILAYA_CREATE => self::WILAYA_CREATE,
@@ -150,38 +150,38 @@ class Permissions
             self::ZONE_CREATE => self::ZONE_CREATE,
             self::ZONE_UPDATE => self::ZONE_UPDATE,
             self::ZONE_DELETE => self::ZONE_DELETE,
-            
+
             // Seat Price
             self::SEAT_PRICE_INDEX => self::SEAT_PRICE_INDEX,
             self::SEAT_PRICE_CREATE => self::SEAT_PRICE_CREATE,
             self::SEAT_PRICE_UPDATE => self::SEAT_PRICE_UPDATE,
             self::SEAT_PRICE_DELETE => self::SEAT_PRICE_DELETE,
-            
+
             // Brand
             self::BRAND_INDEX => self::BRAND_INDEX,
             self::BRAND_CREATE => self::BRAND_CREATE,
             self::BRAND_UPDATE => self::BRAND_UPDATE,
             self::BRAND_DELETE => self::BRAND_DELETE,
-            
+
             // Vehicle Model
             self::VEHICLE_MODEL_INDEX => self::VEHICLE_MODEL_INDEX,
             self::VEHICLE_MODEL_CREATE => self::VEHICLE_MODEL_CREATE,
             self::VEHICLE_MODEL_UPDATE => self::VEHICLE_MODEL_UPDATE,
             self::VEHICLE_MODEL_DELETE => self::VEHICLE_MODEL_DELETE,
-            
+
             // Color
             self::COLOR_INDEX => self::COLOR_INDEX,
             self::COLOR_CREATE => self::COLOR_CREATE,
             self::COLOR_UPDATE => self::COLOR_UPDATE,
             self::COLOR_DELETE => self::COLOR_DELETE,
-            
+
             // Lost and Found
             self::LOST_AND_FOUND_INDEX => self::LOST_AND_FOUND_INDEX,
             self::LOST_AND_FOUND_SHOW => self::LOST_AND_FOUND_SHOW,
             self::LOST_AND_FOUND_UPDATE => self::LOST_AND_FOUND_UPDATE,
             self::LOST_AND_FOUND_DELETE => self::LOST_AND_FOUND_DELETE,
             self::LOST_AND_FOUND_CHANGE_STATUS => self::LOST_AND_FOUND_CHANGE_STATUS,
-            
+
             // Trips
             self::ALL_TRIPS_INDEX => self::ALL_TRIPS_INDEX,
             self::TAXI_RIDE_INDEX => self::TAXI_RIDE_INDEX,
@@ -231,6 +231,8 @@ class Permissions
             'system_management' => [
                 self::MANAGE_ROLES,
                 self::MANAGE_PERMISSIONS,
+            ],
+            'general_managment' => [
                 self::MANAGE_SETTINGS,
                 self::MANAGE_NOTIFICATIONS,
                 self::MANAGE_DOCUMENTATIONS,
@@ -314,7 +316,7 @@ class Permissions
                 self::CARGO_TRANSPORT_INDEX,
                 self::WATER_TRANSPORT_INDEX,
                 self::PAID_DRIVING_INDEX,
-                self::MRT_TRIP_INDEX,            
+                self::MRT_TRIP_INDEX,
                 self::ESP_TRIP_INDEX,
                 self::TAXI_RIDE_SHOW,
                 self::CAR_RESCUE_SHOW,
