@@ -538,7 +538,7 @@ class TripService
                 'driver.vehicle.model.brand',
                 'driver.vehicle.color',
                 'client.client.user',
-                'cargos.cargo',
+                'cargo.cargo',
                 'detailable.pickupPoint',
                 'detailable.deliveryPoint'
             ]);
@@ -730,7 +730,7 @@ class TripService
                 'driver.vehicle.model.brand',
                 'driver.vehicle.color',
                 'client.client.user',
-                'cargos.cargo',
+                'cargo.cargo',
                 'detailable.pickupPoint',
                 'detailable.deliveryPoint'
             ]);
