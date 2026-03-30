@@ -6,10 +6,12 @@ use App\Datatables\AdminDatatable;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Support\Enum\Permissions;
+use App\Support\Enum\Roles;
 use App\Traits\ImageUpload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class AdminController extends Controller
 {
@@ -25,8 +27,16 @@ class AdminController extends Controller
             return $admins->datatables($request);
         }
 
+        $user = auth()->user();
+        $roles = Role::query();
+
+        if (! $user->hasRole(Roles::SUPER_ADMIN)) {
+            $roles->whereNotIn('name', [Roles::SUPER_ADMIN, Roles::ADMIN]);
+        }
+
         return view('dashboard.admin.list')->with([
             'columns' => $admins::columns(),
+            'roles' => $roles->get()->pluck('name', 'name'),
         ]);
     }
 
@@ -36,7 +46,15 @@ class AdminController extends Controller
             return redirect()->route('unauthorized');
         }
 
-        return view('dashboard.admin.create');
+        $user = auth()->user();
+        $roles = Role::query();
+
+        if (! $user->hasRole(Roles::SUPER_ADMIN)) {
+            $roles->whereNotIn('name', [Roles::SUPER_ADMIN, Roles::ADMIN]);
+        }
+        return view('dashboard.admin.create')->with([
+            'roles' => $roles->get()->pluck('name', 'name'),
+        ]);
     }
 
     public function edit($id)
@@ -45,7 +63,17 @@ class AdminController extends Controller
             return redirect()->route('unauthorized');
         }
 
-        return view('dashboard.admin.edit')->with(['admin' => Admin::findOrFail($id)]);
+        $user = auth()->user();
+        $roles = Role::query();
+
+        if (! $user->hasRole(Roles::SUPER_ADMIN)) {
+            $roles->whereNotIn('name', [Roles::SUPER_ADMIN, Roles::ADMIN]);
+        }
+
+        return view('dashboard.admin.edit')->with([
+            'admin' => Admin::findOrFail($id),
+            'roles' => $roles->get()->pluck('name', 'name'),
+        ]);
     }
 
     public function store(Request $request)

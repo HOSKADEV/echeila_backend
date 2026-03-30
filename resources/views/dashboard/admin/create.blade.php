@@ -87,7 +87,7 @@
                 <label for="role" class="form-label">{{ __('admin.role') }}</label>
                 <select name="role" class="form-select" id="role" required>
                   <option value="">{{ __('app.select_option') }}</option>
-                  @foreach(\App\Support\Enum\Roles::translated() as $key => $value)
+                  @foreach($roles as $key => $value)
                     <option value="{{ $key }}" {{ old('role') == $key ? 'selected' : '' }}>{{ $value }}</option>
                   @endforeach
                 </select>

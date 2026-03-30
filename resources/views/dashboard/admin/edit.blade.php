@@ -15,12 +15,17 @@
         </ol>
       </nav>
     </div>
-    <a href="{{ url()->previous() }}" class="btn btn-label-secondary">
-      <i class="bx bx-arrow-back me-1"></i>{{ __('app.back') }}
-    </a>
+    <div>
+      <a href="{{ url()->previous() }}" class="btn btn-label-secondary me-2">
+        <i class="bx bx-arrow-back me-1"></i>{{ __('app.back') }}
+      </a>
+      <button type="submit" form="admin-form" class="btn btn-primary">
+        <i class="bx bx-check me-1"></i>{{ __('app.send') }}
+      </button>
+    </div>
   </div>
 
-  <form action="{{ route('admins.update', $admin->id) }}" method="POST" enctype="multipart/form-data">
+  <form action="{{ route('admins.update', $admin->id) }}" method="POST" enctype="multipart/form-data" id="admin-form">
     @csrf
     @method('PATCH')
     <div class="row">
@@ -73,14 +78,11 @@
                 <label for="role" class="form-label">{{ __('admin.role') }}</label>
                 <select name="role" class="form-select" id="role" required>
                   <option value="">{{ __('app.select_option') }}</option>
-                  @foreach(\App\Support\Enum\Roles::translated() as $key => $value)
+                  @foreach($roles as $key => $value)
                     <option value="{{ $key }}" {{ old('role', $admin->getRoleNames()->first() ?? '') == $key ? 'selected' : '' }}>{{ $value }}</option>
                   @endforeach
                 </select>
               </div>
-            </div>
-            <div class="form-group" style="text-align: {{ app()->isLocale('ar') ? 'left' : 'right' }}">
-              <button type="submit" class="btn btn-primary">{{ __('app.send') }}</button>
             </div>
           </div>
         </div>

@@ -54,12 +54,21 @@ class AdminDatatable
 
     public function query($request)
     {
-        $query = Admin::whereNot('id', Auth::id());
 
-        if ($request->role_filter) {
-            $query->role($request->role_filter);
-        }
+    $user = Auth::user();
 
-        return $query->latest()->get();
+    $query = Admin::whereNot('id', $user->id);
+
+    if(!$user->hasRole(Roles::SUPER_ADMIN)){
+        $query = Admin::whereHas('roles', function ($q) {
+            $q->whereNotIn('name', [Roles::SUPER_ADMIN, Roles::ADMIN]);
+        });
+    }
+
+    if ($request->role_filter) {
+        $query->role($request->role_filter);
+    }
+
+        return $query->get();
     }
 }

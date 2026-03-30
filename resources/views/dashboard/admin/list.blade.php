@@ -24,7 +24,7 @@
           'id' => 'role_filter',
           'name' => 'role_filter',
           'label' => 'app.role',
-          'options' => \App\Support\Enum\Roles::translated()
+          'options' => $roles
         ],
       ]" />
     </div>
