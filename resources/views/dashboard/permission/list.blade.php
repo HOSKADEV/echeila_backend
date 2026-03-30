@@ -141,7 +141,7 @@
         .filter(Number.isInteger);
 
       const rolePermissionMap = new Map(roleIds.map(roleId => [roleId, []]));
-      const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked:not(:disabled)');
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
 
       checkboxes.forEach(checkbox => {
         const match = checkbox.name.match(/roles\[(\d+)\]/);

@@ -144,27 +144,18 @@ class PermissionsController extends Controller
         $roleId = (int) $roleData['id'];
         $selectedPermissionIds = collect($roleData['permissions'])->map(fn($id) => (int) $id)->all();
         $role = $roles[$roleId];
-        $isCustomRole = !in_array($role->name, [Roles::SUPER_ADMIN, Roles::ADMIN], true);
 
         $selectedPermissionNames = $permissions->only($selectedPermissionIds)->pluck('name');
 
-        if ($isCustomRole) {
-          $blockedForCustomRole = $role
-            ->permissions
-            ->pluck('name')
-            ->filter(fn($name) => in_array($name, $customRoleBlockedPermissionNames, true));
+        // Preserve currently locked permissions even if they are missing from payload.
+        $lockedPermissionNames = $this->lockedPermissionNamesForRole(
+          $role,
+          $isSuperAdmin,
+          $customRoleBlockedPermissionNames,
+          $editablePermissionNames
+        );
 
-          $selectedPermissionNames = $selectedPermissionNames->merge($blockedForCustomRole)->unique()->values();
-        }
-
-        if (!$isSuperAdmin) {
-          $lockedPermissionNames = $roles[$roleId]
-            ->permissions
-            ->pluck('name')
-            ->reject(fn($name) => $editablePermissionNames->contains($name));
-
-          $selectedPermissionNames = $selectedPermissionNames->merge($lockedPermissionNames)->unique()->values();
-        }
+        $selectedPermissionNames = $selectedPermissionNames->merge($lockedPermissionNames)->unique()->values();
 
         $roles[$roleId]->syncPermissions($selectedPermissionNames);
       }
@@ -225,5 +216,41 @@ class PermissionsController extends Controller
     }
 
     return array_values(array_unique($blockedPermissionNames));
+  }
+
+  private function lockedPermissionNamesForRole(
+    Role $role,
+    bool $isSuperAdmin,
+    array $customRoleBlockedPermissionNames,
+    $editablePermissionNames
+  ) {
+    $currentRolePermissionNames = $role->permissions->pluck('name');
+    $lockedPermissionNames = collect();
+
+    if ($role->name === Roles::SUPER_ADMIN) {
+      $superAdminCriticalPermissions = [
+        Permissions::MANAGE_ROLES,
+        Permissions::MANAGE_PERMISSIONS,
+      ];
+
+      $lockedPermissionNames = $lockedPermissionNames->merge(
+        $currentRolePermissionNames->filter(fn($name) => in_array($name, $superAdminCriticalPermissions, true))
+      );
+    }
+
+    $isCustomRole = !in_array($role->name, [Roles::SUPER_ADMIN, Roles::ADMIN], true);
+    if ($isCustomRole) {
+      $lockedPermissionNames = $lockedPermissionNames->merge(
+        $currentRolePermissionNames->filter(fn($name) => in_array($name, $customRoleBlockedPermissionNames, true))
+      );
+    }
+
+    if (!$isSuperAdmin && $editablePermissionNames !== null) {
+      $lockedPermissionNames = $lockedPermissionNames->merge(
+        $currentRolePermissionNames->reject(fn($name) => $editablePermissionNames->contains($name))
+      );
+    }
+
+    return $lockedPermissionNames->unique()->values();
   }
 }
