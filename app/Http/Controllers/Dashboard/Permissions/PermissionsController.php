@@ -181,11 +181,11 @@ class PermissionsController extends Controller
 
   private function canManagePermissions(): bool
   {
-    if (!auth()->check() || !auth()->user()->hasPermissionTo(Permissions::MANAGE_PERMISSIONS)) {
+    if (!auth()->check()) {
       return false;
     }
 
-    return $this->isSuperAdmin() || auth()->user()->hasRole(Roles::ADMIN);
+    return $this->isSuperAdmin() || auth()->user()->hasPermissionTo(Permissions::MANAGE_PERMISSIONS);
   }
 
   private function isSuperAdmin(): bool
