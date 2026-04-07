@@ -24,6 +24,8 @@ class RegisterRequest extends FormRequest
         return [
             'phone' => 'required|string|regex:/^\+\d{1,3}\d{9}$/|unique:users,phone',
             'password' => 'required|string|min:8|confirmed',
+            'first_name' => 'nullable|string|max:255',
+            'last_name' => 'nullable|string|max:255',
             'device_token' => 'nullable|string',
         ];
     }
@@ -42,6 +44,10 @@ class RegisterRequest extends FormRequest
             'password.string' => __('validation.custom.password.string'),
             'password.min' => __('validation.custom.password.min'),
             'password.confirmed' => __('validation.custom.password.confirmed'),
+            'first_name.string' => __('validation.custom.first_name.string'),
+            'first_name.max' => __('validation.custom.first_name.max'),
+            'last_name.string' => __('validation.custom.last_name.string'),
+            'last_name.max' => __('validation.custom.last_name.max'),
             'device_token.string' => __('validation.custom.device_token.string'),
         ];
     }

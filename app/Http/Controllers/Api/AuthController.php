@@ -44,7 +44,10 @@ class AuthController extends Controller
                 'device_token' => $request->device_token,
             ]);
 
-            $user->passenger()->create();
+            $user->passenger()->create([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+            ]);
 
             $user->wallet()->create();
 
