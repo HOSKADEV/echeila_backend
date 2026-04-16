@@ -3,6 +3,7 @@
 namespace App\Charts;
 
 use App\Constants\TripStatus;
+use App\Constants\UserType;
 use App\Models\Driver;
 use App\Models\Passenger;
 use App\Models\Trip;
@@ -28,12 +29,12 @@ class TripCancellationRateChart
         $base = Trip::query()->where('status', TripStatus::CANCELED);
 
         $passengerCancellations = $this->applyPeriodFilter(
-            (clone $base)->where('canceled_by_type', Passenger::class),
+            (clone $base)->where('canceled_by_type', UserType::PASSENGER),
             $period
         )->count();
 
         $driverCancellations = $this->applyPeriodFilter(
-            (clone $base)->where('canceled_by_type', Driver::class),
+            (clone $base)->where('canceled_by_type', UserType::DRIVER),
             $period
         )->count();
 
