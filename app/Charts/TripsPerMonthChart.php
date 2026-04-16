@@ -9,6 +9,7 @@ use ArielMejiaDev\LarapexCharts\LarapexChart;
 class TripsPerMonthChart
 {
     protected $chart;
+    private bool $empty = false;
 
     public function __construct(LarapexChart $chart)
     {
@@ -27,8 +28,16 @@ class TripsPerMonthChart
 
         $labels = $months->map(fn ($month) => $month->format('M Y'))->toArray();
 
+        $this->empty = array_sum($data) === 0;
+
         return $this->chart->areaChart()
             ->addData($data, __('dashboard.trips'))
-            ->setXAxis($labels);
+            ->setXAxis($labels)
+            ->setGrid();
+    }
+
+    public function isEmpty(): bool
+    {
+        return $this->empty;
     }
 }

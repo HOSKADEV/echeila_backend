@@ -31,4 +31,28 @@ return [
     'passengers'          => 'Passagers',
     'drivers'             => 'Chauffeurs',
     'federations'         => 'Fédérations',
+
+    // New stat cards
+    'total_users'            => 'Total utilisateurs',
+    'new_users'              => 'Nouveaux utilisateurs',
+    'new_trips'              => 'Nouveaux trajets',
+    'total_trips'            => 'Total trajets',
+    'cancelled_trips'        => 'Trajets annulés',
+    'avg_passenger_rating'   => 'Note moy. passager',
+    'avg_driver_rating'      => 'Note moy. chauffeur',
+
+    // New chart
+    'trip_cancellation_rate' => 'Taux d\'annulation',
+
+    // Period filter
+    'filter_today'           => 'Aujourd\'hui',
+    'filter_week'            => 'Cette semaine',
+    'filter_month'           => 'Ce mois',
+    'filter_all'             => 'Tout',
+
+    // Section headers
+    'period_stats_title'     => 'Statistiques filtrées',
+    'platform_overview_title' => 'Vue d\'ensemble',
+    'trends_title'           => 'Tendances',
+    'no_data_available'      => 'Aucune donnée disponible',
 ];

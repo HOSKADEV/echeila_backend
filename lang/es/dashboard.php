@@ -31,4 +31,28 @@ return [
     'passengers'          => 'Pasajeros',
     'drivers'             => 'Conductores',
     'federations'         => 'Federaciones',
+
+    // New stat cards
+    'total_users'            => 'Total de usuarios',
+    'new_users'              => 'Nuevos usuarios',
+    'new_trips'              => 'Nuevos viajes',
+    'total_trips'            => 'Total de viajes',
+    'cancelled_trips'        => 'Viajes cancelados',
+    'avg_passenger_rating'   => 'Calificación prom. pasajero',
+    'avg_driver_rating'      => 'Calificación prom. conductor',
+
+    // New chart
+    'trip_cancellation_rate' => 'Tasa de cancelación',
+
+    // Period filter
+    'filter_today'           => 'Hoy',
+    'filter_week'            => 'Esta semana',
+    'filter_month'           => 'Este mes',
+    'filter_all'             => 'Todo',
+
+    // Section headers
+    'period_stats_title'     => 'Estadísticas filtradas',
+    'platform_overview_title' => 'Resumen de la plataforma',
+    'trends_title'           => 'Tendencias',
+    'no_data_available'      => 'Sin datos disponibles',
 ];

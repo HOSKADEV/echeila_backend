@@ -2,23 +2,20 @@
 
 namespace App\Charts;
 
+use App\Constants\TripStatus;
+use App\Models\Driver;
+use App\Models\Passenger;
 use App\Models\Trip;
-use App\Constants\TripType;
 use ArielMejiaDev\LarapexCharts\LarapexChart;
 
-class TripsByTypeChart
+class TripCancellationRateChart
 {
     protected $chart;
     private bool $empty = false;
 
     private const COLOR_MAP = [
-        'blue'   => '#3B7DDD',
-        'purple' => '#6f42c1',
-        'red'    => '#dc3545',
-        'orange' => '#fd7e14',
-        'yellow' => '#ffc107',
-        'cyan'   => '#0dcaf0',
-        'teal'   => '#20c997',
+        'passenger' => '#fd7e14',
+        'driver'    => '#dc3545',
     ];
 
     public function __construct(LarapexChart $chart)
@@ -28,25 +25,24 @@ class TripsByTypeChart
 
     public function build(string $period = 'all'): \ArielMejiaDev\LarapexCharts\DonutChart
     {
-        $types  = TripType::all();
-        $counts = [];
-        $labels = [];
-        $colors = [];
+        $base = Trip::query()->where('status', TripStatus::CANCELED);
 
-        foreach ($types as $type) {
-            $query    = Trip::where('type', $type);
-            $counts[] = $this->applyPeriodFilter($query, $period)->count();
-            $labels[] = TripType::get_name($type);
-            $bsColor  = TripType::get_color($type);
-            $colors[] = self::COLOR_MAP[$bsColor] ?? '#6c757d';
-        }
+        $passengerCancellations = $this->applyPeriodFilter(
+            (clone $base)->where('canceled_by_type', Passenger::class),
+            $period
+        )->count();
 
-        $this->empty = array_sum($counts) === 0;
+        $driverCancellations = $this->applyPeriodFilter(
+            (clone $base)->where('canceled_by_type', Driver::class),
+            $period
+        )->count();
+
+        $this->empty = ($passengerCancellations + $driverCancellations) === 0;
 
         return $this->chart->donutChart()
-            ->addData($counts)
-            ->setLabels($labels)
-            ->setColors($colors)
+            ->addData([$passengerCancellations, $driverCancellations])
+            ->setLabels([__('dashboard.passengers'), __('dashboard.drivers')])
+            ->setColors([self::COLOR_MAP['passenger'], self::COLOR_MAP['driver']])
             ->setDataLabels(true);
     }
 

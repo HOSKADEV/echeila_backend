@@ -10,6 +10,7 @@ use ArielMejiaDev\LarapexCharts\LarapexChart;
 class RevenuePerMonthChart
 {
     protected $chart;
+    private bool $empty = false;
 
     public function __construct(LarapexChart $chart)
     {
@@ -39,10 +40,18 @@ class RevenuePerMonthChart
 
         $labels = $months->map(fn ($month) => $month->format('M Y'))->toArray();
 
+        $this->empty = (array_sum($income) + array_sum($withdrawals)) === 0.0;
+
         return $this->chart->areaChart()
             ->addData($income, __('dashboard.income'))
             ->addData($withdrawals, __('dashboard.withdrawals'))
             ->setXAxis($labels)
-            ->setColors(['#28a745', '#dc3545']);
+            ->setColors(['#28a745', '#dc3545'])
+            ->setGrid();
+    }
+
+    public function isEmpty(): bool
+    {
+        return $this->empty;
     }
 }

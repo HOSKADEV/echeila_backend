@@ -1,22 +1,22 @@
 @php $configData = Helper::appClasses(); @endphp
 
-@extends('layouts/layoutMaster')
+@extends("layouts/layoutMaster")
 
-@section('title', __('actions.home'))
+@section("title", __("actions.home"))
 
-@section('content')
-{{-- ─────────────────────────── ROW 1 : Info cards + Active Trips ──────────────── --}}
-<div class="row">
-    {{-- Pending Drivers card --}}
-    <div class="col-lg-4 mb-4">
+@section("content")
+{{-- ─────────────────────────── ROW 1 : Info cards (always on top) ────── --}}
+<div class="row mb-4">
+    {{-- Pending Drivers --}}
+    <div class="col-lg-4 mb-4 mb-lg-0">
         <div class="card h-100">
             <div class="d-flex align-items-center row g-0">
                 <div class="col-sm-7">
                     <div class="card-body">
-                        <h5 class="card-title text-warning">{{ __('dashboard.pending_drivers') }}</h5>
+                        <h5 class="card-title text-warning">{{ __("dashboard.pending_drivers") }}</h5>
                         <h2 class="fw-bold mb-3">{{ number_format($pendingDrivers) }}</h2>
-                        <a href="{{ route('drivers.index') }}" class="btn btn-sm btn-label-warning">
-                            <i class="bx bx-user-check me-1"></i> {{ __('dashboard.view_drivers') }}
+                        <a href="{{ route("drivers.index") }}" class="btn btn-sm btn-label-warning">
+                            <i class="bx bx-user-check me-1"></i> {{ __("dashboard.view_drivers") }}
                         </a>
                     </div>
                 </div>
@@ -28,17 +28,16 @@
             </div>
         </div>
     </div>
-
-    {{-- Active Trips card --}}
-    <div class="col-lg-4 mb-4">
+    {{-- Active Trips --}}
+    <div class="col-lg-4 mb-4 mb-lg-0">
         <div class="card h-100">
             <div class="d-flex align-items-center row g-0">
                 <div class="col-sm-7">
                     <div class="card-body">
-                        <h5 class="card-title text-primary">{{ __('dashboard.active_trips') }}</h5>
+                        <h5 class="card-title text-primary">{{ __("dashboard.active_trips") }}</h5>
                         <h2 class="fw-bold mb-3">{{ number_format($activeTrips) }}</h2>
-                        <a href="{{ route('trips.index', ['type' => 'all']) }}" class="btn btn-sm btn-label-primary">
-                            <i class="bx bx-list-ul me-1"></i> {{ __('dashboard.view_trips') }}
+                        <a href="{{ route("trips.index", ["type" => "all"]) }}" class="btn btn-sm btn-label-primary">
+                            <i class="bx bx-list-ul me-1"></i> {{ __("dashboard.view_trips") }}
                         </a>
                     </div>
                 </div>
@@ -50,17 +49,16 @@
             </div>
         </div>
     </div>
-
-    {{-- Found Items card --}}
-    <div class="col-lg-4 mb-4">
+    {{-- Found Items --}}
+    <div class="col-lg-4">
         <div class="card h-100">
             <div class="d-flex align-items-center row g-0">
                 <div class="col-sm-7">
                     <div class="card-body">
-                        <h5 class="card-title text-info">{{ __('dashboard.found_items') }}</h5>
+                        <h5 class="card-title text-info">{{ __("dashboard.found_items") }}</h5>
                         <h2 class="fw-bold mb-3">{{ number_format($foundItems) }}</h2>
-                        <a href="{{ route('lost-and-founds.index') }}" class="btn btn-sm btn-label-info">
-                            <i class="bx bx-search-alt me-1"></i> {{ __('dashboard.view_items') }}
+                        <a href="{{ route("lost-and-founds.index") }}" class="btn btn-sm btn-label-info">
+                            <i class="bx bx-search-alt me-1"></i> {{ __("dashboard.view_items") }}
                         </a>
                     </div>
                 </div>
@@ -73,92 +71,107 @@
         </div>
     </div>
 </div>
-
-{{-- ─────────────────────────── ROW 2 : Stat Cards ────────────────────────────── --}}
+{{-- ─────────────────────────── PERIOD FILTER BAR ──────────────────────── --}}
+<div class="d-flex align-items-center justify-content-between mb-4">
+    <h5 class="fw-bold mb-0">{{ __("dashboard.platform_overview_title") }}</h5>
+    <div class="btn-group" role="group">
+        <a href="{{ request()->fullUrlWithQuery(["period" => "today"]) }}"
+           class="btn btn-sm {{ $period === "today" ? "btn-primary" : "btn-outline-primary" }}">
+            {{ __("dashboard.filter_today") }}
+        </a>
+        <a href="{{ request()->fullUrlWithQuery(["period" => "week"]) }}"
+           class="btn btn-sm {{ $period === "week"  ? "btn-primary" : "btn-outline-primary" }}">
+            {{ __("dashboard.filter_week") }}
+        </a>
+        <a href="{{ request()->fullUrlWithQuery(["period" => "month"]) }}"
+           class="btn btn-sm {{ $period === "month" ? "btn-primary" : "btn-outline-primary" }}">
+            {{ __("dashboard.filter_month") }}
+        </a>
+        <a href="{{ request()->fullUrlWithQuery(["period" => "all"]) }}"
+           class="btn btn-sm {{ $period === "all"   ? "btn-primary" : "btn-outline-primary" }}">
+            {{ __("dashboard.filter_all") }}
+        </a>
+    </div>
+</div>
+{{-- ─────────────────────────── ROW 2 : Fixed unfiltered totals ──────────── --}}
 <div class="row mb-4">
-    {{-- Total Passengers --}}
-    <div class="col-md-4 col-xl-2 mb-4">
+    <div class="col-md-6 mb-4 mb-md-0">
         <div class="card h-100">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-start">
                     <div>
-                        <span class="fw-semibold d-block mb-1 text-muted" style="font-size:.8rem;">{{ __('dashboard.total_passengers') }}</span>
-                        <h4 class="card-title mb-0">{{ number_format($totalPassengers) }}</h4>
+                        <span class="fw-semibold d-block mb-1 text-muted" style="font-size:.8rem;">{{ __("dashboard.total_users") }}</span>
+                        <h4 class="card-title mb-0">{{ number_format($totalUsers) }}</h4>
                     </div>
                     <div class="avatar flex-shrink-0">
                         <span class="avatar-initial rounded bg-label-purple">
-                            <i class="bx bx-user"></i>
+                            <i class="bx bx-group"></i>
                         </span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    {{-- Approved Drivers --}}
-    <div class="col-md-4 col-xl-2 mb-4">
+    <div class="col-md-6">
         <div class="card h-100">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-start">
                     <div>
-                        <span class="fw-semibold d-block mb-1 text-muted" style="font-size:.8rem;">{{ __('dashboard.approved_drivers') }}</span>
-                        <h4 class="card-title mb-0">{{ number_format($approvedDrivers) }}</h4>
-                    </div>
-                    <div class="avatar flex-shrink-0">
-                        <span class="avatar-initial rounded bg-label-blue">
-                            <i class="bx bx-user-check"></i>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {{-- Completed Trips --}}
-    <div class="col-md-4 col-xl-2 mb-4">
-        <div class="card h-100">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-start">
-                    <div>
-                        <span class="fw-semibold d-block mb-1 text-muted" style="font-size:.8rem;">{{ __('dashboard.completed_trips') }}</span>
-                        <h4 class="card-title mb-0">{{ number_format($completedTrips) }}</h4>
+                        <span class="fw-semibold d-block mb-1 text-muted" style="font-size:.8rem;">{{ __("dashboard.total_trips") }}</span>
+                        <h4 class="card-title mb-0">{{ number_format($totalTrips) }}</h4>
                     </div>
                     <div class="avatar flex-shrink-0">
                         <span class="avatar-initial rounded bg-label-primary">
-                            <i class="bx bx-check-circle"></i>
+                            <i class="bx bx-map-alt"></i>
                         </span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    {{-- Items Returned --}}
-    <div class="col-md-4 col-xl-2 mb-4">
+</div>
+{{-- ─────────────────────────── ROW 3 : New Users / New Trips / Revenue ─── --}}
+<div class="row mb-4">
+    <div class="col-md-4 mb-4 mb-md-0">
         <div class="card h-100">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-start">
                     <div>
-                        <span class="fw-semibold d-block mb-1 text-muted" style="font-size:.8rem;">{{ __('dashboard.items_returned') }}</span>
-                        <h4 class="card-title mb-0">{{ number_format($returnedItems) }}</h4>
+                        <span class="fw-semibold d-block mb-1 text-muted" style="font-size:.8rem;">{{ __("dashboard.new_users") }}</span>
+                        <h4 class="card-title mb-0">{{ number_format($newUsers) }}</h4>
+                    </div>
+                    <div class="avatar flex-shrink-0">
+                        <span class="avatar-initial rounded bg-label-success">
+                            <i class="bx bx-user-plus"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4 mb-md-0">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <span class="fw-semibold d-block mb-1 text-muted" style="font-size:.8rem;">{{ __("dashboard.new_trips") }}</span>
+                        <h4 class="card-title mb-0">{{ number_format($newTrips) }}</h4>
                     </div>
                     <div class="avatar flex-shrink-0">
                         <span class="avatar-initial rounded bg-label-info">
-                            <i class="bx bx-package"></i>
+                            <i class="bx bx-plus-circle"></i>
                         </span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    {{-- Total Revenue --}}
-    <div class="col-md-4 col-xl-2 mb-4">
+    <div class="col-md-4">
         <div class="card h-100">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-start">
                     <div>
-                        <span class="fw-semibold d-block mb-1 text-muted" style="font-size:.8rem;">{{ __('dashboard.total_revenue') }}</span>
+                        <span class="fw-semibold d-block mb-1 text-muted" style="font-size:.8rem;">{{ __("dashboard.total_revenue") }}</span>
                         <h4 class="card-title mb-0">{{ number_format($totalRevenue, 2) }}</h4>
                     </div>
                     <div class="avatar flex-shrink-0">
@@ -170,19 +183,54 @@
             </div>
         </div>
     </div>
-
-    {{-- Admin Actions --}}
-    <div class="col-md-4 col-xl-2 mb-4">
+</div>
+{{-- ─────────────────────────── ROW 4 : Items / Ratings ───────────────── --}}
+<div class="row mb-4">
+    <div class="col-md-4 mb-4 mb-md-0">
         <div class="card h-100">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-start">
                     <div>
-                        <span class="fw-semibold d-block mb-1 text-muted" style="font-size:.8rem;">{{ __('dashboard.admin_actions') }}</span>
-                        <h4 class="card-title mb-0">{{ number_format($adminActions) }}</h4>
+                        <span class="fw-semibold d-block mb-1 text-muted" style="font-size:.8rem;">{{ __("dashboard.items_returned") }}</span>
+                        <h4 class="card-title mb-0">{{ number_format($returnedItems) }}</h4>
                     </div>
                     <div class="avatar flex-shrink-0">
                         <span class="avatar-initial rounded bg-label-danger">
-                            <i class="bx bx-shield"></i>
+                            <i class="bx bx-package"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4 mb-md-0">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <span class="fw-semibold d-block mb-1 text-muted" style="font-size:.8rem;">{{ __("dashboard.avg_driver_rating") }}</span>
+                        <h4 class="card-title mb-0">{{ number_format($avgDriverRating, 1) }} <small class="text-warning" style="font-size:.9rem;">&#9733;</small></h4>
+                    </div>
+                    <div class="avatar flex-shrink-0">
+                        <span class="avatar-initial rounded bg-label-blue">
+                            <i class="bx bxs-star"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <span class="fw-semibold d-block mb-1 text-muted" style="font-size:.8rem;">{{ __("dashboard.avg_passenger_rating") }}</span>
+                        <h4 class="card-title mb-0">{{ number_format($avgPassengerRating, 1) }} <small class="text-warning" style="font-size:.9rem;">&#9733;</small></h4>
+                    </div>
+                    <div class="avatar flex-shrink-0">
+                        <span class="avatar-initial rounded bg-label-teal">
+                            <i class="bx bx-star"></i>
                         </span>
                     </div>
                 </div>
@@ -190,86 +238,156 @@
         </div>
     </div>
 </div>
-
-{{-- ─────────────────────────── ROW 3 : Trips by Type + Revenue per Month ─────────────────── --}}
+{{-- ═══════════════════════ CHARTS ═════════════════════════════════════════ --}}
+<div class="d-flex align-items-center mb-3 mt-2">
+    <span class="text-muted fw-semibold" style="font-size:.75rem; text-transform:uppercase; letter-spacing:.07rem; white-space:nowrap;">
+        {{ __("dashboard.trends_title") }}
+    </span>
+    <hr class="flex-grow-1 ms-3 my-0 opacity-25">
+</div>
+{{-- Row 5: Trips by Status + Trips by Type ──────────────────────────────── --}}
 <div class="row mb-4">
-    <div class="col-lg-5 mb-4 mb-lg-0">
+    <div class="col-md-6 mb-4 mb-md-0">
         <div class="card h-100">
             <div class="card-body">
-                <h6 class="card-title mb-0">{{ __('dashboard.trips_by_type') }}</h6>
-                {!! $tripsByType->container() !!}
+                <h6 class="card-title mb-0">{{ __("dashboard.trips_by_status") }}</h6>
+                @if($tripsByStatusEmpty)
+                    <div class="d-flex flex-column align-items-center justify-content-center text-muted py-5">
+                        <i class="bx bx-pie-chart-alt-2 mb-2" style="font-size:2.5rem; opacity:.3;"></i>
+                        <p class="mb-0" style="font-size:.85rem;">{{ __("dashboard.no_data_available") }}</p>
+                    </div>
+                @else
+                    {!! $tripsByStatus->container() !!}
+                @endif
             </div>
         </div>
     </div>
-    <div class="col-lg-7">
+    <div class="col-md-6">
         <div class="card h-100">
             <div class="card-body">
-                <h6 class="card-title mb-0">{{ __('dashboard.revenue_per_month') }}</h6>
-                <small class="text-muted">{{ __('dashboard.last_6_months') }}</small>
-                {!! $revenuePerMonth->container() !!}
+                <h6 class="card-title mb-0">{{ __("dashboard.trips_by_type") }}</h6>
+                @if($tripsByTypeEmpty)
+                    <div class="d-flex flex-column align-items-center justify-content-center text-muted py-5">
+                        <i class="bx bx-pie-chart-alt-2 mb-2" style="font-size:2.5rem; opacity:.3;"></i>
+                        <p class="mb-0" style="font-size:.85rem;">{{ __("dashboard.no_data_available") }}</p>
+                    </div>
+                @else
+                    {!! $tripsByType->container() !!}
+                @endif
             </div>
         </div>
     </div>
 </div>
-
-{{-- ─────────────────────────── ROW 4 : Users by Type + Drivers by Status + Trips by Status ── --}}
+{{-- Row 6: Users by Type + Trip Cancellation Rate + Drivers by Status ───── --}}
 <div class="row mb-4">
-    <div class="col-lg-4 mb-4 mb-lg-0">
+    <div class="col-md-4 mb-4 mb-md-0">
         <div class="card h-100">
             <div class="card-body">
-                <h6 class="card-title mb-0">{{ __('dashboard.users_by_type') }}</h6>
-                {!! $usersByType->container() !!}
+                <h6 class="card-title mb-0">{{ __("dashboard.users_by_type") }}</h6>
+                @if($usersByTypeEmpty)
+                    <div class="d-flex flex-column align-items-center justify-content-center text-muted py-5">
+                        <i class="bx bx-pie-chart-alt-2 mb-2" style="font-size:2.5rem; opacity:.3;"></i>
+                        <p class="mb-0" style="font-size:.85rem;">{{ __("dashboard.no_data_available") }}</p>
+                    </div>
+                @else
+                    {!! $usersByType->container() !!}
+                @endif
             </div>
         </div>
     </div>
-    <div class="col-lg-4 mb-4 mb-lg-0">
+    <div class="col-md-4 mb-4 mb-md-0">
         <div class="card h-100">
             <div class="card-body">
-                <h6 class="card-title mb-0">{{ __('dashboard.drivers_by_status') }}</h6>
-                {!! $driversByStatus->container() !!}
+                <h6 class="card-title mb-0">{{ __("dashboard.trip_cancellation_rate") }}</h6>
+                @if($tripCancellationRateEmpty)
+                    <div class="d-flex flex-column align-items-center justify-content-center text-muted py-5">
+                        <i class="bx bx-pie-chart-alt-2 mb-2" style="font-size:2.5rem; opacity:.3;"></i>
+                        <p class="mb-0" style="font-size:.85rem;">{{ __("dashboard.no_data_available") }}</p>
+                    </div>
+                @else
+                    {!! $tripCancellationRate->container() !!}
+                @endif
             </div>
         </div>
     </div>
-    <div class="col-lg-4">
+    <div class="col-md-4">
         <div class="card h-100">
             <div class="card-body">
-                <h6 class="card-title mb-0">{{ __('dashboard.trips_by_status') }}</h6>
-                {!! $tripsByStatus->container() !!}
+                <h6 class="card-title mb-0">{{ __("dashboard.drivers_by_status") }}</h6>
+                @if($driversByStatusEmpty)
+                    <div class="d-flex flex-column align-items-center justify-content-center text-muted py-5">
+                        <i class="bx bx-pie-chart-alt-2 mb-2" style="font-size:2.5rem; opacity:.3;"></i>
+                        <p class="mb-0" style="font-size:.85rem;">{{ __("dashboard.no_data_available") }}</p>
+                    </div>
+                @else
+                    {!! $driversByStatus->container() !!}
+                @endif
             </div>
         </div>
     </div>
 </div>
-
-{{-- ─────────────────────────── ROW 5 : Trips per Month + Users per Month ────────────── --}}
+{{-- Row 7: Trips per Month + Users per Month ────────────────────────────── --}}
 <div class="row mb-4">
-    <div class="col-lg-6 mb-4 mb-lg-0">
+    <div class="col-md-6 mb-4 mb-md-0">
         <div class="card h-100">
             <div class="card-body">
-                <h6 class="card-title mb-0">{{ __('dashboard.trips_per_month') }}</h6>
-                <small class="text-muted">{{ __('dashboard.last_6_months') }}</small>
-                {!! $tripsPerMonth->container() !!}
+                <h6 class="card-title mb-0">{{ __("dashboard.trips_per_month") }}</h6>
+                <small class="text-muted">{{ __("dashboard.last_6_months") }}</small>
+                @if($tripsPerMonthEmpty)
+                    <div class="d-flex flex-column align-items-center justify-content-center text-muted py-5">
+                        <i class="bx bx-line-chart mb-2" style="font-size:2.5rem; opacity:.3;"></i>
+                        <p class="mb-0" style="font-size:.85rem;">{{ __("dashboard.no_data_available") }}</p>
+                    </div>
+                @else
+                    {!! $tripsPerMonth->container() !!}
+                @endif
             </div>
         </div>
     </div>
-    <div class="col-lg-6">
+    <div class="col-md-6">
         <div class="card h-100">
             <div class="card-body">
-                <h6 class="card-title mb-0">{{ __('dashboard.new_users_per_month') }}</h6>
-                <small class="text-muted">{{ __('dashboard.last_6_months') }}</small>
-                {!! $usersPerMonth->container() !!}
+                <h6 class="card-title mb-0">{{ __("dashboard.new_users_per_month") }}</h6>
+                <small class="text-muted">{{ __("dashboard.last_6_months") }}</small>
+                @if($usersPerMonthEmpty)
+                    <div class="d-flex flex-column align-items-center justify-content-center text-muted py-5">
+                        <i class="bx bx-line-chart mb-2" style="font-size:2.5rem; opacity:.3;"></i>
+                        <p class="mb-0" style="font-size:.85rem;">{{ __("dashboard.no_data_available") }}</p>
+                    </div>
+                @else
+                    {!! $usersPerMonth->container() !!}
+                @endif
             </div>
         </div>
     </div>
 </div>
-
-{{-- ApexCharts library + chart scripts --}}
-<script src="{{ asset('assets/vendor/libs/apex-charts/apexcharts.js') }}"></script>
-{!! $tripsPerMonth->script() !!}
-{!! $tripsByType->script() !!}
-{!! $usersByType->script() !!}
-{!! $driversByStatus->script() !!}
-{!! $tripsByStatus->script() !!}
-{!! $usersPerMonth->script() !!}
-{!! $revenuePerMonth->script() !!}
+{{-- Row 8: Revenue per Month ────────────────────────────────────────────── --}}
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title mb-0">{{ __("dashboard.revenue_per_month") }}</h6>
+                <small class="text-muted">{{ __("dashboard.last_6_months") }}</small>
+                @if($revenuePerMonthEmpty)
+                    <div class="d-flex flex-column align-items-center justify-content-center text-muted py-5">
+                        <i class="bx bx-line-chart mb-2" style="font-size:2.5rem; opacity:.3;"></i>
+                        <p class="mb-0" style="font-size:.85rem;">{{ __("dashboard.no_data_available") }}</p>
+                    </div>
+                @else
+                    {!! $revenuePerMonth->container() !!}
+                @endif
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{{ asset("assets/vendor/libs/apex-charts/apexcharts.js") }}"></script>
+@if(!$tripsPerMonthEmpty)        {!! $tripsPerMonth->script() !!}        @endif
+@if(!$tripsByTypeEmpty)          {!! $tripsByType->script() !!}          @endif
+@if(!$usersByTypeEmpty)          {!! $usersByType->script() !!}          @endif
+@if(!$driversByStatusEmpty)      {!! $driversByStatus->script() !!}      @endif
+@if(!$tripsByStatusEmpty)        {!! $tripsByStatus->script() !!}        @endif
+@if(!$usersPerMonthEmpty)        {!! $usersPerMonth->script() !!}        @endif
+@if(!$revenuePerMonthEmpty)      {!! $revenuePerMonth->script() !!}      @endif
+@if(!$tripCancellationRateEmpty) {!! $tripCancellationRate->script() !!} @endif
 
 @endsection

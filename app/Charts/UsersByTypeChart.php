@@ -11,6 +11,7 @@ use ArielMejiaDev\LarapexCharts\LarapexChart;
 class UsersByTypeChart
 {
     protected $chart;
+    private bool $empty = false;
 
     private const COLOR_MAP = [
         'info'    => '#17a2b8',
@@ -23,12 +24,12 @@ class UsersByTypeChart
         $this->chart = $chart;
     }
 
-    public function build(): \ArielMejiaDev\LarapexCharts\PieChart
+    public function build(string $period = 'all'): \ArielMejiaDev\LarapexCharts\PieChart
     {
         $counts = [
-            UserType::PASSENGER  => Passenger::count(),
-            UserType::DRIVER     => Driver::count(),
-            UserType::FEDERATION => Federation::count(),
+            UserType::PASSENGER  => $this->applyPeriodFilter(Passenger::query(), $period)->count(),
+            UserType::DRIVER     => $this->applyPeriodFilter(Driver::query(), $period)->count(),
+            UserType::FEDERATION => $this->applyPeriodFilter(Federation::query(), $period)->count(),
         ];
 
         $labels = [];
@@ -42,9 +43,27 @@ class UsersByTypeChart
             $colors[] = self::COLOR_MAP[$bsColor] ?? '#6c757d';
         }
 
+        $this->empty = array_sum($data) === 0;
+
         return $this->chart->pieChart()
             ->addData($data)
             ->setLabels($labels)
-            ->setColors($colors);
+            ->setColors($colors)
+            ->setDataLabels(true);
+    }
+
+    public function isEmpty(): bool
+    {
+        return $this->empty;
+    }
+
+    private function applyPeriodFilter($query, string $period)
+    {
+        return match ($period) {
+            'today' => $query->whereDate('created_at', today()),
+            'week'  => $query->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]),
+            'month' => $query->whereBetween('created_at', [now()->startOfMonth(), now()->endOfMonth()]),
+            default => $query,
+        };
     }
 }

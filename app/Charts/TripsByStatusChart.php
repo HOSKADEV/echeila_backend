@@ -9,6 +9,7 @@ use ArielMejiaDev\LarapexCharts\LarapexChart;
 class TripsByStatusChart
 {
     protected $chart;
+    private bool $empty = false;
 
     // Bootstrap color name => ApexCharts hex
     private const COLOR_MAP = [
@@ -23,7 +24,7 @@ class TripsByStatusChart
         $this->chart = $chart;
     }
 
-    public function build(): \ArielMejiaDev\LarapexCharts\PolarAreaChart
+    public function build(string $period = 'all'): \ArielMejiaDev\LarapexCharts\PieChart
     {
         $statuses = TripStatus::all();
         $counts   = [];
@@ -31,15 +32,34 @@ class TripsByStatusChart
         $colors   = [];
 
         foreach ($statuses as $status) {
-            $counts[] = Trip::where('status', $status)->count();
+            $query    = Trip::where('status', $status);
+            $counts[] = $this->applyPeriodFilter($query, $period)->count();
             $labels[] = TripStatus::get_name($status);
             $bsColor  = TripStatus::get_color($status);
             $colors[] = self::COLOR_MAP[$bsColor] ?? '#6c757d';
         }
 
-        return $this->chart->polarAreaChart()
+        $this->empty = array_sum($counts) === 0;
+
+        return $this->chart->pieChart()
             ->addData($counts)
             ->setLabels($labels)
-            ->setColors($colors);
+            ->setColors($colors)
+            ->setDataLabels(true);
+    }
+
+    public function isEmpty(): bool
+    {
+        return $this->empty;
+    }
+
+    private function applyPeriodFilter($query, string $period)
+    {
+        return match ($period) {
+            'today' => $query->whereDate('created_at', today()),
+            'week'  => $query->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]),
+            'month' => $query->whereBetween('created_at', [now()->startOfMonth(), now()->endOfMonth()]),
+            default => $query,
+        };
     }
 }

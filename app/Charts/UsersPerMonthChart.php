@@ -11,6 +11,7 @@ use ArielMejiaDev\LarapexCharts\LarapexChart;
 class UsersPerMonthChart
 {
     protected $chart;
+    private bool $empty = false;
 
     public function __construct(LarapexChart $chart)
     {
@@ -41,11 +42,19 @@ class UsersPerMonthChart
 
         $labels = $months->map(fn ($m) => $m->format('M Y'))->toArray();
 
+        $this->empty = (array_sum($passengers) + array_sum($drivers) + array_sum($federations)) === 0;
+
         return $this->chart->lineChart()
             ->addData($passengers, __('dashboard.passengers'))
             ->addData($drivers, __('dashboard.drivers'))
             ->addData($federations, __('dashboard.federations'))
             ->setXAxis($labels)
-            ->setColors(['#17a2b8', '#ffc107', '#6f42c1']);
+            ->setColors(['#17a2b8', '#ffc107', '#6f42c1'])
+            ->setGrid();
+    }
+
+    public function isEmpty(): bool
+    {
+        return $this->empty;
     }
 }
