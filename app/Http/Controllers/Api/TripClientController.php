@@ -148,12 +148,16 @@ class TripClientController extends Controller
 
                 // Create trip client
             $tripClient = TripClient::create([
-                'trip_id' => $validated['trip_id'],
-                'client_id' => $clientId,
-                'client_type' => $clientType,
-                'number_of_seats' => $validated['number_of_seats'],
-                'total_fees' => $totalFees,
-                'note' => $validated['note'] ?? null,
+                'trip_id'        => $validated['trip_id'],
+                'client_id'      => $clientId,
+                'client_type'    => $clientType,
+                'number_of_seats'=> $validated['number_of_seats'],
+                'total_fees'     => $totalFees,
+                'note'           => $validated['note'] ?? null,
+                'payment_method' => $validated['payment_method'],
+                'is_paid'        => $clientType === Guest::class
+                                        ? false
+                                        : $validated['payment_method'] === PaymentMethod::WALLET,
             ]);
 
             DB::commit();
@@ -166,6 +170,32 @@ class TripClientController extends Controller
 
         } catch (Exception $e) {
             DB::rollBack();
+            return $this->errorResponse($e->getMessage(), $e->getCode());
+        }
+    }
+
+    /**
+     * Mark a trip client as paid
+     */
+    public function update($id): JsonResponse
+    {
+        try {
+            $user = auth()->user();
+            $tripClient = TripClient::with('trip')->findOrFail($id);
+
+            if (!$user->driver || $tripClient->trip->driver_id !== $user->driver->id) {
+                throw new Exception('Unauthorized to update this trip client', 403);
+            }
+
+            if ($tripClient->is_paid) {
+                throw new Exception('Trip client is already marked as paid');
+            }
+
+            $tripClient->update(['is_paid' => true]);
+
+            return $this->successResponse();
+
+        } catch (Exception $e) {
             return $this->errorResponse($e->getMessage(), $e->getCode());
         }
     }
@@ -201,7 +231,7 @@ class TripClientController extends Controller
 
             $trip = Trip::with('detailable', 'driver.user.wallet')->findOrFail($tripClient->trip_id);
 
-            if (in_array($trip->type, [TripType::MRT_TRIP, TripType::ESP_TRIP]) && $tripClient->client_type === Passenger::class) {
+            if (in_array($trip->type, [TripType::MRT_TRIP, TripType::ESP_TRIP]) && $tripClient->client_type === Passenger::class && $tripClient->is_paid) {
                 if ($user->driver && $user->wallet->balance < $tripClient->total_fees) {
                     throw new Exception('Insufficient wallet balance for refund', 402);
                 }

@@ -136,6 +136,7 @@ Route::prefix('v1')->group(function () {
     Route::prefix('trip-clients')->group(function () {
       Route::get('/', [TripClientController::class, 'index']);
       Route::post('/', [TripClientController::class, 'store']);
+      Route::patch('/{tripClient}', [TripClientController::class, 'update']);
       Route::delete('/{tripClient}', [TripClientController::class, 'destroy']);
     });
 
@@ -143,6 +144,7 @@ Route::prefix('v1')->group(function () {
     Route::prefix('trip-cargos')->group(function () {
       Route::get('/', [TripCargoController::class, 'index']);
       Route::post('/', [TripCargoController::class, 'store']);
+      Route::patch('/{tripCargo}', [TripCargoController::class, 'update']);
       Route::delete('/{tripCargo}', [TripCargoController::class, 'destroy']);
     });
 

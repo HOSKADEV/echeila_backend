@@ -26,6 +26,8 @@ class TripClientResource extends JsonResource
             'image' => $this->client_type == Passenger::class ? $this->client?->getFirstMediaUrl('image') : "",
             'number_of_seats' => $this->number_of_seats,
             'total_fees' => $this->total_fees,
+            'payment_method' => $this->payment_method,
+            'is_paid' => $this->is_paid,
             'note' => $this->note,
             'trip_count' => $this->when(
                 $this->client_type == Passenger::class,

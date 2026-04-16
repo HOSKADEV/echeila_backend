@@ -16,10 +16,13 @@ class TripClient extends Model
         'number_of_seats',
         'total_fees',
         'note',
+        'payment_method',
+        'is_paid',
     ];
 
     protected $casts = [
         'total_fees' => 'decimal:2',
+        'is_paid'    => 'boolean',
     ];
 
     // Relationships

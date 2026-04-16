@@ -15,10 +15,13 @@ class TripCargo extends Model
         'trip_id',
         'cargo_id',
         'total_fees',
+        'payment_method',
+        'is_paid',
     ];
 
     protected $casts = [
         'total_fees' => 'decimal:2',
+        'is_paid'    => 'boolean',
     ];
 
     // Relationships

@@ -19,6 +19,8 @@ class TripCargoResource extends JsonResource
             'trip_id' => $this->trip_id,
             'cargo_id' => $this->cargo_id,
             'total_fees' => $this->total_fees,
+            'payment_method' => $this->payment_method,
+            'is_paid' => $this->is_paid,
             //'created_at' => $this->created_at,
             //'updated_at' => $this->updated_at,
             'description' => $this->cargo->description,

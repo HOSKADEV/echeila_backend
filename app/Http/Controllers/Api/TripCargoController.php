@@ -111,9 +111,11 @@ class TripCargoController extends Controller
 
             // Create trip cargo
             $tripCargo = TripCargo::create([
-                'trip_id' => $validated['trip_id'],
-                'cargo_id' => $cargo->id,
-                'total_fees' => $validated['total_fees']
+                'trip_id'        => $validated['trip_id'],
+                'cargo_id'       => $cargo->id,
+                'total_fees'     => $validated['total_fees'],
+                'payment_method' => $validated['payment_method'],
+                'is_paid'        => $validated['payment_method'] === PaymentMethod::WALLET,
             ]);
 
             $this->handleCargoImages($tripCargo, $validated);
@@ -146,6 +148,32 @@ class TripCargoController extends Controller
     }
 
     /**
+     * Mark a trip cargo as paid
+     */
+    public function update($id)
+    {
+        try {
+            $user = auth()->user();
+            $tripCargo = TripCargo::with('trip')->findOrFail($id);
+
+            if (!$user->driver || $tripCargo->trip->driver_id !== $user->driver->id) {
+                throw new Exception('Unauthorized to update this trip cargo', 403);
+            }
+
+            if ($tripCargo->is_paid) {
+                throw new Exception('Trip cargo is already marked as paid');
+            }
+
+            $tripCargo->update(['is_paid' => true]);
+
+            return $this->successResponse();
+
+        } catch (Exception $e) {
+            return $this->errorResponse($e->getMessage(), $e->getCode());
+        }
+    }
+
+    /**
      * Delete a trip cargo
      */
     public function destroy($id)
@@ -173,7 +201,7 @@ class TripCargoController extends Controller
             $trip = Trip::with('detailable', 'driver.user.wallet')->findOrFail($tripCargo->trip_id);
 
             // Handle refund if cargo owner is deleting
-            if ($isCargoOwner) {
+            if ($isCargoOwner && $tripCargo->is_paid) {
                 $totalFees = $tripCargo->total_fees;
                 $passenger = $tripCargo->cargo->passenger;
                 $driver = $trip->driver;
