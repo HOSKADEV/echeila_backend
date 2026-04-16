@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api\TripClient;
 
+use App\Constants\PaymentMethod;
 use App\Constants\TripType;
 use App\Models\Trip;
 use App\Models\InternationalTripDetail;
@@ -18,6 +19,7 @@ class StoreTripClientRequest extends FormRequest
     {
         return [
             'trip_id' => 'required|exists:trips,id',
+            'payment_method' => 'required|in:' . implode(',', PaymentMethod::all()),
             'number_of_seats' => 'required|integer|min:1|max:50',
             'note' => 'nullable|string|max:1000',
             'fullname' => 'nullable|required_with:phone|string|max:255',
@@ -46,6 +48,8 @@ class StoreTripClientRequest extends FormRequest
             'phone.required_with' => __('validation.custom.phone.required_with'),
             'phone.string' => __('validation.custom.phone.string'),
             'phone.regex' => __('validation.custom.phone.regex'),
+            'payment_method.required' => __('validation.custom.payment_method.required'),
+            'payment_method.in' => __('validation.custom.payment_method.in'),
         ];
     }
 }

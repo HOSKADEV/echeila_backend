@@ -17,6 +17,7 @@ use App\Constants\TransactionType;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Constants\NotificationMessages;
+use App\Constants\PaymentMethod;
 use App\Http\Resources\TripClientResource;
 use App\Notifications\NewMessageNotification;
 use App\Http\Requests\Api\TripClient\StoreTripClientRequest;
@@ -63,8 +64,6 @@ class TripClientController extends Controller
 
         try {
 
-            DB::beginTransaction();
-
             $user = auth()->user();
 
             // Get trip and calculate total fees
@@ -81,6 +80,9 @@ class TripClientController extends Controller
 
             $seatPrice = $trip->detailable->seat_price;
             $totalFees = $seatPrice * $validated['number_of_seats'];
+
+
+            DB::beginTransaction();
 
             // Determine client type and ID
             if ($request->filled('fullname') && $request->filled('phone')) {
@@ -103,39 +105,40 @@ class TripClientController extends Controller
                     throw new Exception('User is already booked on this trip');
                 }
 
-                if($totalFees > $user->wallet->balance) {
-                    throw new Exception('Insufficient wallet balance', 402);
+                if ($validated['payment_method'] === PaymentMethod::WALLET) {
+                    if($totalFees > $user->wallet->balance) {
+                        throw new Exception('Insufficient wallet balance', 402);
+                    }
+                    // Deduct from user wallet
+                    $user->wallet->decrement('balance', $totalFees);
+                    $driver->user->wallet->increment('balance', $totalFees);
+
+                    // Create transaction record
+                    $passengerTransaction = Transaction::create([
+                        'wallet_id' => $user->wallet->id,
+                        'trip_id' => $validated['trip_id'],
+                        'type' => TransactionType::RESERVATION,
+                        'amount' => -abs($totalFees),
+                    ]);
+
+                    $driverTransaction = Transaction::create([
+                        'wallet_id' => $driver->user->wallet->id,
+                        'trip_id' => $validated['trip_id'],
+                        'type' => TransactionType::RESERVATION,
+                        'amount' => abs($totalFees)
+                    ]);
+
+                    // Send notifications
+                    $user->notify(new NewMessageNotification(
+                        key: NotificationMessages::TRANSACTION_RESERVATION,
+                        data: ['amount' => $passengerTransaction->amount, 'balance' => $user->wallet->balance]
+                    ));
+
+                    $driver->user->notify(new NewMessageNotification(
+                        key: NotificationMessages::TRANSACTION_RESERVATION,
+                        data: ['amount' => $driverTransaction->amount, 'balance' => $driver->user->wallet->balance]
+                    ));
                 }
-                // Deduct from user wallet
-                $user->wallet->decrement('balance', $totalFees);
-                $driver->user->wallet->increment('balance', $totalFees);
-
-                // Create transaction record
-                $passengerTransaction = Transaction::create([
-                    'wallet_id' => $user->wallet->id,
-                    'trip_id' => $validated['trip_id'],
-                    'type' => TransactionType::RESERVATION,
-                    'amount' => -abs($totalFees),
-                ]);
-
-                $driverTransaction = Transaction::create([
-                    'wallet_id' => $driver->user->wallet->id,
-                    'trip_id' => $validated['trip_id'],
-                    'type' => TransactionType::RESERVATION,
-                    'amount' => abs($totalFees)
-                ]);
-
-
-             // Send notifications
-            $user->notify(new NewMessageNotification(
-                key: NotificationMessages::TRANSACTION_RESERVATION,
-                data: ['amount' => $passengerTransaction->amount, 'balance' => $user->wallet->balance]
-            ));
-
-            $driver->user->notify(new NewMessageNotification(
-                key: NotificationMessages::TRANSACTION_RESERVATION,
-                data: ['amount' => $driverTransaction->amount, 'balance' => $driver->user->wallet->balance]
-            ));
 
                 $clientId = $user->passenger->id;
                 $clientType = Passenger::class;

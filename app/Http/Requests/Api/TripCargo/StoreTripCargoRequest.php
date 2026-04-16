@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Api\TripCargo;
 
 use Closure;
+use App\Constants\PaymentMethod;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -17,6 +18,7 @@ class StoreTripCargoRequest extends FormRequest
     {
         return [
             'trip_id' => 'required|exists:trips,id',
+            'payment_method' => 'required|in:' . implode(',', PaymentMethod::all()),
             'total_fees' => 'required|numeric|min:0',
             'cargo' => 'required|array',
             'cargo.description' => 'required|string|max:1000',
@@ -80,6 +82,8 @@ class StoreTripCargoRequest extends FormRequest
             'cargo.images.*.file_or_url' => __('validation.custom.cargo.images.*.file_or_url'),
             'cargo.images.*.mimes' => __('validation.custom.cargo.images.*.mimes'),
             'cargo.images.*.max' => __('validation.custom.cargo.images.*.max'),
+            'payment_method.required' => __('validation.custom.payment_method.required'),
+            'payment_method.in' => __('validation.custom.payment_method.in'),
         ];
     }
 }

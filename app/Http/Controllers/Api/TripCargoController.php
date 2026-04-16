@@ -16,6 +16,7 @@ use App\Constants\TransactionType;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Constants\NotificationMessages;
+use App\Constants\PaymentMethod;
 use App\Http\Resources\TripCargoResource;
 use App\Notifications\NewMessageNotification;
 use App\Http\Requests\Api\TripCargo\StoreTripCargoRequest;
@@ -73,31 +74,33 @@ class TripCargoController extends Controller
                 throw new Exception('User must have a passenger profile to add cargo');
             }
 
-            // Check wallet balance
-            if($validated['total_fees'] > $user->wallet->balance) {
-                throw new Exception('Insufficient wallet balance', 402);
-            }
-
             DB::beginTransaction();
 
-            // Deduct from user wallet and add to driver wallet
-            $user->wallet->decrement('balance', $validated['total_fees']);
-            $trip->driver->user->wallet->increment('balance', $validated['total_fees']);
+            // Check wallet balance
+            if ($validated['payment_method'] === PaymentMethod::WALLET) {
+                if($validated['total_fees'] > $user->wallet->balance) {
+                    throw new Exception('Insufficient wallet balance', 402);
+                }
 
-            // Create transactions
-            $passengerTransaction = Transaction::create([
-                'wallet_id' => $user->wallet->id,
-                'trip_id' => $validated['trip_id'],
-                'type' => TransactionType::RESERVATION,
-                'amount' => -abs($validated['total_fees']),
-            ]);
+                // Deduct from user wallet and add to driver wallet
+                $user->wallet->decrement('balance', $validated['total_fees']);
+                $trip->driver->user->wallet->increment('balance', $validated['total_fees']);
 
-            $driverTransaction = Transaction::create([
-                'wallet_id' => $trip->driver->user->wallet->id,
-                'trip_id' => $validated['trip_id'],
-                'type' => TransactionType::RESERVATION,
-                'amount' => abs($validated['total_fees']),
-            ]);
+                // Create transactions
+                $passengerTransaction = Transaction::create([
+                    'wallet_id' => $user->wallet->id,
+                    'trip_id' => $validated['trip_id'],
+                    'type' => TransactionType::RESERVATION,
+                    'amount' => -abs($validated['total_fees']),
+                ]);
+
+                $driverTransaction = Transaction::create([
+                    'wallet_id' => $trip->driver->user->wallet->id,
+                    'trip_id' => $validated['trip_id'],
+                    'type' => TransactionType::RESERVATION,
+                    'amount' => abs($validated['total_fees']),
+                ]);
+            }
 
             // Create cargo
             $cargo = Cargo::create([
@@ -116,15 +119,17 @@ class TripCargoController extends Controller
             $this->handleCargoImages($tripCargo, $validated);
 
             // Send notifications
-            $user->notify(new NewMessageNotification(
-                key: NotificationMessages::TRANSACTION_RESERVATION,
-                data: ['amount' => $passengerTransaction->amount, 'balance' => $user->wallet->balance]
-            ));
+            if ($validated['payment_method'] === PaymentMethod::WALLET) {
+                $user->notify(new NewMessageNotification(
+                    key: NotificationMessages::TRANSACTION_RESERVATION,
+                    data: ['amount' => $passengerTransaction->amount, 'balance' => $user->wallet->balance]
+                ));
 
-            $driver->user->notify(new NewMessageNotification(
-                key: NotificationMessages::TRANSACTION_RESERVATION,
-                data: ['amount' => $driverTransaction->amount, 'balance' => $driver->user->wallet->balance]
-            ));
+                $driver->user->notify(new NewMessageNotification(
+                    key: NotificationMessages::TRANSACTION_RESERVATION,
+                    data: ['amount' => $driverTransaction->amount, 'balance' => $driver->user->wallet->balance]
+                ));
+            }
 
             $tripCargo->load(['trip', 'cargo.passenger.user']);
 
