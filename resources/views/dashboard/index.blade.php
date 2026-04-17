@@ -426,6 +426,19 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
+  // Converts a canvas to a white-background JPEG data URL to avoid
+  // transparency artifacts while keeping file size small
+  function canvasToJpeg(canvas, quality = 0.85) {
+    const flat = document.createElement('canvas');
+    flat.width  = canvas.width;
+    flat.height = canvas.height;
+    const ctx = flat.getContext('2d');
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, flat.width, flat.height);
+    ctx.drawImage(canvas, 0, 0);
+    return flat.toDataURL('image/jpeg', quality);
+  }
+
   document.getElementById('download-pdf-btn').addEventListener('click', async function () {
     const btn = this;
     const originalHtml = btn.innerHTML;
@@ -435,13 +448,46 @@
     const header = document.getElementById('pdf-header');
     header.style.display = 'block';
 
+    const noBorderStyle = document.createElement('style');
+    noBorderStyle.id = 'pdf-no-border-style';
+    noBorderStyle.textContent = `
+      #pdf-page-1 *, #pdf-page-2 * {
+        border-color: transparent !important;
+        box-shadow: none !important;
+        outline: none !important;
+      }
+      #pdf-page-1 .card, #pdf-page-2 .card {
+        margin-bottom: 0 !important;
+        overflow: visible !important;
+      }
+      #pdf-page-1 .row, #pdf-page-2 .row {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+      }
+      #pdf-header {
+        border-bottom: 2px solid #cccccc !important;
+      }
+      #pdf-header hr {
+        border-top: 1px solid #cccccc !important;
+        opacity: 1 !important;
+      }
+      #pdf-page-1 .row > [class*="col"] > .card,
+      #pdf-page-2 .row > [class*="col"] > .card {
+        border: 1px solid #d0d4db !important;
+        border-radius: 6px !important;
+      }
+    `;
+    document.head.appendChild(noBorderStyle);
+
     try {
       const opts = {
-        scale: 2.5,
+        scale: 3,
         useCORS: true,
         allowTaint: true,
         backgroundColor: '#ffffff',
         logging: false,
+        windowWidth: document.documentElement.scrollWidth,
+        windowHeight: document.documentElement.scrollHeight,
         ignoreElements: (el) => el.id === 'pdf-exclude-bar',
       };
 
@@ -451,23 +497,26 @@
       ]);
 
       const { jsPDF } = window.jspdf;
-      const margin = 10;
-      const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+      const margin  = 10;
+      const pdf     = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
       const pageW   = pdf.internal.pageSize.getWidth();
       const usableW = pageW - margin * 2;
 
-      // Page 1
-      const h1 = usableW / (canvas1.width / canvas1.height);
-      pdf.addImage(canvas1.toDataURL('image/jpeg', 1), 'JPEG', margin, margin, usableW, h1);
+      // Page 1 — flatten onto white canvas then encode as JPEG
+      const img1 = canvasToJpeg(canvas1, 1);
+      const h1   = usableW / (canvas1.width / canvas1.height);
+      pdf.addImage(img1, 'JPEG', margin, margin, usableW, h1);
 
       // Page 2
       pdf.addPage();
-      const h2 = usableW / (canvas2.width / canvas2.height);
-      pdf.addImage(canvas2.toDataURL('image/jpeg', 1), 'JPEG', margin, margin, usableW, h2);
+      const img2 = canvasToJpeg(canvas2, 1);
+      const h2   = usableW / (canvas2.width / canvas2.height);
+      pdf.addImage(img2, 'JPEG', margin, margin, usableW, h2);
 
       pdf.save('dashboard-{{ now()->format("Y-m-d") }}.pdf');
     } finally {
       header.style.display = 'none';
+      document.getElementById('pdf-no-border-style')?.remove();
       btn.disabled = false;
       btn.innerHTML = originalHtml;
     }
