@@ -55,4 +55,6 @@ return [
     'platform_overview_title' => 'Platform Overview',
     'trends_title'           => 'Trends',
     'no_data_available'      => 'No data available',
+    'download_pdf'           => 'Download PDF',
+    'pdf_generating'         => 'Generating...',
 ];

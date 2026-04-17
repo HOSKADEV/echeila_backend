@@ -55,4 +55,6 @@ return [
     'platform_overview_title' => 'نظرة عامة على المنصة',
     'trends_title'           => 'الاتجاهات',
     'no_data_available'      => 'لا توجد بيانات',
+    'download_pdf'           => 'تحميل PDF',
+    'pdf_generating'         => 'جاري الإنشاء...',
 ];

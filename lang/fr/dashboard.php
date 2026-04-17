@@ -55,4 +55,6 @@ return [
     'platform_overview_title' => 'Vue d\'ensemble',
     'trends_title'           => 'Tendances',
     'no_data_available'      => 'Aucune donnée disponible',
+    'download_pdf'           => 'Télécharger PDF',
+    'pdf_generating'         => 'Génération...',
 ];

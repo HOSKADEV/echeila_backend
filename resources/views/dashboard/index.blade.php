@@ -5,6 +5,29 @@
 @section("title", __("actions.home"))
 
 @section("content")
+<div id="pdf-page-1">
+
+{{-- PDF HEADER (hidden until download) --}}
+<div id="pdf-header" style="display:none; padding:20px 24px 16px; border-bottom:2px solid #eee; margin-bottom:20px; background:#fff;">
+    <div style="display:flex; align-items:center; justify-content:space-between;">
+        <img src="{{ asset('assets/img/logo/1.png') }}" style="height:48px; object-fit:contain;" crossorigin="anonymous">
+        <div style="text-align:right; font-size:13px; color:#555; line-height:1.6;">
+            <div><strong>{{ auth()->user()->fullname }}</strong></div>
+            <div>{{ now()->format('Y-m-d H:i') }}</div>
+        </div>
+    </div>
+    <hr style="margin:12px 0 6px; border-color:#ddd;">
+    <div style="font-size:13px; color:#777;">
+        {{ __('dashboard.platform_overview_title') }} &mdash;
+        @switch($period)
+            @case('today')  {{ __('dashboard.filter_today')  }} @break
+            @case('week')   {{ __('dashboard.filter_week')   }} @break
+            @case('month')  {{ __('dashboard.filter_month')  }} @break
+            @default        {{ __('dashboard.filter_all')    }}
+        @endswitch
+    </div>
+</div>
+
 {{-- ─────────────────────────── ROW 1 : Info cards (always on top) ────── --}}
 <div class="row mb-4">
     {{-- Pending Drivers --}}
@@ -72,25 +95,30 @@
     </div>
 </div>
 {{-- ─────────────────────────── PERIOD FILTER BAR ──────────────────────── --}}
-<div class="d-flex align-items-center justify-content-between mb-4">
+<div id="pdf-exclude-bar" class="d-flex align-items-center justify-content-between mb-4">
     <h5 class="fw-bold mb-0">{{ __("dashboard.platform_overview_title") }}</h5>
-    <div class="btn-group" role="group">
-        <a href="{{ request()->fullUrlWithQuery(["period" => "today"]) }}"
-           class="btn btn-sm {{ $period === "today" ? "btn-primary" : "btn-outline-primary" }}">
-            {{ __("dashboard.filter_today") }}
-        </a>
-        <a href="{{ request()->fullUrlWithQuery(["period" => "week"]) }}"
-           class="btn btn-sm {{ $period === "week"  ? "btn-primary" : "btn-outline-primary" }}">
-            {{ __("dashboard.filter_week") }}
-        </a>
-        <a href="{{ request()->fullUrlWithQuery(["period" => "month"]) }}"
-           class="btn btn-sm {{ $period === "month" ? "btn-primary" : "btn-outline-primary" }}">
-            {{ __("dashboard.filter_month") }}
-        </a>
-        <a href="{{ request()->fullUrlWithQuery(["period" => "all"]) }}"
-           class="btn btn-sm {{ $period === "all"   ? "btn-primary" : "btn-outline-primary" }}">
-            {{ __("dashboard.filter_all") }}
-        </a>
+    <div class="d-flex align-items-center gap-2">
+        <div class="btn-group" role="group">
+            <a href="{{ request()->fullUrlWithQuery(["period" => "today"]) }}"
+               class="btn btn-sm {{ $period === "today" ? "btn-primary" : "btn-outline-primary" }}">
+                {{ __("dashboard.filter_today") }}
+            </a>
+            <a href="{{ request()->fullUrlWithQuery(["period" => "week"]) }}"
+               class="btn btn-sm {{ $period === "week"  ? "btn-primary" : "btn-outline-primary" }}">
+                {{ __("dashboard.filter_week") }}
+            </a>
+            <a href="{{ request()->fullUrlWithQuery(["period" => "month"]) }}"
+               class="btn btn-sm {{ $period === "month" ? "btn-primary" : "btn-outline-primary" }}">
+                {{ __("dashboard.filter_month") }}
+            </a>
+            <a href="{{ request()->fullUrlWithQuery(["period" => "all"]) }}"
+               class="btn btn-sm {{ $period === "all"   ? "btn-primary" : "btn-outline-primary" }}">
+                {{ __("dashboard.filter_all") }}
+            </a>
+        </div>
+        <button id="download-pdf-btn" class="btn btn-sm btn-danger">
+            <i class="bx bxs-file-pdf me-1"></i> {{ __("dashboard.download_pdf") }}
+        </button>
     </div>
 </div>
 {{-- ─────────────────────────── ROW 2 : Fixed unfiltered totals ──────────── --}}
@@ -326,6 +354,9 @@
         </div>
     </div>
 </div>
+</div>{{-- #pdf-page-1 --}}
+
+<div id="pdf-page-2">
 {{-- Row 7: Trips per Month + Users per Month ────────────────────────────── --}}
 <div class="row mb-4">
     <div class="col-md-6 mb-4 mb-md-0">
@@ -389,5 +420,58 @@
 @if(!$usersPerMonthEmpty)        {!! $usersPerMonth->script() !!}        @endif
 @if(!$revenuePerMonthEmpty)      {!! $revenuePerMonth->script() !!}      @endif
 @if(!$tripCancellationRateEmpty) {!! $tripCancellationRate->script() !!} @endif
+
+</div>{{-- #pdf-page-2 --}}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+  document.getElementById('download-pdf-btn').addEventListener('click', async function () {
+    const btn = this;
+    const originalHtml = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<i class="bx bx-loader-alt bx-spin me-1"></i> {{ __("dashboard.pdf_generating") }}';
+
+    const header = document.getElementById('pdf-header');
+    header.style.display = 'block';
+
+    try {
+      const opts = {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#ffffff',
+        logging: false,
+        ignoreElements: (el) => el.id === 'pdf-exclude-bar',
+      };
+
+      const [canvas1, canvas2] = await Promise.all([
+        html2canvas(document.getElementById('pdf-page-1'), opts),
+        html2canvas(document.getElementById('pdf-page-2'), opts),
+      ]);
+
+      const { jsPDF } = window.jspdf;
+      const margin = 10;
+      const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+      const pageW   = pdf.internal.pageSize.getWidth();
+      const usableW = pageW - margin * 2;
+
+      // Page 1
+      const h1 = usableW / (canvas1.width / canvas1.height);
+      pdf.addImage(canvas1.toDataURL('image/png'), 'PNG', margin, margin, usableW, h1);
+
+      // Page 2
+      pdf.addPage();
+      const h2 = usableW / (canvas2.width / canvas2.height);
+      pdf.addImage(canvas2.toDataURL('image/png'), 'PNG', margin, margin, usableW, h2);
+
+      pdf.save('dashboard-{{ now()->format("Y-m-d") }}.pdf');
+    } finally {
+      header.style.display = 'none';
+      btn.disabled = false;
+      btn.innerHTML = originalHtml;
+    }
+  });
+</script>
 
 @endsection
