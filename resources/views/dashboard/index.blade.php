@@ -437,7 +437,7 @@
 
     try {
       const opts = {
-        scale: 2,
+        scale: 2.5,
         useCORS: true,
         allowTaint: true,
         backgroundColor: '#ffffff',
@@ -458,12 +458,12 @@
 
       // Page 1
       const h1 = usableW / (canvas1.width / canvas1.height);
-      pdf.addImage(canvas1.toDataURL('image/png'), 'PNG', margin, margin, usableW, h1);
+      pdf.addImage(canvas1.toDataURL('image/jpeg', 1), 'JPEG', margin, margin, usableW, h1);
 
       // Page 2
       pdf.addPage();
       const h2 = usableW / (canvas2.width / canvas2.height);
-      pdf.addImage(canvas2.toDataURL('image/png'), 'PNG', margin, margin, usableW, h2);
+      pdf.addImage(canvas2.toDataURL('image/jpeg', 1), 'JPEG', margin, margin, usableW, h2);
 
       pdf.save('dashboard-{{ now()->format("Y-m-d") }}.pdf');
     } finally {
