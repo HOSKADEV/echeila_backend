@@ -114,7 +114,19 @@
           'name' => 'user_status_filter',
           'label' => 'user.status',
           'options' => \App\Constants\UserStatus::translated()
-        ]
+        ],
+        [
+          'id' => 'date_from',
+          'name' => 'date_from',
+          'label' => 'app.date_from',
+          'type' => 'date',
+        ],
+        [
+          'id' => 'date_to',
+          'name' => 'date_to',
+          'label' => 'app.date_to',
+          'type' => 'date',
+        ],
       ]" />
     </div>
     <div class="card-datatable table-responsive">
@@ -200,7 +212,9 @@
       let filters = {
         user_type_filter: $('#user_type_filter').val(),
         user_role_filter: $('#user_role_filter').val(),
-        user_status_filter: $('#user_status_filter').val()
+        user_status_filter: $('#user_status_filter').val(),
+        date_from: $('#date_from').val(),
+        date_to: $('#date_to').val(),
       };
 
       let table = initializeDataTable(

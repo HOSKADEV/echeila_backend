@@ -25,14 +25,30 @@
           'id' => 'status_filter',
           'name' => 'status_filter',
           'label' => 'trip.status',
-          'options' => App\Constants\TripStatus::translated()
+          'options' => App\Constants\TripStatus::translated(),
+          'width' => 'col-md-3',
         ],
 
         [
           'id' => 'ride_type_filter',
           'name' => 'ride_type_filter',
           'label' => 'trip.ride_type',
-          'options' => App\Constants\RideType::translated()
+          'options' => App\Constants\RideType::translated(),
+          'width' => 'col-md-3',
+        ],
+        [
+          'id' => 'date_from',
+          'name' => 'date_from',
+          'label' => 'app.date_from',
+          'type' => 'date',
+          'width' => 'col-md-3',
+        ],
+        [
+          'id' => 'date_to',
+          'name' => 'date_to',
+          'label' => 'app.date_to',
+          'type' => 'date',
+          'width' => 'col-md-3',
         ],
       ]" />
     </div>
@@ -64,6 +80,8 @@
       let filters = {
         status_filter: $('#status_filter').val(),
         ride_type_filter: $('#ride_type_filter').val(),
+        date_from: $('#date_from').val(),
+        date_to: $('#date_to').val(),
       };
 
       let table = initializeDataTable(

@@ -86,6 +86,8 @@ return [
     'charge_wallet_info' => 'La billetera se recargará con el monto especificado',
     'withdraw_wallet_info' => 'El monto se retirará de la billetera',
     'DZD' => 'DZD',
+    'date_from' => 'Fecha desde',
+    'date_to' => 'Fecha hasta',
 
     // Subscription related
     'subscription' => 'Suscripción',

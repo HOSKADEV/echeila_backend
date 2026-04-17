@@ -87,6 +87,8 @@ return [
     'charge_wallet_info' => 'The wallet will be charged with the specified amount',
     'withdraw_wallet_info' => 'The amount will be withdrawn from the wallet',
     'DZD' => 'DZD',
+    'date_from' => 'Date From',
+    'date_to' => 'Date To',
 
     // Subscription related
     'subscription' => 'Subscription',

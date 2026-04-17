@@ -26,6 +26,18 @@
           'label' => 'trip.status',
           'options' => App\Constants\TripStatus::translated()
         ],
+        [
+          'id' => 'date_from',
+          'name' => 'date_from',
+          'label' => 'app.date_from',
+          'type' => 'date',
+        ],
+        [
+          'id' => 'date_to',
+          'name' => 'date_to',
+          'label' => 'app.date_to',
+          'type' => 'date',
+        ],
       ]" />
     </div>
     <div class="card-datatable table-responsive">
@@ -55,6 +67,8 @@
     $(document).ready(function() {
       let filters = {
         status_filter: $('#status_filter').val(),
+        date_from: $('#date_from').val(),
+        date_to: $('#date_to').val(),
       };
 
       let table = initializeDataTable(
@@ -62,6 +76,10 @@
         @json($columns),
         filters
       );
+
+      initializeDateFilter('date_from');
+      initializeDateFilter('date_to');
+
 
       // Reload DataTable when the filter value changes
       $('.filter-input').on('change', function() {

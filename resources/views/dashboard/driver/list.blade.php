@@ -110,18 +110,35 @@
           'name' => 'user_status_filter',
           'label' => __('driver.user_status'),
           'options' => App\Constants\UserStatus::translated(),
+          'width' => 'col-md-4',
         ],
         [
           'id' => 'driver_status_filter',
           'name' => 'driver_status_filter',
           'label' => __('driver.driver_status'),
           'options' => App\Constants\DriverStatus::translated(),
+          'width' => 'col-md-4',
         ],
         [
           'id' => 'federation_filter',
           'name' => 'federation_filter',
           'label' => __('driver.federation'),
           'options' => App\Models\Federation::pluck('name', 'id')->toArray(),
+          'width' => 'col-md-4',
+        ],
+        [
+          'id' => 'date_from',
+          'name' => 'date_from',
+          'label' => 'app.date_from',
+          'type' => 'date',
+          'width' => 'col-md-6',
+        ],
+        [
+          'id' => 'date_to',
+          'name' => 'date_to',
+          'label' => 'app.date_to',
+          'type' => 'date',
+          'width' => 'col-md-6',
         ],
       ]" />
     </div>
@@ -449,7 +466,9 @@
       let filters = {
         federation_filter: $('#federation_filter').val(),
         user_status_filter: $('#user_status_filter').val(),
-        driver_status_filter: $('#driver_status_filter').val()
+        driver_status_filter: $('#driver_status_filter').val(),
+        date_from: $('#date_from').val(),
+        date_to: $('#date_to').val(),
       };
 
       let table = initializeDataTable(

@@ -69,6 +69,8 @@ return [
     'esp_to' => 'من المخيم إلى إسبانيا',
     'mrt_from' => 'من موريتانيا إلى المخيم',
     'mrt_to' => 'من المخيم إلى موريتانيا',
+    'direction' => 'الاتجاه',
+    'ride_type' => 'نوع الرحلة',
 
     // Stats and counts
     'total_passengers' => 'إجمالي الركاب',

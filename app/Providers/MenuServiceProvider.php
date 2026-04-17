@@ -135,14 +135,6 @@ class MenuServiceProvider extends ServiceProvider
         );
 
         MenuBuilder::add(
-            name: 'zones',
-            slug: 'zones',
-            icon: 'bx bx-map-alt',
-            route: 'zones.index',
-            permission: ['zone_index']
-        );
-
-        MenuBuilder::add(
             name: 'vehicles',
             slug: ['brands', 'vehicle-models', 'colors'],
             icon: 'bx bx-car',
@@ -232,6 +224,14 @@ class MenuServiceProvider extends ServiceProvider
             route: 'lost-and-founds.index',
             icon: 'bx bx-search',
             permission: ['lostAndFound_index'],
+        );
+
+        MenuBuilder::add(
+            name: 'zones',
+            slug: 'zones',
+            icon: 'bx bx-map-alt',
+            route: 'zones.index',
+            permission: ['zone_index']
         );
 
     }

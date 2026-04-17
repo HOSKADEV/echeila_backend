@@ -96,6 +96,14 @@ class DriverDatatable
             });
         }
 
+        if ($request->date_from) {
+            $query->whereDate('created_at', '>=', $request->date_from);
+        }
+
+        if ($request->date_to) {
+            $query->whereDate('created_at', '<=', $request->date_to);
+        }
+
         return $query->with(['driver.federation', 'driver.subscription', 'wallet'])
         ->withAggregate('driver', 'status')
         ->orderByRaw("FIELD(driver_status, 'pending', 'approved', 'denied')")->latest()->get();

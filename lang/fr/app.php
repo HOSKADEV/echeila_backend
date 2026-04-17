@@ -86,6 +86,8 @@ return [
     'charge_wallet_info' => 'Le portefeuille sera rechargé avec le montant spécifié',
     'withdraw_wallet_info' => 'Le montant sera retiré du portefeuille',
     'DZD' => 'DZD',
+    'date_from' => 'Date Début',
+    'date_to' => 'Date Fin',
 
     // Abonnement
     'subscription' => 'Abonnement',

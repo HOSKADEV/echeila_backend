@@ -69,6 +69,8 @@ return [
     'esp_to' => 'Du camp à l\'Espagne',
     'mrt_from' => 'De la Mauritanie au camp',
     'mrt_to' => 'Du camp à la Mauritanie',
+    'direction' => 'Direction',
+    'ride_type' => 'Type de trajet',
     
     // Stats and counts
     'total_passengers' => 'Total passagers',

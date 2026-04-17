@@ -70,6 +70,14 @@ class FederationDatatable
             $query->where('status', $request->user_status_filter);
         }
 
+        if ($request->date_from) {
+            $query->whereDate('created_at', '>=', $request->date_from);
+        }
+
+        if ($request->date_to) {
+            $query->whereDate('created_at', '<=', $request->date_to);
+        }
+
         return $query->with(['federation', 'wallet'])->latest()->get();
     }
 }

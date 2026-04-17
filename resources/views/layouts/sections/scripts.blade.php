@@ -8,6 +8,7 @@
 <script src="{{ asset(mix('assets/vendor/js/menu.js')) }}"></script>
 <script src="{{ asset(mix('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js')) }}"></script>
 <script src="{{ asset(mix('assets/vendor/libs/sweetalert2/sweetalert2.js')) }}"></script>
+<script src="{{ asset(mix('assets/vendor/libs/flatpickr/flatpickr.js')) }}"></script>
 <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/dropzone/dropzone.js')}}"></script>
 @yield('vendor-script')

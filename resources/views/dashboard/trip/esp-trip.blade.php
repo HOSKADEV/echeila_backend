@@ -25,7 +25,8 @@
           'id' => 'status_filter',
           'name' => 'status_filter',
           'label' => 'trip.status',
-          'options' => App\Constants\TripStatus::translated()
+          'options' => App\Constants\TripStatus::translated(),
+          'width' => 'col-md-3',
         ],
 
         [
@@ -35,7 +36,22 @@
           'options' => [
             'from' => __('trip.esp_from'),
             'to' => __('trip.esp_to'),
-          ]
+          ],
+          'width' => 'col-md-3',
+        ],
+        [
+          'id' => 'date_from',
+          'name' => 'date_from',
+          'label' => 'app.date_from',
+          'type' => 'date',
+          'width' => 'col-md-3',
+        ],
+        [
+          'id' => 'date_to',
+          'name' => 'date_to',
+          'label' => 'app.date_to',
+          'type' => 'date',
+          'width' => 'col-md-3',
         ],
       ]" />
     </div>
@@ -67,6 +83,8 @@
       let filters = {
         status_filter: $('#status_filter').val(),
         direction_filter: $('#direction_filter').val(),
+        date_from: $('#date_from').val(),
+        date_to: $('#date_to').val(),
       };
 
       let table = initializeDataTable(

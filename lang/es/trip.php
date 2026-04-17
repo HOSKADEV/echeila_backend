@@ -69,6 +69,8 @@ return [
     'esp_to' => 'Del campamento a España',
     'mrt_from' => 'De Mauritania al campamento',
     'mrt_to' => 'Del campamento a Mauritania',
+    'direction' => 'Dirección',
+    'ride_type' => 'Tipo de viaje',
 
     // Stats and counts
     'total_passengers' => 'Total de pasajeros',

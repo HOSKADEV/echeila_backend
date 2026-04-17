@@ -69,6 +69,8 @@ return [
     'esp_to' => 'From Camp to Spain',
     'mrt_from' => 'From Mauritania to Camp',
     'mrt_to' => 'From Camp to Mauritania',
+    'direction' => 'Direction',
+    'ride_type' => 'Ride Type',
 
     // Stats and counts
     'total_passengers' => 'Total Passengers',
